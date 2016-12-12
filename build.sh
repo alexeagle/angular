@@ -20,7 +20,7 @@ PACKAGES=(core
   language-service
   benchpress)
 BUILD_ALL=true
-BUNDLE=true
+BUNDLE=false
 VERSION_PREFIX=$(node -p "require('./package.json').version")
 VERSION_SUFFIX="-$(git log --oneline -1 | awk '{print $1}')"
 ROUTER_VERSION_PREFIX=$(node -p "require('./package.json').version.replace(/^2/, '3')")
