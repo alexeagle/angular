@@ -11,6 +11,6 @@
     "zone.js": "^0.7.6"
   },
   "scripts": {
-    "test": "node node_modules/@angular/compiler-cli/src/main.js && ./build.sh"
+    "test": "ngc && ./build.sh"
   }
 }

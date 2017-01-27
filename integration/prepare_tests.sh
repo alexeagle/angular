@@ -4,20 +4,29 @@
 set -e -o pipefail
 
 cd `dirname $0`
+readonly yarn=$(npm bin)/yarn
+readonly dist=../dist/packages-dist-es2015
 
 # Tell yarn how to link the @angular packages later.
 # see https://yarnpkg.com/en/docs/cli/link
-yarn=$(npm bin)/yarn
+# Clean up any existing links (they are globally registered in ~/.config/yarn/link)
 for pkg in {core,common,compiler{,-cli},platform-{browser,browser-dynamic,server},http,router,upgrade}; do
-  (
-    cd ../dist/packages-dist-es2015/$pkg
-    $yarn link
-  )
+  ( cd $dist/$pkg; $yarn unlink 2>/dev/null || true )
 done
-(
-  cd ../dist/tools/@angular/tsc-wrapped
-  $yarn link
-)
+( cd ../dist/tools/@angular/tsc-wrapped; $yarn unlink || true )
+
+# To make relative imports between them work, they must be linked following the dependency graph
+( cd $dist/core; $yarn link )
+( cd $dist/common; $yarn link @angular/core; $yarn link )
+( cd $dist/compiler; $yarn link @angular/core; $yarn link )
+( cd $dist/platform-browser; $yarn link @angular/{core,common}; $yarn link )
+( cd $dist/router; $yarn link @angular/{core,common,platform-browser}; $yarn link )
+( cd ../dist/tools/@angular/tsc-wrapped; $yarn link )
+( cd $dist/compiler-cli; $yarn link @angular/{compiler,core,tsc-wrapped}; $yarn link )
+( cd $dist/http; $yarn link @angular/{core,platform-browser}; $yarn link )
+( cd $dist/platform-server; $yarn link @angular/{core,common,platform-browser}; $yarn link )
+( cd $dist/platform-browser-dynamic; $yarn link @angular/{core,common,platform-browser}; $yarn link )
+( cd $dist/upgrade; $yarn link @angular/{core,common,platform-browser{,-dynamic}}; $yarn link )
 
 # npm install sets the permission, but yarn does not
 chmod u+x ../dist/packages-dist-es2015/compiler-cli/src/main.js
