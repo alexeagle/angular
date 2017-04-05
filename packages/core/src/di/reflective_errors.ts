@@ -138,7 +138,9 @@ export function instantiationError(
     key: ReflectiveKey): InjectionError {
   return injectionError(injector, key, function(this: InjectionError) {
     const first = stringify(this.keys[0].token);
-    return `${getOriginalError(this).message}: Error during instantiation of ${first}!${constructResolvingPath(this.keys)}.`;
+    return `${
+              getOriginalError(this).message
+            }: Error during instantiation of ${first}!${constructResolvingPath(this.keys)}.`;
   }, originalException);
 }
 
@@ -186,7 +188,7 @@ export function invalidProviderError(provider: any) {
  * ```
  * @stable
  */
-export function noAnnotationError(typeOrFunc: Type<any>| Function, params: any[][]): Error {
+export function noAnnotationError(typeOrFunc: Type<any>|Function, params: any[][]): Error {
   const signature: string[] = [];
   for (let i = 0, ii = params.length; i < ii; i++) {
     const parameter = params[i];

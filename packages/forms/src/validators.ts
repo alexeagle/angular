@@ -137,7 +137,9 @@ export class Validators {
   /**
    * No-op validator.
    */
-  static nullValidator(c: AbstractControl): ValidationErrors|null { return null; }
+  static nullValidator(c: AbstractControl): ValidationErrors|null {
+    return null;
+  }
 
   /**
    * Compose multiple validators into a single function that returns the union

@@ -7,12 +7,12 @@
  */
 
 import {Location} from '@angular/common';
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
 import {ResolveData} from '../src/config';
 import {PreActivation, Router} from '../src/router';
 import {RouterOutletMap} from '../src/router_outlet_map';
-import {ActivatedRouteSnapshot, RouterStateSnapshot, createEmptyStateSnapshot} from '../src/router_state';
+import {ActivatedRouteSnapshot, createEmptyStateSnapshot, RouterStateSnapshot} from '../src/router_state';
 import {DefaultUrlSerializer} from '../src/url_tree';
 import {TreeNode} from '../src/utils/tree';
 import {RouterTestingModule} from '../testing/src/router_testing_module';
@@ -21,7 +21,9 @@ describe('Router', () => {
   describe('resetRootComponentType', () => {
     class NewRootComponent {}
 
-    beforeEach(() => { TestBed.configureTestingModule({imports: [RouterTestingModule]}); });
+    beforeEach(() => {
+      TestBed.configureTestingModule({imports: [RouterTestingModule]});
+    });
 
     it('should not change root route when updating the root component', () => {
       const r: Router = TestBed.get(Router);
@@ -34,7 +36,9 @@ describe('Router', () => {
   });
 
   describe('setUpLocationChangeListener', () => {
-    beforeEach(() => { TestBed.configureTestingModule({imports: [RouterTestingModule]}); });
+    beforeEach(() => {
+      TestBed.configureTestingModule({imports: [RouterTestingModule]});
+    });
 
     it('should be indempotent', inject([Router, Location], (r: Router, location: Location) => {
          r.setUpLocationChangeListener();
@@ -57,7 +61,9 @@ describe('Router', () => {
     const inj = {get: (token: any) => () => `${token}_value`};
     let empty: RouterStateSnapshot;
 
-    beforeEach(() => { empty = createEmptyStateSnapshot(serializer.parse('/'), null); });
+    beforeEach(() => {
+      empty = createEmptyStateSnapshot(serializer.parse('/'), null);
+    });
 
     it('should resolve data', () => {
       const r = {data: 'resolver'};
@@ -110,7 +116,9 @@ function checkResolveData(
     future: RouterStateSnapshot, curr: RouterStateSnapshot, injector: any, check: any): void {
   const p = new PreActivation(future, curr, injector);
   p.traverse(new RouterOutletMap());
-  p.resolveData().subscribe(check, (e) => { throw e; });
+  p.resolveData().subscribe(check, (e) => {
+    throw e;
+  });
 }
 
 function createActivatedRouteSnapshot(cmp: string, extra: any = {}): ActivatedRouteSnapshot {

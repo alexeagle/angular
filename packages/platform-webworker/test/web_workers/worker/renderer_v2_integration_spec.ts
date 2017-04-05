@@ -21,7 +21,7 @@ import {Serializer} from '../../../src/web_workers/shared/serializer';
 import {ServiceMessageBrokerFactory_} from '../../../src/web_workers/shared/service_message_broker';
 import {MessageBasedRenderer2} from '../../../src/web_workers/ui/renderer';
 import {WebWorkerRendererFactory2} from '../../../src/web_workers/worker/renderer';
-import {PairedMessageBuses, createPairedMessageBuses} from '../shared/web_worker_test_util';
+import {createPairedMessageBuses, PairedMessageBuses} from '../shared/web_worker_test_util';
 
 let lastCreatedRenderer: Renderer2;
 
@@ -62,9 +62,8 @@ export function main() {
           {provide: RenderStore, useValue: wwRenderStore},
           {
             provide: RendererFactory2,
-            useFactory:
-                (wwSerializer: Serializer) => createWebWorkerRendererFactory2(
-                    wwSerializer, uiSerializer, domRendererFactory, uiRenderStore, wwRenderStore),
+            useFactory: (wwSerializer: Serializer) => createWebWorkerRendererFactory2(
+                wwSerializer, uiSerializer, domRendererFactory, uiRenderStore, wwRenderStore),
             deps: [Serializer],
           },
         ],

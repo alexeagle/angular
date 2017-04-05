@@ -30,8 +30,12 @@ class SimpleJsImportGenerator implements ImportResolver {
   fileNameToModuleName(importedUrlStr: string, moduleUrlStr: string): string {
     return importedUrlStr;
   }
-  getImportAs(symbol: StaticSymbol): StaticSymbol { return null; }
-  getTypeArity(symbol: StaticSymbol): number /*|null*/ { return null; }
+  getImportAs(symbol: StaticSymbol): StaticSymbol {
+    return null;
+  }
+  getTypeArity(symbol: StaticSymbol): number /*|null*/ {
+    return null;
+  }
 }
 
 export function main() {
@@ -51,8 +55,7 @@ export function main() {
     });
 
     function emitStmt(
-        stmt: o.Statement | o.Statement[], exportedVars: string[] = null,
-        preamble?: string): string {
+        stmt: o.Statement|o.Statement[], exportedVars: string[] = null, preamble?: string): string {
       const stmts = Array.isArray(stmt) ? stmt : [stmt];
       const source = emitter.emitStatements(
           someSourceFilePath, someGenFilePath, stmts, exportedVars || [], preamble);
@@ -300,13 +303,16 @@ export function main() {
       ].join('\n'));
     });
 
-    it('should support support throwing',
-       () => { expect(emitStmt(new o.ThrowStmt(someVar))).toEqual('throw someVar;'); });
+    it('should support support throwing', () => {
+      expect(emitStmt(new o.ThrowStmt(someVar))).toEqual('throw someVar;');
+    });
 
     describe('classes', () => {
       let callSomeMethod: o.Statement;
 
-      beforeEach(() => { callSomeMethod = o.THIS_EXPR.callMethod('someMethod', []).toStmt(); });
+      beforeEach(() => {
+        callSomeMethod = o.THIS_EXPR.callMethod('someMethod', []).toStmt();
+      });
 
 
       it('should support declaring classes', () => {

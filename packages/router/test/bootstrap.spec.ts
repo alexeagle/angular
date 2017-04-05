@@ -7,7 +7,7 @@
  */
 
 import {APP_BASE_HREF} from '@angular/common';
-import {ApplicationRef, CUSTOM_ELEMENTS_SCHEMA, Component, NgModule, destroyPlatform} from '@angular/core';
+import {ApplicationRef, Component, CUSTOM_ELEMENTS_SCHEMA, destroyPlatform, NgModule} from '@angular/core';
 import {inject} from '@angular/core/testing';
 import {BrowserModule, DOCUMENT, ɵgetDOM as getDOM} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
@@ -20,7 +20,9 @@ describe('bootstrap', () => {
 
   @Component({selector: 'test-app', template: 'root <router-outlet></router-outlet>'})
   class RootCmp {
-    constructor() { log.push('RootCmp'); }
+    constructor() {
+      log.push('RootCmp');
+    }
   }
 
   @Component({selector: 'test-app2', template: 'root <router-outlet></router-outlet>'})
@@ -62,9 +64,10 @@ describe('bootstrap', () => {
 
     @NgModule({
       imports: [
-        BrowserModule, RouterModule.forRoot(
-                           [{path: '**', component: TestCmpEnabled, resolve: {test: TestResolver}}],
-                           {useHash: true, initialNavigation: 'enabled'})
+        BrowserModule,
+        RouterModule.forRoot(
+            [{path: '**', component: TestCmpEnabled, resolve: {test: TestResolver}}],
+            {useHash: true, initialNavigation: 'enabled'})
       ],
       declarations: [RootCmp, TestCmpEnabled],
       bootstrap: [RootCmp],
@@ -134,9 +137,10 @@ describe('bootstrap', () => {
 
     @NgModule({
       imports: [
-        BrowserModule, RouterModule.forRoot(
-                           [{path: '**', component: TestCmpDiabled, resolve: {test: TestResolver}}],
-                           {useHash: true, initialNavigation: 'disabled'})
+        BrowserModule,
+        RouterModule.forRoot(
+            [{path: '**', component: TestCmpDiabled, resolve: {test: TestResolver}}],
+            {useHash: true, initialNavigation: 'disabled'})
       ],
       declarations: [RootCmp, TestCmpDiabled],
       bootstrap: [RootCmp],

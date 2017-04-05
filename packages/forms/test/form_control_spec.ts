@@ -17,14 +17,18 @@ export function main() {
   function asyncValidator(expected: string, timeouts = {}) {
     return (c: FormControl) => {
       let resolve: (result: any) => void;
-      const promise = new Promise(res => { resolve = res; });
+      const promise = new Promise(res => {
+        resolve = res;
+      });
       const t = (timeouts as any)[c.value] != null ? (timeouts as any)[c.value] : 0;
       const res = c.value != expected ? {'async': true} : null;
 
       if (t == 0) {
         resolve(res);
       } else {
-        setTimeout(() => { resolve(res); }, t);
+        setTimeout(() => {
+          resolve(res);
+        }, t);
       }
 
       return promise;
@@ -33,13 +37,19 @@ export function main() {
 
   function asyncValidatorReturningObservable(c: FormControl) {
     const e = new EventEmitter();
-    Promise.resolve(null).then(() => { e.emit({'async': true}); });
+    Promise.resolve(null).then(() => {
+      e.emit({'async': true});
+    });
     return e;
   }
 
-  function otherAsyncValidator() { return Promise.resolve({'other': true}); }
+  function otherAsyncValidator() {
+    return Promise.resolve({'other': true});
+  }
 
-  function syncValidator(_: any /** TODO #9100 */): any /** TODO #9100 */ { return null; }
+  function syncValidator(_: any /** TODO #9100 */): any /** TODO #9100 */ {
+    return null;
+  }
 
   describe('FormControl', () => {
     it('should default the value to null', () => {
@@ -330,14 +340,18 @@ export function main() {
       });
 
       it('should fire an event', fakeAsync(() => {
-           c.valueChanges.subscribe((value) => { expect(value).toEqual('newValue'); });
+           c.valueChanges.subscribe((value) => {
+             expect(value).toEqual('newValue');
+           });
 
            c.setValue('newValue');
            tick();
          }));
 
       it('should not fire an event when explicitly specified', fakeAsync(() => {
-           c.valueChanges.subscribe((value) => { throw 'Should not happen'; });
+           c.valueChanges.subscribe((value) => {
+             throw 'Should not happen';
+           });
 
            c.setValue('newValue', {emitEvent: false});
            tick();
@@ -393,14 +407,18 @@ export function main() {
       });
 
       it('should fire an event', fakeAsync(() => {
-           c.valueChanges.subscribe((value) => { expect(value).toEqual('newValue'); });
+           c.valueChanges.subscribe((value) => {
+             expect(value).toEqual('newValue');
+           });
 
            c.patchValue('newValue');
            tick();
          }));
 
       it('should not fire an event when explicitly specified', fakeAsync(() => {
-           c.valueChanges.subscribe((value) => { throw 'Should not happen'; });
+           c.valueChanges.subscribe((value) => {
+             throw 'Should not happen';
+           });
 
            c.patchValue('newValue', {emitEvent: false});
 
@@ -420,7 +438,9 @@ export function main() {
     describe('reset()', () => {
       let c: FormControl;
 
-      beforeEach(() => { c = new FormControl('initial value'); });
+      beforeEach(() => {
+        c = new FormControl('initial value');
+      });
 
       it('should reset to a specific value if passed', () => {
         c.setValue('new value');
@@ -557,9 +577,15 @@ export function main() {
         });
 
         it('should not fire an event when explicitly specified', fakeAsync(() => {
-             g.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c2.valueChanges.subscribe((value) => { throw 'Should not happen'; });
+             g.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c2.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
 
              c.reset(null, {emitEvent: false});
 
@@ -590,7 +616,9 @@ export function main() {
     describe('valueChanges & statusChanges', () => {
       let c: FormControl;
 
-      beforeEach(() => { c = new FormControl('old', Validators.required); });
+      beforeEach(() => {
+        c = new FormControl('old', Validators.required);
+      });
 
       it('should fire an event after the value has been updated',
          inject([AsyncTestCompleter], (async: AsyncTestCompleter) => {

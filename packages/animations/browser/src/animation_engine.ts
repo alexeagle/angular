@@ -17,6 +17,10 @@ export abstract class AnimationEngine {
       callback: (event: any) => any): () => any;
   abstract flush(): void;
 
-  get activePlayers(): AnimationPlayer[] { throw new Error('...'); }
-  get queuedPlayers(): AnimationPlayer[] { throw new Error('...'); }
+  get activePlayers(): AnimationPlayer[] {
+    throw new Error('...');
+  }
+  get queuedPlayers(): AnimationPlayer[] {
+    throw new Error('...');
+  }
 }

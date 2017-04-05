@@ -10,7 +10,7 @@ import {EventEmitter} from '@angular/core';
 import {Injectable} from '@angular/core/src/di';
 import {Testability} from '@angular/core/src/testability/testability';
 import {NgZone} from '@angular/core/src/zone/ng_zone';
-import {AsyncTestCompleter, SpyObject, beforeEach, describe, expect, inject, it} from '@angular/core/testing/src/testing_internal';
+import {AsyncTestCompleter, beforeEach, describe, expect, inject, it, SpyObject} from '@angular/core/testing/src/testing_internal';
 
 import {scheduleMicroTask} from '../../src/util';
 
@@ -29,11 +29,15 @@ function microTask(fn: Function): void {
 class MockNgZone extends NgZone {
   /** @internal */
   _onUnstableStream: EventEmitter<any>;
-  get onUnstable() { return this._onUnstableStream; }
+  get onUnstable() {
+    return this._onUnstableStream;
+  }
 
   /** @internal */
   _onStableStream: EventEmitter<any>;
-  get onStable() { return this._onStableStream; }
+  get onStable() {
+    return this._onStableStream;
+  }
 
   constructor() {
     super({enableLongStackTrace: false});
@@ -41,9 +45,13 @@ class MockNgZone extends NgZone {
     this._onStableStream = new EventEmitter(false);
   }
 
-  unstable(): void { this._onUnstableStream.emit(null); }
+  unstable(): void {
+    this._onUnstableStream.emit(null);
+  }
 
-  stable(): void { this._onStableStream.emit(null); }
+  stable(): void {
+    this._onStableStream.emit(null);
+  }
 }
 
 export function main() {
@@ -61,8 +69,9 @@ export function main() {
     });
 
     describe('Pending count logic', () => {
-      it('should start with a pending count of 0',
-         () => { expect(testability.getPendingRequestCount()).toEqual(0); });
+      it('should start with a pending count of 0', () => {
+        expect(testability.getPendingRequestCount()).toEqual(0);
+      });
 
       it('should fire whenstable callbacks if pending count is 0',
          inject([AsyncTestCompleter], (async: AsyncTestCompleter) => {

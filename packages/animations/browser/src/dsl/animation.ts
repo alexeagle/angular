@@ -23,7 +23,7 @@ export class Animation {
         Array.isArray(input) ? sequence(<AnimationMetadata[]>input) : <AnimationMetadata>input;
     const errors = validateAnimationSequence(ast);
     if (errors.length) {
-      const errorMessage = `animation validation failed:\n${errors.join("\n")}`;
+      const errorMessage = `animation validation failed:\n${errors.join('\n')}`;
       throw new Error(errorMessage);
     }
     this._animationAst = ast;

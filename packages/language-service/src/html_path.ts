@@ -6,13 +6,15 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Attribute, Comment, Element, Expansion, ExpansionCase, Node, Text, Visitor, visitAll} from '@angular/compiler';
+import {Attribute, Comment, Element, Expansion, ExpansionCase, Node, Text, visitAll, Visitor} from '@angular/compiler';
 
 import {AstPath} from './ast_path';
 import {inSpan, spanOf} from './utils';
 
 export class HtmlAstPath extends AstPath<Node> {
-  constructor(ast: Node[], public position: number) { super(buildPath(ast, position)); }
+  constructor(ast: Node[], public position: number) {
+    super(buildPath(ast, position));
+  }
 }
 
 function buildPath(ast: Node[], position: number): Node[] {
@@ -36,7 +38,9 @@ export class ChildVisitor implements Visitor {
   visitComment(ast: Comment, context: any): any {}
 
   visitExpansion(ast: Expansion, context: any): any {
-    return this.visitChildren(context, visit => { visit(ast.cases); });
+    return this.visitChildren(context, visit => {
+      visit(ast.cases);
+    });
   }
 
   visitExpansionCase(ast: ExpansionCase, context: any): any {}
@@ -56,7 +60,9 @@ export class ChildVisitor implements Visitor {
 class HtmlAstPathBuilder extends ChildVisitor {
   private path: Node[] = [];
 
-  constructor(private position: number) { super(); }
+  constructor(private position: number) {
+    super();
+  }
 
   visit(ast: Node, context: any): any {
     let span = spanOf(ast);
@@ -68,5 +74,7 @@ class HtmlAstPathBuilder extends ChildVisitor {
     }
   }
 
-  getPath(): Node[] { return this.path; }
+  getPath(): Node[] {
+    return this.path;
+  }
 }

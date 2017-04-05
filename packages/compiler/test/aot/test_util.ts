@@ -90,9 +90,13 @@ export class EmittingCompilerHost implements ts.CompilerHost {
     return Array.from(this.writtenFiles).map(f => ({name: f[0], content: f[1]}));
   }
 
-  public get scripts(): string[] { return this.scriptNames; }
+  public get scripts(): string[] {
+    return this.scriptNames;
+  }
 
-  public get written(): Map<string, string> { return this.writtenFiles; }
+  public get written(): Map<string, string> {
+    return this.writtenFiles;
+  }
 
   public effectiveName(fileName: string): string {
     const prefix = '@angular/';
@@ -124,7 +128,9 @@ export class EmittingCompilerHost implements ts.CompilerHost {
         (fs.existsSync(directoryName) && fs.statSync(directoryName).isDirectory());
   }
 
-  getCurrentDirectory(): string { return this.root; }
+  getCurrentDirectory(): string {
+    return this.root;
+  }
 
   getDirectories(dir: string): string[] {
     const result = open(dir, this.options.mockData);
@@ -148,7 +154,9 @@ export class EmittingCompilerHost implements ts.CompilerHost {
     }
   }
 
-  getDefaultLibFileName(options: ts.CompilerOptions): string { return 'lib.d.ts'; }
+  getDefaultLibFileName(options: ts.CompilerOptions): string {
+    return 'lib.d.ts';
+  }
 
   writeFile: ts.WriteFileCallback =
       (fileName: string, data: string, writeByteOrderMark: boolean,
@@ -166,8 +174,12 @@ export class EmittingCompilerHost implements ts.CompilerHost {
   getCanonicalFileName(fileName: string): string {
     return fileName;
   }
-  useCaseSensitiveFileNames(): boolean { return false; }
-  getNewLine(): string { return '\n'; }
+  useCaseSensitiveFileNames(): boolean {
+    return false;
+  }
+  getNewLine(): string {
+    return '\n';
+  }
 }
 
 const MOCK_NODEMODULES_PREFIX = '/node_modules/';
@@ -213,7 +225,9 @@ export class MockCompilerHost implements ts.CompilerHost {
     this.sourceFiles.delete(fileName);
   }
 
-  assumeFileExists(fileName: string) { this.assumeExists.add(fileName); }
+  assumeFileExists(fileName: string) {
+    this.assumeExists.add(fileName);
+  }
 
   remove(files: string[]) {
     // Remove the files from the list of scripts.
@@ -252,11 +266,17 @@ export class MockCompilerHost implements ts.CompilerHost {
     }
   }
 
-  readFile(fileName: string): string { return this.getFileContent(fileName); }
+  readFile(fileName: string): string {
+    return this.getFileContent(fileName);
+  }
 
-  trace(s: string): void { this.traces.push(s); }
+  trace(s: string): void {
+    this.traces.push(s);
+  }
 
-  getCurrentDirectory(): string { return '/'; }
+  getCurrentDirectory(): string {
+    return '/';
+  }
 
   getDirectories(dir: string): string[] {
     const effectiveName = this.getEffectiveName(dir);
@@ -286,7 +306,9 @@ export class MockCompilerHost implements ts.CompilerHost {
     return result;
   }
 
-  getDefaultLibFileName(options: ts.CompilerOptions): string { return 'lib.d.ts'; }
+  getDefaultLibFileName(options: ts.CompilerOptions): string {
+    return 'lib.d.ts';
+  }
 
   writeFile: ts.WriteFileCallback =
       (fileName: string, data: string, writeByteOrderMark: boolean) => {
@@ -297,8 +319,12 @@ export class MockCompilerHost implements ts.CompilerHost {
   getCanonicalFileName(fileName: string): string {
     return fileName;
   }
-  useCaseSensitiveFileNames(): boolean { return false; }
-  getNewLine(): string { return '\n'; }
+  useCaseSensitiveFileNames(): boolean {
+    return false;
+  }
+  getNewLine(): string {
+    return '\n';
+  }
 
   // Private methods
   private getFileContent(fileName: string): string|undefined {
@@ -362,9 +388,13 @@ export class MockAotCompilerHost implements AotCompilerHost {
 
   constructor(private tsHost: MockCompilerHost) {}
 
-  hideMetadata() { this.metadataVisible = false; }
+  hideMetadata() {
+    this.metadataVisible = false;
+  }
 
-  tsFilesOnly() { this.dtsAreSource = false; }
+  tsFilesOnly() {
+    this.dtsAreSource = false;
+  }
 
   // StaticSymbolResolverHost
   getMetadataFor(modulePath: string): {[key: string]: any}[] {
@@ -403,7 +433,9 @@ export class MockAotCompilerHost implements AotCompilerHost {
   }
 
   // AotSummaryResolverHost
-  loadSummary(filePath: string): string|null { return this.tsHost.readFile(filePath); }
+  loadSummary(filePath: string): string|null {
+    return this.tsHost.readFile(filePath);
+  }
 
   isSourceFile(sourceFilePath: string): boolean {
     return !GENERATED_FILES.test(sourceFilePath) &&

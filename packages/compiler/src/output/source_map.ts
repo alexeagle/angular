@@ -74,7 +74,9 @@ export class SourceMapGenerator {
     return this;
   }
 
-  private get currentLine(): Segment[]|null { return this.lines.slice(-1)[0]; }
+  private get currentLine(): Segment[]|null {
+    return this.lines.slice(-1)[0];
+  }
 
   toJSON(): SourceMap|null {
     if (!this.hasMappings) {

@@ -20,7 +20,9 @@ export function main() {
   describe('PipeResolver', () => {
     let resolver: PipeResolver;
 
-    beforeEach(() => { resolver = new PipeResolver(); });
+    beforeEach(() => {
+      resolver = new PipeResolver();
+    });
 
     it('should read out the metadata from the class', () => {
       const moduleMetadata = resolver.resolve(SomePipe);

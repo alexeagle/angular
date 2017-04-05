@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {CompileDirectiveSummary, CompileTypeMetadata, CssSelector, ParseSourceSpan, SelectorMatcher, identifierName} from '@angular/compiler';
+import {CompileDirectiveSummary, CompileTypeMetadata, CssSelector, identifierName, ParseSourceSpan, SelectorMatcher} from '@angular/compiler';
 
 import {SelectorInfo, TemplateInfo} from './common';
 import {Span} from './types';
@@ -21,7 +21,7 @@ export function isParseSourceSpan(value: any): value is ParseSourceSpan {
   return value && !!value.start;
 }
 
-export function spanOf(span?: SpanHolder | ParseSourceSpan): Span {
+export function spanOf(span?: SpanHolder|ParseSourceSpan): Span {
   if (!span) return undefined;
   if (isParseSourceSpan(span)) {
     return {start: span.start.offset, end: span.end.offset};

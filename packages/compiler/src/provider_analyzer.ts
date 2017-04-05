@@ -8,12 +8,14 @@
 
 
 import {CompileDiDependencyMetadata, CompileDirectiveMetadata, CompileDirectiveSummary, CompileNgModuleMetadata, CompileProviderMetadata, CompileQueryMetadata, CompileTokenMetadata, CompileTypeMetadata, tokenName, tokenReference} from './compile_metadata';
-import {Identifiers, createIdentifierToken, resolveIdentifier} from './identifiers';
+import {createIdentifierToken, Identifiers, resolveIdentifier} from './identifiers';
 import {ParseError, ParseSourceSpan} from './parse_util';
 import {AttrAst, DirectiveAst, ProviderAst, ProviderAstType, QueryMatch, ReferenceAst} from './template_parser/template_ast';
 
 export class ProviderError extends ParseError {
-  constructor(message: string, span: ParseSourceSpan) { super(span, message); }
+  constructor(message: string, span: ParseSourceSpan) {
+    super(span, message);
+  }
 }
 
 export interface QueryWithId {
@@ -108,11 +110,15 @@ export class ProviderElementContext {
     return sortedDirectives;
   }
 
-  get transformedHasViewContainer(): boolean { return this._hasViewContainer; }
+  get transformedHasViewContainer(): boolean {
+    return this._hasViewContainer;
+  }
 
   get queryMatches(): QueryMatch[] {
     const allMatches: QueryMatch[] = [];
-    this._queriedTokens.forEach((matches: QueryMatch[]) => { allMatches.push(...matches); });
+    this._queriedTokens.forEach((matches: QueryMatch[]) => {
+      allMatches.push(...matches);
+    });
     return allMatches;
   }
 
@@ -158,9 +164,10 @@ export class ProviderElementContext {
       requestingProviderType: ProviderAstType, token: CompileTokenMetadata,
       eager: boolean): ProviderAst {
     const resolvedProvider = this._allProviders.get(tokenReference(token));
-    if (!resolvedProvider || ((requestingProviderType === ProviderAstType.Directive ||
-                               requestingProviderType === ProviderAstType.PublicService) &&
-                              resolvedProvider.providerType === ProviderAstType.PrivateService) ||
+    if (!resolvedProvider ||
+        ((requestingProviderType === ProviderAstType.Directive ||
+          requestingProviderType === ProviderAstType.PublicService) &&
+         resolvedProvider.providerType === ProviderAstType.PrivateService) ||
         ((requestingProviderType === ProviderAstType.PrivateService ||
           requestingProviderType === ProviderAstType.PublicService) &&
          resolvedProvider.providerType === ProviderAstType.Builtin)) {
@@ -454,7 +461,11 @@ function _resolveProviders(
     let resolvedProvider = targetProvidersByToken.get(tokenReference(provider.token));
     if (resolvedProvider != null && !!resolvedProvider.multiProvider !== !!provider.multi) {
       targetErrors.push(new ProviderError(
-          `Mixing multi and non multi provider is not possible for token ${tokenName(resolvedProvider.token)}`,
+          `Mixing multi and non multi provider is not possible for token ${
+                                                                           tokenName(
+                                                                               resolvedProvider
+                                                                                   .token)
+                                                                         }`,
           sourceSpan));
     }
     if (!resolvedProvider) {

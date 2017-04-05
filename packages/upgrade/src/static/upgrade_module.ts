@@ -211,7 +211,9 @@ export class UpgradeModule {
                   const $rootScope = $injector.get('$rootScope');
                   const subscription =
                       this.ngZone.onMicrotaskEmpty.subscribe(() => $rootScope.$digest());
-                  $rootScope.$on('$destroy', () => { subscription.unsubscribe(); });
+                  $rootScope.$on('$destroy', () => {
+                    subscription.unsubscribe();
+                  });
                 }, 0);
               }
             ]);
@@ -223,7 +225,9 @@ export class UpgradeModule {
     windowAngular.resumeBootstrap = undefined;
 
     // Bootstrap the AngularJS application inside our zone
-    this.ngZone.run(() => { angular.bootstrap(element, [upgradeModule.name], config); });
+    this.ngZone.run(() => {
+      angular.bootstrap(element, [upgradeModule.name], config);
+    });
 
     // Patch resumeBootstrap() to run inside the ngZone
     if (windowAngular.resumeBootstrap) {
@@ -232,7 +236,9 @@ export class UpgradeModule {
       windowAngular.resumeBootstrap = function() {
         let args = arguments;
         windowAngular.resumeBootstrap = originalResumeBootstrap;
-        ngZone.run(() => { windowAngular.resumeBootstrap.apply(this, args); });
+        ngZone.run(() => {
+          windowAngular.resumeBootstrap.apply(this, args);
+        });
       };
     }
   }

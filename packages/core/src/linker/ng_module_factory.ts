@@ -55,10 +55,12 @@ export abstract class NgModuleRef<T> {
  */
 export class NgModuleFactory<T> {
   constructor(
-      private _injectorClass: {new (parentInjector: Injector): NgModuleInjector<T>},
+      private _injectorClass: {new(parentInjector: Injector): NgModuleInjector<T>},
       private _moduleType: Type<T>) {}
 
-  get moduleType(): Type<T> { return this._moduleType; }
+  get moduleType(): Type<T> {
+    return this._moduleType;
+  }
 
   create(parentInjector: Injector|null): NgModuleRef<T> {
     const instance = new this._injectorClass(parentInjector || Injector.NULL);
@@ -86,7 +88,9 @@ export abstract class NgModuleInjector<T> implements Injector, NgModuleRef<T> {
         factories, parent.get(ComponentFactoryResolver, ComponentFactoryResolver.NULL), this);
   }
 
-  create() { this.instance = this.createInternal(); }
+  create() {
+    this.instance = this.createInternal();
+  }
 
   abstract createInternal(): T;
 
@@ -105,9 +109,13 @@ export abstract class NgModuleInjector<T> implements Injector, NgModuleRef<T> {
 
   abstract getInternal(token: any, notFoundValue: any): any;
 
-  get injector(): Injector { return this; }
+  get injector(): Injector {
+    return this;
+  }
 
-  get componentFactoryResolver(): ComponentFactoryResolver { return this._cmpFactoryResolver; }
+  get componentFactoryResolver(): ComponentFactoryResolver {
+    return this._cmpFactoryResolver;
+  }
 
   destroy(): void {
     if (this._destroyed) {
@@ -119,7 +127,9 @@ export abstract class NgModuleInjector<T> implements Injector, NgModuleRef<T> {
     this._destroyListeners.forEach((listener) => listener());
   }
 
-  onDestroy(callback: () => void): void { this._destroyListeners.push(callback); }
+  onDestroy(callback: () => void): void {
+    this._destroyListeners.push(callback);
+  }
 
   abstract destroyInternal(): void;
 }

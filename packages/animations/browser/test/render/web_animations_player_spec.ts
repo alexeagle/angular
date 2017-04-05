@@ -19,7 +19,9 @@ export function main() {
       document.body.appendChild(element);
     });
 
-    afterEach(() => { document.body.removeChild(element); });
+    afterEach(() => {
+      document.body.removeChild(element);
+    });
 
     it('should properly balance any previous player styles into the animation keyframes', () => {
       element.style.height = '666px';
@@ -73,6 +75,10 @@ class MockDOMAnimation implements DOMAnimation {
   play(): void {}
   pause(): void {}
   finish(): void {}
-  addEventListener(eventName: string, handler: (event: any) => any): any { return null; }
-  dispatchEvent(eventName: string): any { return null; }
+  addEventListener(eventName: string, handler: (event: any) => any): any {
+    return null;
+  }
+  dispatchEvent(eventName: string): any {
+    return null;
+  }
 }

@@ -33,7 +33,9 @@ export interface TemplateAst {
 export class TextAst implements TemplateAst {
   constructor(
       public value: string, public ngContentIndex: number, public sourceSpan: ParseSourceSpan) {}
-  visit(visitor: TemplateAstVisitor, context: any): any { return visitor.visitText(this, context); }
+  visit(visitor: TemplateAstVisitor, context: any): any {
+    return visitor.visitText(this, context);
+  }
 }
 
 /**
@@ -52,7 +54,9 @@ export class BoundTextAst implements TemplateAst {
  */
 export class AttrAst implements TemplateAst {
   constructor(public name: string, public value: string, public sourceSpan: ParseSourceSpan) {}
-  visit(visitor: TemplateAstVisitor, context: any): any { return visitor.visitAttr(this, context); }
+  visit(visitor: TemplateAstVisitor, context: any): any {
+    return visitor.visitAttr(this, context);
+  }
 }
 
 /**
@@ -67,7 +71,9 @@ export class BoundElementPropertyAst implements TemplateAst {
   visit(visitor: TemplateAstVisitor, context: any): any {
     return visitor.visitElementProperty(this, context);
   }
-  get isAnimation(): boolean { return this.type === PropertyBindingType.Animation; }
+  get isAnimation(): boolean {
+    return this.type === PropertyBindingType.Animation;
+  }
 }
 
 /**
@@ -91,8 +97,12 @@ export class BoundEventAst implements TemplateAst {
   visit(visitor: TemplateAstVisitor, context: any): any {
     return visitor.visitEvent(this, context);
   }
-  get fullName() { return BoundEventAst.calcFullName(this.name, this.target, this.phase); }
-  get isAnimation(): boolean { return !!this.phase; }
+  get fullName() {
+    return BoundEventAst.calcFullName(this.name, this.target, this.phase);
+  }
+  get isAnimation(): boolean {
+    return !!this.phase;
+  }
 }
 
 /**

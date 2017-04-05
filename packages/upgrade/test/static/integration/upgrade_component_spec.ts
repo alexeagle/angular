@@ -6,13 +6,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Component, Directive, ElementRef, EventEmitter, Inject, Injector, Input, NO_ERRORS_SCHEMA, NgModule, Output, SimpleChanges, destroyPlatform} from '@angular/core';
+import {Component, destroyPlatform, Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgModule, NO_ERRORS_SCHEMA, Output, SimpleChanges} from '@angular/core';
 import {async, fakeAsync, tick} from '@angular/core/testing';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import * as angular from '@angular/upgrade/src/common/angular1';
 import {$SCOPE} from '@angular/upgrade/src/common/constants';
-import {UpgradeComponent, UpgradeModule, downgradeComponent} from '@angular/upgrade/static';
+import {downgradeComponent, UpgradeComponent, UpgradeModule} from '@angular/upgrade/static';
 
 import {$digest, bootstrap, html, multiTrim} from '../test_helpers';
 
@@ -401,19 +401,27 @@ export function main() {
            // Define `Ng1ComponentFacade`s
            @Directive({selector: 'ng1A'})
            class Ng1ComponentAFacade extends UpgradeComponent {
-             constructor(e: ElementRef, i: Injector) { super('ng1A', e, i); }
+             constructor(e: ElementRef, i: Injector) {
+               super('ng1A', e, i);
+             }
            }
            @Directive({selector: 'ng1B'})
            class Ng1ComponentBFacade extends UpgradeComponent {
-             constructor(e: ElementRef, i: Injector) { super('ng1B', e, i); }
+             constructor(e: ElementRef, i: Injector) {
+               super('ng1B', e, i);
+             }
            }
            @Directive({selector: 'ng1C'})
            class Ng1ComponentCFacade extends UpgradeComponent {
-             constructor(e: ElementRef, i: Injector) { super('ng1C', e, i); }
+             constructor(e: ElementRef, i: Injector) {
+               super('ng1C', e, i);
+             }
            }
            @Directive({selector: 'ng1D'})
            class Ng1ComponentDFacade extends UpgradeComponent {
-             constructor(e: ElementRef, i: Injector) { super('ng1D', e, i); }
+             constructor(e: ElementRef, i: Injector) {
+               super('ng1D', e, i);
+             }
            }
 
            // Define `Ng2Component`
@@ -496,7 +504,9 @@ export function main() {
              dataA = 'foo';
              dataB = 'bar';
 
-             constructor() { ng2ComponentInstance = this; }
+             constructor() {
+               ng2ComponentInstance = this;
+             }
            }
 
            // Define `ng1Module`
@@ -571,7 +581,9 @@ export function main() {
              dataA = {value: 'foo'};
              dataB = {value: 'bar'};
 
-             constructor() { ng2ComponentInstance = this; }
+             constructor() {
+               ng2ComponentInstance = this;
+             }
            }
 
            // Define `ng1Module`
@@ -648,7 +660,9 @@ export function main() {
              dataA = {value: 'foo'};
              dataB = {value: 'bar'};
 
-             constructor() { ng2ComponentInstance = this; }
+             constructor() {
+               ng2ComponentInstance = this;
+             }
            }
 
            // Define `ng1Module`
@@ -889,7 +903,9 @@ export function main() {
              dataA = {value: 'foo'};
              dataB = {value: 'bar'};
 
-             updateDataB(value: any) { this.dataB.value = value; }
+             updateDataB(value: any) {
+               this.dataB.value = value;
+             }
            }
 
            // Define `ng1Module`
@@ -1078,7 +1094,9 @@ export function main() {
              scope: true,
              controllerAs: 'vm',
              controller: class {
-               hasElement: string; isClass: string; scope: string;
+               hasElement: string;
+               isClass: string;
+               scope: string;
 
                constructor(public $element: angular.IAugmentedJQuery, $scope: angular.IScope) {
                  this.hasElement = $element[0].nodeName;
@@ -1091,7 +1109,9 @@ export function main() {
                  return this.$element.controller('ng1') === this ? 'published' : 'not-published';
                }
 
-               verifyIAmAClass() { this.isClass = 'isClass'; }
+               verifyIAmAClass() {
+                 this.isClass = 'isClass';
+               }
              }
            };
 
@@ -1281,7 +1301,11 @@ export function main() {
 
            // Define `ng1Module`
            const ng1Module = angular.module('ng1Module', [])
-                                 .controller('Ng1Controller', class { text = 'GREAT'; })
+                                 .controller(
+                                     'Ng1Controller',
+                                     class {
+                                       text = 'GREAT';
+                                     })
                                  .directive('ng1', () => ng1Directive)
                                  .directive('ng2', downgradeComponent({component: Ng2Component}));
 
@@ -1365,7 +1389,9 @@ export function main() {
              // Define `ng1Directive`
              const ng1Directive: angular.IDirective = {
                template: 'Pre: {{ pre }} | Post: {{ post }}',
-               controller: class {value = 'foo';},
+               controller: class {
+                 value = 'foo';
+               },
                link: {
                  pre: function(scope: any, elem: any, attrs: any, ctrl: any) {
                    scope['pre'] = ctrl.value;
@@ -1420,7 +1446,9 @@ export function main() {
              // Define `ng1Component`
              const ng1ComponentA: angular.IComponent = {
                template: '<ng1-b></ng1-b>',
-               controller: class {value = 'ng1A';}
+               controller: class {
+                 value = 'ng1A';
+               }
              };
 
              const ng1ComponentB: angular.IComponent = {
@@ -1608,7 +1636,9 @@ export function main() {
              // Define `ng1Component`
              const ng1ComponentA: angular.IComponent = {
                template: 'ng1A(<div><ng2></ng2></div>)',
-               controller: class {value = 'A';}
+               controller: class {
+                 value = 'A';
+               }
              };
 
              const ng1ComponentB: angular.IComponent = {
@@ -1684,7 +1714,9 @@ export function main() {
              // Define `ng1Component`
              const ng1ComponentA: angular.IComponent = {
                template: 'ng1A(<div><ng2></ng2></div>)',
-               controller: class {value = 'A';}
+               controller: class {
+                 value = 'A';
+               }
              };
 
              const ng1ComponentB: angular.IComponent = {
@@ -1704,7 +1736,9 @@ export function main() {
                  ng1BSelfUp: '^ng1B',
                  ng1BParentUp: '?^^ng1B',
                },
-               controller: class {value = 'B';}
+               controller: class {
+                 value = 'B';
+               }
              };
 
              // Define `Ng1ComponentFacade`
@@ -1750,7 +1784,9 @@ export function main() {
              // Define `ng1Component`
              const ng1ComponentA: angular.IComponent = {
                template: '<ng2></ng2>',
-               controller: class {value = 'ng1A';}
+               controller: class {
+                 value = 'ng1A';
+               }
              };
 
              const ng1ComponentB: angular.IComponent = {
@@ -1805,11 +1841,17 @@ export function main() {
              // Define `ng1Component`
              const ng1ComponentA: angular.IComponent = {
                template: '<ng1-b></ng1-b>',
-               controller: class {value = 'A';}
+               controller: class {
+                 value = 'A';
+               }
              };
 
-             const ng1ComponentB:
-                 angular.IComponent = {template: '<ng2></ng2>', controller: class {value = 'B';}};
+             const ng1ComponentB: angular.IComponent = {
+               template: '<ng2></ng2>',
+               controller: class {
+                 value = 'B';
+               }
+             };
 
              const ng1ComponentC: angular.IComponent = {
                template:
@@ -1819,7 +1861,9 @@ export function main() {
                  ng1B: '?^',
                  ng1C: '',
                },
-               controller: class {value = 'C';}
+               controller: class {
+                 value = 'C';
+               }
              };
 
              // Define `Ng1ComponentFacade`
@@ -1875,8 +1919,11 @@ export function main() {
              scope: {inputA: '<'},
              bindToController: false,
              controllerAs: '$ctrl',
-             controller:
-                 class {$onChanges(changes: SimpleChanges) { controllerOnChangesA(changes); }}
+             controller: class {
+               $onChanges(changes: SimpleChanges) {
+                 controllerOnChangesA(changes);
+               }
+             }
            };
 
            const ng1DirectiveB: angular.IDirective = {
@@ -1884,8 +1931,11 @@ export function main() {
              scope: {inputB: '<'},
              bindToController: true,
              controllerAs: '$ctrl',
-             controller:
-                 class {$onChanges(changes: SimpleChanges) { controllerOnChangesB(changes); }}
+             controller: class {
+               $onChanges(changes: SimpleChanges) {
+                 controllerOnChangesB(changes);
+               }
+             }
            };
 
            // Define `Ng1ComponentFacade`
@@ -1915,7 +1965,9 @@ export function main() {
            class Ng2Component {
              data = {foo: 'bar'};
 
-             constructor() { ng2ComponentInstance = this; }
+             constructor() {
+               ng2ComponentInstance = this;
+             }
            }
 
            // Define `ng1Module`
@@ -2068,7 +2120,9 @@ export function main() {
            class Ng2Component {
              data = {foo: 'bar'};
 
-             constructor() { ng2ComponentInstance = this; }
+             constructor() {
+               ng2ComponentInstance = this;
+             }
            }
 
            // Define `ng1Module`
@@ -2164,9 +2218,13 @@ export function main() {
              template: 'Called: {{ called }}',
              bindToController: false,
              controller: class {
-               constructor(private $scope: angular.IScope) { $scope['called'] = 'no'; }
+               constructor(private $scope: angular.IScope) {
+                 $scope['called'] = 'no';
+               }
 
-               $onInit() { this.$scope['called'] = 'yes'; }
+               $onInit() {
+                 this.$scope['called'] = 'yes';
+               }
              }
            };
 
@@ -2301,9 +2359,13 @@ export function main() {
              template: 'Called: {{ called }}',
              bindToController: false,
              controller: class {
-               constructor(private $scope: angular.IScope) { $scope['called'] = 'no'; }
+               constructor(private $scope: angular.IScope) {
+                 $scope['called'] = 'no';
+               }
 
-               $postLink() { this.$scope['called'] = 'yes'; }
+               $postLink() {
+                 this.$scope['called'] = 'yes';
+               }
              }
            };
 
@@ -2441,13 +2503,21 @@ export function main() {
            const ng1DirectiveA: angular.IDirective = {
              template: 'ng1A',
              bindToController: false,
-             controller: class {$doCheck() { controllerDoCheckA(); }}
+             controller: class {
+               $doCheck() {
+                 controllerDoCheckA();
+               }
+             }
            };
 
            const ng1DirectiveB: angular.IDirective = {
              template: 'ng1B',
              bindToController: true,
-             controller: class {constructor() { (this as any)['$doCheck'] = controllerDoCheckB; }}
+             controller: class {
+               constructor() {
+                 (this as any)['$doCheck'] = controllerDoCheckB;
+               }
+             }
            };
 
            // Define `Ng1ComponentFacade`
@@ -2516,7 +2586,9 @@ export function main() {
              template: 'ng1A',
              bindToController: false,
              controller: class {
-               constructor(private $scope: angular.IScope) { $scope['$doCheck'] = scopeDoCheck; }
+               constructor(private $scope: angular.IScope) {
+                 $scope['$doCheck'] = scopeDoCheck;
+               }
              }
            };
 
@@ -2524,7 +2596,9 @@ export function main() {
              template: 'ng1B',
              bindToController: true,
              controller: class {
-               constructor(private $scope: angular.IScope) { $scope['$doCheck'] = scopeDoCheck; }
+               constructor(private $scope: angular.IScope) {
+                 $scope['$doCheck'] = scopeDoCheck;
+               }
              }
            };
 
@@ -2592,7 +2666,11 @@ export function main() {
              scope: {},
              bindToController: false,
              controllerAs: '$ctrl',
-             controller: class {$onDestroy() { controllerOnDestroyA(); }}
+             controller: class {
+               $onDestroy() {
+                 controllerOnDestroyA();
+               }
+             }
            };
 
            const ng1DirectiveB: angular.IDirective = {
@@ -2600,8 +2678,11 @@ export function main() {
              scope: {},
              bindToController: true,
              controllerAs: '$ctrl',
-             controller:
-                 class {constructor() { (this as any)['$onDestroy'] = controllerOnDestroyB; }}
+             controller: class {
+               constructor() {
+                 (this as any)['$onDestroy'] = controllerOnDestroyB;
+               }
+             }
            };
 
            // Define `Ng1ComponentFacade`
@@ -2779,13 +2860,21 @@ export function main() {
              controller: class {
                calls: string[] = [];
 
-               $onChanges() { this.calls.push('$onChanges'); }
+               $onChanges() {
+                 this.calls.push('$onChanges');
+               }
 
-               $onInit() { this.calls.push('$onInit'); }
+               $onInit() {
+                 this.calls.push('$onInit');
+               }
 
-               $doCheck() { this.calls.push('$doCheck'); }
+               $doCheck() {
+                 this.calls.push('$doCheck');
+               }
 
-               $postLink() { this.calls.push('$postLink'); }
+               $postLink() {
+                 this.calls.push('$postLink');
+               }
              }
            };
 
@@ -2837,7 +2926,9 @@ export function main() {
            // Define `ng1Component`
            const ng1Component: angular.IComponent = {
              controller: class {
-               constructor($scope: angular.IScope) { $scope.$on('$destroy', scopeDestroyListener); }
+               constructor($scope: angular.IScope) {
+                 $scope.$on('$destroy', scopeDestroyListener);
+               }
              }
            };
 
@@ -2854,7 +2945,9 @@ export function main() {
            class Ng2ComponentA {
              destroyIt = false;
 
-             constructor() { ng2ComponentAInstance = this; }
+             constructor() {
+               ng2ComponentAInstance = this;
+             }
            }
 
            @Component({selector: 'ng2B', template: '<ng1></ng1>'})
@@ -2893,8 +2986,12 @@ export function main() {
            let ng2Component: Ng2Component;
 
            // Define `ng1Component`
-           const ng1Component:
-               angular.IComponent = {template: 'ng1', controller: class {$doCheck() {}}};
+           const ng1Component: angular.IComponent = {
+             template: 'ng1',
+             controller: class {
+               $doCheck() {}
+             }
+           };
 
            // Define `Ng1ComponentFacade`
            @Directive({selector: 'ng1'})
@@ -2908,7 +3005,9 @@ export function main() {
            @Component({selector: 'ng2', template: '<ng1 *ngIf="doShow"></ng1>'})
            class Ng2Component {
              doShow: boolean = false;
-             constructor(@Inject($SCOPE) public $scope: angular.IScope) { ng2Component = this; }
+             constructor(@Inject($SCOPE) public $scope: angular.IScope) {
+               ng2Component = this;
+             }
            }
 
            // Define `ng1Module`
@@ -3011,7 +3110,9 @@ export function main() {
            ng1XInputB: any;
            ng1XInputC: any;
 
-           constructor() { ng1ControllerXInstance = this; }
+           constructor() {
+             ng1ControllerXInstance = this;
+           }
          }
          const ng1Component: angular.IComponent = {
            template: `
@@ -3066,7 +3167,9 @@ export function main() {
            ng2ADataB = {value: 'bar'};
            ng2ADataC = {value: 'baz'};
 
-           constructor() { ng2ComponentAInstance = this; }
+           constructor() {
+             ng2ComponentAInstance = this;
+           }
          }
 
          @Component({selector: 'ng2-b', template: 'ng2B({{ ng2BInputA }}, {{ ng2BInputC }})'})
@@ -3075,7 +3178,9 @@ export function main() {
            @Input() ng2BInputC: any;
            @Output() ng2BOutputC = new EventEmitter();
 
-           constructor() { ng2ComponentBInstance = this; }
+           constructor() {
+             ng2ComponentBInstance = this;
+           }
          }
 
          // Define `ng1Module`
@@ -3188,14 +3293,18 @@ export function main() {
          // Define `ng1Component`
          const ng1ComponentA: angular.IComponent = {
            template: 'ng1A(<ng2-b></ng2-b>)',
-           controller: class {value = 'ng1A';}
+           controller: class {
+             value = 'ng1A';
+           }
          };
 
          const ng1ComponentB: angular.IComponent = {
            template:
                'ng1B(^^ng1A: {{ $ctrl.ng1A.value }} | ?^^ng1B: {{ $ctrl.ng1B.value }} | ^ng1B: {{ $ctrl.ng1BSelf.value }})',
            require: {ng1A: '^^', ng1B: '?^^', ng1BSelf: '^ng1B'},
-           controller: class {value = 'ng1B';}
+           controller: class {
+             value = 'ng1B';
+           }
          };
 
          // Define `Ng1ComponentFacade`

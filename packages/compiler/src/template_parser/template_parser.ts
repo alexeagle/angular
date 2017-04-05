@@ -7,12 +7,13 @@
  */
 
 import {Inject, InjectionToken, Optional, SchemaMetadata, ɵConsole as Console} from '@angular/core';
+
 import {CompileDirectiveMetadata, CompileDirectiveSummary, CompilePipeSummary, CompileTemplateSummary, CompileTokenMetadata, CompileTypeMetadata, identifierName} from '../compile_metadata';
 import {CompilerConfig} from '../config';
 import {AST, ASTWithSource, EmptyExpr} from '../expression_parser/ast';
 import {Parser} from '../expression_parser/parser';
 import {I18NHtmlParser} from '../i18n/i18n_html_parser';
-import {Identifiers, createIdentifierToken, identifierToken} from '../identifiers';
+import {createIdentifierToken, Identifiers, identifierToken} from '../identifiers';
 import {CompilerInjectable} from '../injectable';
 import * as html from '../ml_parser/ast';
 import {ParseTreeResult} from '../ml_parser/html_parser';
@@ -25,8 +26,9 @@ import {ElementSchemaRegistry} from '../schema/element_schema_registry';
 import {CssSelector, SelectorMatcher} from '../selector';
 import {isStyleUrlResolvable} from '../style_url_resolver';
 import {syntaxError} from '../util';
+
 import {BindingParser, BoundProperty} from './binding_parser';
-import {AttrAst, BoundDirectivePropertyAst, BoundElementPropertyAst, BoundEventAst, BoundTextAst, DirectiveAst, ElementAst, EmbeddedTemplateAst, NgContentAst, PropertyBindingType, ReferenceAst, TemplateAst, TemplateAstVisitor, TextAst, VariableAst, templateVisitAll} from './template_ast';
+import {AttrAst, BoundDirectivePropertyAst, BoundElementPropertyAst, BoundEventAst, BoundTextAst, DirectiveAst, ElementAst, EmbeddedTemplateAst, NgContentAst, PropertyBindingType, ReferenceAst, TemplateAst, TemplateAstVisitor, templateVisitAll, TextAst, VariableAst} from './template_ast';
 import {PreparsedElementType, preparseElement} from './template_preparser';
 
 const BIND_NAME_REGEXP =
@@ -179,8 +181,9 @@ export class TemplateParser {
     }
 
     if (this.transforms) {
-      this.transforms.forEach(
-          (transform: TemplateAstVisitor) => { result = templateVisitAll(transform, result); });
+      this.transforms.forEach((transform: TemplateAstVisitor) => {
+        result = templateVisitAll(transform, result);
+      });
     }
 
     return new TemplateParseResult(result, usedPipes, errors);
@@ -244,9 +247,13 @@ class TemplateParseVisitor implements html.Visitor {
     });
   }
 
-  visitExpansion(expansion: html.Expansion, context: any): any { return null; }
+  visitExpansion(expansion: html.Expansion, context: any): any {
+    return null;
+  }
 
-  visitExpansionCase(expansionCase: html.ExpansionCase, context: any): any { return null; }
+  visitExpansionCase(expansionCase: html.ExpansionCase, context: any): any {
+    return null;
+  }
 
   visitText(text: html.Text, parent: ElementContext): any {
     const ngContentIndex = parent.findNgContentIndex(TEXT_CSS_SELECTOR);
@@ -259,7 +266,9 @@ class TemplateParseVisitor implements html.Visitor {
     return new AttrAst(attribute.name, attribute.value, attribute.sourceSpan);
   }
 
-  visitComment(comment: html.Comment, context: any): any { return null; }
+  visitComment(comment: html.Comment, context: any): any {
+    return null;
+  }
 
   visitElement(element: html.Element, parent: ElementContext): any {
     const queryStartIndex = this.contentQueryStartId;
@@ -677,10 +686,14 @@ class TemplateParseVisitor implements html.Visitor {
     if (!matchElement && !this._schemaRegistry.hasElement(elName, this._schemas)) {
       let errorMsg = `'${elName}' is not a known element:\n`;
       errorMsg +=
-          `1. If '${elName}' is an Angular component, then verify that it is part of this module.\n`;
+          `1. If '${
+                    elName
+                  }' is an Angular component, then verify that it is part of this module.\n`;
       if (elName.indexOf('-') > -1) {
         errorMsg +=
-            `2. If '${elName}' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.`;
+            `2. If '${
+                      elName
+                    }' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.`;
       } else {
         errorMsg +=
             `2. To allow any element add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.`;
@@ -699,7 +712,9 @@ class TemplateParseVisitor implements html.Visitor {
     }
     elementProps.forEach(prop => {
       this._reportError(
-          `Property binding ${prop.name} not used by any directive on an embedded template. Make sure that the property name is spelled correctly and all directives are listed in the "@NgModule.declarations".`,
+          `Property binding ${
+                              prop.name
+                            } not used by any directive on an embedded template. Make sure that the property name is spelled correctly and all directives are listed in the "@NgModule.declarations".`,
           sourceSpan);
     });
   }
@@ -718,7 +733,9 @@ class TemplateParseVisitor implements html.Visitor {
     events.forEach(event => {
       if (event.target != null || !allDirectiveEvents.has(event.name)) {
         this._reportError(
-            `Event binding ${event.fullName} not emitted by any directive on an embedded template. Make sure that the event name is spelled correctly and all directives are listed in the "@NgModule.declarations".`,
+            `Event binding ${
+                             event.fullName
+                           } not emitted by any directive on an embedded template. Make sure that the event name is spelled correctly and all directives are listed in the "@NgModule.declarations".`,
             event.sourceSpan);
       }
     });
@@ -731,16 +748,25 @@ class TemplateParseVisitor implements html.Visitor {
     return boundProps.filter((boundProp) => {
       if (boundProp.type === PropertyBindingType.Property &&
           !this._schemaRegistry.hasProperty(elementName, boundProp.name, this._schemas)) {
-        let errorMsg =
-            `Can't bind to '${boundProp.name}' since it isn't a known property of '${elementName}'.`;
+        let errorMsg = `Can't bind to '${
+                                         boundProp.name
+                                       }' since it isn't a known property of '${elementName}'.`;
         if (elementName.startsWith('ng-')) {
           errorMsg +=
-              `\n1. If '${boundProp.name}' is an Angular directive, then add 'CommonModule' to the '@NgModule.imports' of this component.` +
+              `\n1. If '${
+                          boundProp.name
+                        }' is an Angular directive, then add 'CommonModule' to the '@NgModule.imports' of this component.` +
               `\n2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.`;
         } else if (elementName.indexOf('-') > -1) {
           errorMsg +=
-              `\n1. If '${elementName}' is an Angular component and it has '${boundProp.name}' input, then verify that it is part of this module.` +
-              `\n2. If '${elementName}' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.` +
+              `\n1. If '${
+                          elementName
+                        }' is an Angular component and it has '${
+                                                                 boundProp.name
+                                                               }' input, then verify that it is part of this module.` +
+              `\n2. If '${
+                          elementName
+                        }' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.` +
               `\n3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.`;
         }
         this._reportError(errorMsg, boundProp.sourceSpan);
@@ -776,7 +802,9 @@ class NonBindableVisitor implements html.Visitor {
         ast.name, html.visitAll(this, ast.attrs), [], [], [], [], [], false, [], children,
         ngContentIndex, ast.sourceSpan, ast.endSourceSpan);
   }
-  visitComment(comment: html.Comment, context: any): any { return null; }
+  visitComment(comment: html.Comment, context: any): any {
+    return null;
+  }
 
   visitAttribute(attribute: html.Attribute, context: any): AttrAst {
     return new AttrAst(attribute.name, attribute.value, attribute.sourceSpan);
@@ -787,9 +815,13 @@ class NonBindableVisitor implements html.Visitor {
     return new TextAst(text.value, ngContentIndex, text.sourceSpan);
   }
 
-  visitExpansion(expansion: html.Expansion, context: any): any { return expansion; }
+  visitExpansion(expansion: html.Expansion, context: any): any {
+    return expansion;
+  }
 
-  visitExpansionCase(expansionCase: html.ExpansionCase, context: any): any { return expansionCase; }
+  visitExpansionCase(expansionCase: html.ExpansionCase, context: any): any {
+    return expansionCase;
+  }
 }
 
 class ElementOrDirectiveRef {
@@ -826,8 +858,9 @@ class ElementContext {
 
   findNgContentIndex(selector: CssSelector): number {
     const ngContentIndices: number[] = [];
-    this._ngContentIndexMatcher.match(
-        selector, (selector, ngContentIndex) => { ngContentIndices.push(ngContentIndex); });
+    this._ngContentIndexMatcher.match(selector, (selector, ngContentIndex) => {
+      ngContentIndices.push(ngContentIndex);
+    });
     ngContentIndices.sort();
     if (this._wildcardNgContentIndex != null) {
       ngContentIndices.push(this._wildcardNgContentIndex);

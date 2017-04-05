@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {AUTO_STYLE, AnimationMetadata, AnimationMetadataType, animate, group, keyframes, sequence, style, ɵStyleData} from '@angular/animations';
+import {animate, AnimationMetadata, AnimationMetadataType, AUTO_STYLE, group, keyframes, sequence, style, ɵStyleData} from '@angular/animations';
 
 import {Animation} from '../../src/dsl/animation';
 import {AnimationTimelineInstruction} from '../../src/dsl/animation_timeline_instruction';
@@ -21,7 +21,9 @@ export function main() {
                                    style({opacity: 1, offset: 1}),
                                  ]));
 
-           expect(() => { validateAndThrowAnimationSequence(steps); })
+           expect(() => {
+             validateAndThrowAnimationSequence(steps);
+           })
                .toThrowError(
                    /Not all style\(\) steps within the declared keyframes\(\) contain offsets/);
          });
@@ -72,7 +74,9 @@ export function main() {
                   ]))
         ]);
 
-        expect(() => { validateAndThrowAnimationSequence(steps); })
+        expect(() => {
+          validateAndThrowAnimationSequence(steps);
+        })
             .toThrowError(
                 /The CSS property "opacity" that exists between the times of "0ms" and "2000ms" is also being animated in a parallel animation between the times of "0ms" and "1500ms"/);
       });
@@ -642,12 +646,12 @@ function humanizeOffsets(keyframes: ɵStyleData[], digits: number = 3): ɵStyleD
 }
 
 function invokeAnimationSequence(
-    steps: AnimationMetadata | AnimationMetadata[], startingStyles: ɵStyleData[] = [],
+    steps: AnimationMetadata|AnimationMetadata[], startingStyles: ɵStyleData[] = [],
     destinationStyles: ɵStyleData[] = []): AnimationTimelineInstruction[] {
   return new Animation(steps).buildTimelines(startingStyles, destinationStyles);
 }
 
-function validateAndThrowAnimationSequence(steps: AnimationMetadata | AnimationMetadata[]) {
+function validateAndThrowAnimationSequence(steps: AnimationMetadata|AnimationMetadata[]) {
   const ast =
       Array.isArray(steps) ? sequence(<AnimationMetadata[]>steps) : <AnimationMetadata>steps;
   const errors = validateAnimationSequence(ast);

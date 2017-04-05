@@ -258,12 +258,12 @@ function _split(uri: string): Array<string|any> {
 }
 
 /**
-  * Removes dot segments in given path component, as described in
-  * RFC 3986, section 5.2.4.
-  *
-  * @param path A non-empty path component.
-  * @return Path component with removed dot segments.
-  */
+ * Removes dot segments in given path component, as described in
+ * RFC 3986, section 5.2.4.
+ *
+ * @param path A non-empty path component.
+ * @return Path component with removed dot segments.
+ */
 function _removeDotSegments(path: string): string {
   if (path == '/') return '/';
 

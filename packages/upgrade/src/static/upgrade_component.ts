@@ -38,7 +38,7 @@ interface IControllerInstance extends IBindingDestination {
   $postLink?: () => void;
 }
 
-type LifecycleHook = '$doCheck' | '$onChanges' | '$onDestroy' | '$onInit' | '$postLink';
+type LifecycleHook = '$doCheck'|'$onChanges'|'$onDestroy'|'$onInit'|'$postLink';
 
 /**
  * @whatItDoes
@@ -154,8 +154,9 @@ export class UpgradeComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
       this.controllerInstance = this.buildController(
           controllerType, this.$componentScope, this.$element, this.directive.controllerAs);
     } else if (bindToController) {
-      throw new Error(
-          `Upgraded directive '${this.directive.name}' specifies 'bindToController' but no controller.`);
+      throw new Error(`Upgraded directive '${
+                                             this.directive.name
+                                           }' specifies 'bindToController' but no controller.`);
     }
 
     // Set up outputs
@@ -168,7 +169,7 @@ export class UpgradeComponent implements OnInit, OnChanges, DoCheck, OnDestroy {
         this.resolveRequire(this.directive.name, this.$element, directiveRequire);
 
     if (this.directive.bindToController && isMap(directiveRequire)) {
-      const requiredControllersMap = requiredControllers as{[key: string]: IControllerInstance};
+      const requiredControllersMap = requiredControllers as {[key: string]: IControllerInstance};
       Object.keys(requiredControllersMap).forEach(key => {
         this.controllerInstance[key] = requiredControllersMap[key];
       });

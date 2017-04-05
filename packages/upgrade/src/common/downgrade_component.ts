@@ -70,8 +70,9 @@ export function downgradeComponent(info: {
       restrict: 'E',
       terminal: true,
       require: [REQUIRE_INJECTOR, REQUIRE_NG_MODEL],
-      link: (scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes,
-             required: any[]) => {
+      link: (
+          scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes,
+          required: any[]) => {
         // We might have to compile the contents asynchronously, because this might have been
         // triggered by `UpgradeNg1ComponentAdapterBuilder`, before the Angular templates have
         // been compiled.

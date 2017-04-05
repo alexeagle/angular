@@ -80,7 +80,9 @@ export class TestBed implements Injector {
    *
    * @experimental
    */
-  static resetTestEnvironment() { getTestBed().resetTestEnvironment(); }
+  static resetTestEnvironment() {
+    getTestBed().resetTestEnvironment();
+  }
 
   static resetTestingModule(): typeof TestBed {
     getTestBed().resetTestingModule();
@@ -110,7 +112,9 @@ export class TestBed implements Injector {
    * It is necessary to call this function
    * as fetching urls is asynchronous.
    */
-  static compileComponents(): Promise<any> { return getTestBed().compileComponents(); }
+  static compileComponents(): Promise<any> {
+    return getTestBed().compileComponents();
+  }
 
   static overrideModule(ngModule: Type<any>, override: MetadataOverride<NgModule>): typeof TestBed {
     getTestBed().overrideModule(ngModule, override);
@@ -135,7 +139,7 @@ export class TestBed implements Injector {
   }
 
   static overrideTemplate(component: Type<any>, template: string): typeof TestBed {
-    getTestBed().overrideComponent(component, {set: {template, templateUrl: null !}});
+    getTestBed().overrideComponent(component, {set: {template, templateUrl: null!}});
     return TestBed;
   }
 
@@ -149,9 +153,9 @@ export class TestBed implements Injector {
 
   private _instantiated: boolean = false;
 
-  private _compiler: TestingCompiler = null !;
-  private _moduleRef: NgModuleRef<any> = null !;
-  private _moduleWithComponentFactories: ModuleWithComponentFactories<any> = null !;
+  private _compiler: TestingCompiler = null!;
+  private _moduleRef: NgModuleRef<any> = null!;
+  private _moduleWithComponentFactories: ModuleWithComponentFactories<any> = null!;
 
   private _compilerOptions: CompilerOptions[] = [];
 
@@ -194,19 +198,19 @@ export class TestBed implements Injector {
    */
   resetTestEnvironment() {
     this.resetTestingModule();
-    this.platform = null !;
-    this.ngModule = null !;
+    this.platform = null!;
+    this.ngModule = null!;
   }
 
   resetTestingModule() {
-    this._compiler = null !;
+    this._compiler = null!;
     this._moduleOverrides = [];
     this._componentOverrides = [];
     this._directiveOverrides = [];
     this._pipeOverrides = [];
 
-    this._moduleRef = null !;
-    this._moduleWithComponentFactories = null !;
+    this._moduleRef = null!;
+    this._moduleWithComponentFactories = null!;
     this._compilerOptions = [];
     this._providers = [];
     this._declarations = [];
@@ -223,9 +227,9 @@ export class TestBed implements Injector {
     this._activeFixtures = [];
   }
 
-  platform: PlatformRef = null !;
+  platform: PlatformRef = null!;
 
-  ngModule: Type<any>|Type<any>[] = null !;
+  ngModule: Type<any>|Type<any>[] = null!;
 
   configureCompiler(config: {providers?: any[], useJit?: boolean}) {
     this._assertNotInstantiated('TestBed.configureCompiler', 'configure the compiler');
@@ -272,7 +276,9 @@ export class TestBed implements Injector {
       } catch (e) {
         if (getComponentType(e)) {
           throw new Error(
-              `This test module uses the component ${stringify(getComponentType(e))} which is using a "templateUrl" or "styleUrls", but they were never compiled. ` +
+              `This test module uses the component ${
+                                                     stringify(getComponentType(e))
+                                                   } which is using a "templateUrl" or "styleUrls", but they were never compiled. ` +
               `Please call "TestBed.compileComponents" before your test.`);
         } else {
           throw e;
@@ -361,7 +367,9 @@ export class TestBed implements Injector {
 
     if (!componentFactory) {
       throw new Error(
-          `Cannot create the component ${stringify(component)} as it was not imported into the testing module!`);
+          `Cannot create the component ${
+                                         stringify(component)
+                                       } as it was not imported into the testing module!`);
     }
 
     const noNgZone = this.get(ComponentFixtureNoNgZone, false);
@@ -383,7 +391,7 @@ export class TestBed implements Injector {
   }
 }
 
-let _testBed: TestBed = null !;
+let _testBed: TestBed = null!;
 
 /**
  * @experimental
@@ -431,7 +439,9 @@ export function inject(tokens: any[], fn: Function): () => any {
     };
   } else {
     // Not using an arrow function to preserve context passed from call site
-    return function() { return testBed.execute(tokens, fn, this); };
+    return function() {
+      return testBed.execute(tokens, fn, this);
+    };
   }
 }
 
@@ -463,7 +473,7 @@ export class InjectSetupWrapper {
  */
 export function withModule(moduleDef: TestModuleMetadata): InjectSetupWrapper;
 export function withModule(moduleDef: TestModuleMetadata, fn: Function): () => any;
-export function withModule(moduleDef: TestModuleMetadata, fn?: Function | null): (() => any)|
+export function withModule(moduleDef: TestModuleMetadata, fn?: Function|null): (() => any)|
     InjectSetupWrapper {
   if (fn) {
     // Not using an arrow function to preserve context passed from call site

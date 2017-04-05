@@ -16,7 +16,9 @@ export function main() {
     describe('DecimalPipe', () => {
       let pipe: DecimalPipe;
 
-      beforeEach(() => { pipe = new DecimalPipe('en-US'); });
+      beforeEach(() => {
+        pipe = new DecimalPipe('en-US');
+      });
 
       describe('transform', () => {
         it('should return correct value for numbers', () => {
@@ -47,7 +49,9 @@ export function main() {
     describe('PercentPipe', () => {
       let pipe: PercentPipe;
 
-      beforeEach(() => { pipe = new PercentPipe('en-US'); });
+      beforeEach(() => {
+        pipe = new PercentPipe('en-US');
+      });
 
       describe('transform', () => {
         it('should return correct value for numbers', () => {
@@ -55,15 +59,18 @@ export function main() {
           expect(normalize(pipe.transform(1.2, '.2'))).toEqual('120.00%');
         });
 
-        it('should not support other objects',
-           () => { expect(() => pipe.transform(new Object())).toThrowError(); });
+        it('should not support other objects', () => {
+          expect(() => pipe.transform(new Object())).toThrowError();
+        });
       });
     });
 
     describe('CurrencyPipe', () => {
       let pipe: CurrencyPipe;
 
-      beforeEach(() => { pipe = new CurrencyPipe('en-US'); });
+      beforeEach(() => {
+        pipe = new CurrencyPipe('en-US');
+      });
 
       describe('transform', () => {
         it('should return correct value for numbers', () => {
@@ -77,29 +84,36 @@ export function main() {
           expect(normalize(pipe.transform(5.1234, 'USD', false, '.0-3'))).toEqual('USD5.123');
         });
 
-        it('should not support other objects',
-           () => { expect(() => pipe.transform(new Object())).toThrowError(); });
+        it('should not support other objects', () => {
+          expect(() => pipe.transform(new Object())).toThrowError();
+        });
       });
     });
 
     describe('isNumeric', () => {
-      it('should return true when passing correct numeric string',
-         () => { expect(isNumeric('2')).toBe(true); });
+      it('should return true when passing correct numeric string', () => {
+        expect(isNumeric('2')).toBe(true);
+      });
 
-      it('should return true when passing correct double string',
-         () => { expect(isNumeric('1.123')).toBe(true); });
+      it('should return true when passing correct double string', () => {
+        expect(isNumeric('1.123')).toBe(true);
+      });
 
-      it('should return true when passing correct negative string',
-         () => { expect(isNumeric('-2')).toBe(true); });
+      it('should return true when passing correct negative string', () => {
+        expect(isNumeric('-2')).toBe(true);
+      });
 
-      it('should return true when passing correct scientific notation string',
-         () => { expect(isNumeric('1e5')).toBe(true); });
+      it('should return true when passing correct scientific notation string', () => {
+        expect(isNumeric('1e5')).toBe(true);
+      });
 
-      it('should return false when passing incorrect numeric',
-         () => { expect(isNumeric('a')).toBe(false); });
+      it('should return false when passing incorrect numeric', () => {
+        expect(isNumeric('a')).toBe(false);
+      });
 
-      it('should return false when passing parseable but non numeric',
-         () => { expect(isNumeric('2a')).toBe(false); });
+      it('should return false when passing parseable but non numeric', () => {
+        expect(isNumeric('2a')).toBe(false);
+      });
     });
   });
 }

@@ -411,8 +411,18 @@ export class StaticSymbolResolver {
       }
       if (moduleMetadata['version'] != SUPPORTED_SCHEMA_VERSION) {
         const errorMessage = moduleMetadata['version'] == 2 ?
-            `Unsupported metadata version ${moduleMetadata['version']} for module ${module}. This module should be compiled with a newer version of ngc` :
-            `Metadata version mismatch for module ${module}, found version ${moduleMetadata['version']}, expected ${SUPPORTED_SCHEMA_VERSION}`;
+            `Unsupported metadata version ${
+                                            moduleMetadata['version']
+                                          } for module ${
+                                                         module
+                                                       }. This module should be compiled with a newer version of ngc` :
+            `Metadata version mismatch for module ${
+                                                    module
+                                                  }, found version ${
+                                                                     moduleMetadata['version']
+                                                                   }, expected ${
+                                                                                 SUPPORTED_SCHEMA_VERSION
+                                                                               }`;
         this.reportError(new Error(errorMessage), null);
       }
       this.metadataCache.set(module, moduleMetadata);
@@ -426,7 +436,7 @@ export class StaticSymbolResolver {
       this.reportError(
           new Error(`Could not resolve module ${module}${containingFile ? ` relative to $ {
             containingFile
-          } `: ''}`),
+          } ` : ''}`),
           null);
       return this.getStaticSymbol(`ERROR:${module}`, symbolName);
     }

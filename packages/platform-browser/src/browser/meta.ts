@@ -37,7 +37,9 @@ export type MetaDefinition = {
 @Injectable()
 export class Meta {
   private _dom: DomAdapter;
-  constructor(@Inject(DOCUMENT) private _doc: any) { this._dom = getDOM(); }
+  constructor(@Inject(DOCUMENT) private _doc: any) {
+    this._dom = getDOM();
+  }
 
   addTag(tag: MetaDefinition, forceCreation: boolean = false): HTMLMetaElement {
     if (!tag) return null;
@@ -75,7 +77,9 @@ export class Meta {
     return this._getOrCreateElement(tag, true);
   }
 
-  removeTag(attrSelector: string): void { this.removeTagElement(this.getTag(attrSelector)); }
+  removeTag(attrSelector: string): void {
+    this.removeTagElement(this.getTag(attrSelector));
+  }
 
   removeTagElement(meta: HTMLMetaElement): void {
     if (meta) {

@@ -41,15 +41,21 @@ export class EmitterVisitorContext {
     this._lines = [new _EmittedLine(_indent)];
   }
 
-  private get _currentLine(): _EmittedLine { return this._lines[this._lines.length - 1]; }
+  private get _currentLine(): _EmittedLine {
+    return this._lines[this._lines.length - 1];
+  }
 
-  isExportedVar(varName: string): boolean { return this._exportedVars.indexOf(varName) !== -1; }
+  isExportedVar(varName: string): boolean {
+    return this._exportedVars.indexOf(varName) !== -1;
+  }
 
   println(from?: {sourceSpan?: ParseSourceSpan}|null, lastPart: string = ''): void {
     this.print(from, lastPart, true);
   }
 
-  lineIsEmpty(): boolean { return this._currentLine.parts.length === 0; }
+  lineIsEmpty(): boolean {
+    return this._currentLine.parts.length === 0;
+  }
 
   print(from: {sourceSpan?: ParseSourceSpan}|null, part: string, newLine: boolean = false) {
     if (part.length > 0) {
@@ -77,9 +83,13 @@ export class EmitterVisitorContext {
     this._currentLine.indent = this._indent;
   }
 
-  pushClass(clazz: o.ClassStmt) { this._classes.push(clazz); }
+  pushClass(clazz: o.ClassStmt) {
+    this._classes.push(clazz);
+  }
 
-  popClass(): o.ClassStmt { return this._classes.pop(); }
+  popClass(): o.ClassStmt {
+    return this._classes.pop();
+  }
 
   get currentClass(): o.ClassStmt {
     return this._classes.length > 0 ? this._classes[this._classes.length - 1] : null;
@@ -215,7 +225,9 @@ export abstract class AbstractEmitterVisitor implements o.StatementVisitor, o.Ex
   }
   visitCommentStmt(stmt: o.CommentStmt, ctx: EmitterVisitorContext): any {
     const lines = stmt.comment.split('\n');
-    lines.forEach((line) => { ctx.println(stmt, `// ${line}`); });
+    lines.forEach((line) => {
+      ctx.println(stmt, `// ${line}`);
+    });
     return null;
   }
   abstract visitDeclareVarStmt(stmt: o.DeclareVarStmt, ctx: EmitterVisitorContext): any;

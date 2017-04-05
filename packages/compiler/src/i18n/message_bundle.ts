@@ -45,7 +45,9 @@ export class MessageBundle {
 
   // Return the message in the internal format
   // The public (serialized) format might be different, see the `write` method.
-  getMessages(): i18n.Message[] { return this._messages; }
+  getMessages(): i18n.Message[] {
+    return this._messages;
+  }
 
   write(serializer: Serializer): string {
     const messages: {[id: string]: i18n.Message} = {};

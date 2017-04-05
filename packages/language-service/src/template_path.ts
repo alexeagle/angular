@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {AttrAst, BoundDirectivePropertyAst, BoundElementPropertyAst, BoundEventAst, BoundTextAst, DirectiveAst, ElementAst, EmbeddedTemplateAst, NgContentAst, ReferenceAst, TemplateAst, TemplateAstVisitor, TextAst, VariableAst, templateVisitAll} from '@angular/compiler';
+import {AttrAst, BoundDirectivePropertyAst, BoundElementPropertyAst, BoundEventAst, BoundTextAst, DirectiveAst, ElementAst, EmbeddedTemplateAst, NgContentAst, ReferenceAst, TemplateAst, TemplateAstVisitor, templateVisitAll, TextAst, VariableAst} from '@angular/compiler';
 
 import {AstPath} from './ast_path';
 import {inSpan, isNarrower, spanOf} from './utils';
@@ -101,7 +101,9 @@ export class TemplateAstChildVisitor implements TemplateAstVisitor {
 class TemplateAstPathBuilder extends TemplateAstChildVisitor {
   private path: TemplateAst[] = [];
 
-  constructor(private position: number, private allowWidening: boolean) { super(); }
+  constructor(private position: number, private allowWidening: boolean) {
+    super();
+  }
 
   visit(ast: TemplateAst, context: any): any {
     let span = spanOf(ast);
@@ -139,7 +141,9 @@ class TemplateAstPathBuilder extends TemplateAstChildVisitor {
 
   visitDirective(ast: DirectiveAst, context: any): any {
     // Ignore the host properties of a directive
-    const result = this.visitChildren(context, visit => { visit(ast.inputs); });
+    const result = this.visitChildren(context, visit => {
+      visit(ast.inputs);
+    });
     // We never care about the diretive itself, just its inputs.
     if (this.path[this.path.length - 1] == ast) {
       this.path.pop();
@@ -147,5 +151,7 @@ class TemplateAstPathBuilder extends TemplateAstChildVisitor {
     return result;
   }
 
-  getPath() { return this.path; }
+  getPath() {
+    return this.path;
+  }
 }

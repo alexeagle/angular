@@ -16,14 +16,18 @@ export function main() {
   function asyncValidator(expected: string, timeouts = {}) {
     return (c: AbstractControl) => {
       let resolve: (result: any) => void;
-      const promise = new Promise(res => { resolve = res; });
+      const promise = new Promise(res => {
+        resolve = res;
+      });
       const t = (timeouts as any)[c.value] != null ? (timeouts as any)[c.value] : 0;
       const res = c.value != expected ? {'async': true} : null;
 
       if (t == 0) {
         resolve(res);
       } else {
-        setTimeout(() => { resolve(res); }, t);
+        setTimeout(() => {
+          resolve(res);
+        }, t);
       }
 
       return promise;
@@ -188,10 +192,18 @@ export function main() {
         });
 
         it('should not fire an event when explicitly specified', fakeAsync(() => {
-             form.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             a.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c2.valueChanges.subscribe((value) => { throw 'Should not happen'; });
+             form.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             a.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c2.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
 
              a.setValue(['one', 'two'], {emitEvent: false});
              tick();
@@ -303,10 +315,18 @@ export function main() {
         });
 
         it('should not fire an event when explicitly specified', fakeAsync(() => {
-             form.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             a.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c2.valueChanges.subscribe((value) => { throw 'Should not happen'; });
+             form.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             a.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c2.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
 
              a.patchValue(['one', 'two'], {emitEvent: false});
              tick();
@@ -514,11 +534,21 @@ export function main() {
         });
 
         it('should not fire an event when explicitly specified', fakeAsync(() => {
-             form.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             a.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c2.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c3.valueChanges.subscribe((value) => { throw 'Should not happen'; });
+             form.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             a.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c2.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c3.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
 
              a.reset([], {emitEvent: false});
              tick();
@@ -567,7 +597,9 @@ export function main() {
         a = new FormArray([c]);
       });
 
-      it('should be false after creating a control', () => { expect(a.dirty).toEqual(false); });
+      it('should be false after creating a control', () => {
+        expect(a.dirty).toEqual(false);
+      });
 
       it('should be true after changing the value of the control', () => {
         c.markAsDirty();
@@ -585,7 +617,9 @@ export function main() {
         a = new FormArray([c]);
       });
 
-      it('should be false after creating a control', () => { expect(a.touched).toEqual(false); });
+      it('should be false after creating a control', () => {
+        expect(a.touched).toEqual(false);
+      });
 
       it('should be true after child control is marked as touched', () => {
         c.markAsTouched();
@@ -651,7 +685,11 @@ export function main() {
            let controlCallbackIsCalled = false;
 
 
-           c1.valueChanges.subscribe({next: (value: any) => { controlCallbackIsCalled = true; }});
+           c1.valueChanges.subscribe({
+             next: (value: any) => {
+               controlCallbackIsCalled = true;
+             }
+           });
 
            a.valueChanges.subscribe({
              next: (value: any) => {

@@ -7,11 +7,9 @@
  */
 
 import {Location} from '@angular/common';
-import {Compiler, Injector, NgModuleFactoryLoader, NgModuleRef, Type, isDevMode} from '@angular/core';
+import {Compiler, Injector, isDevMode, NgModuleFactoryLoader, NgModuleRef, Type} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
-import {Subscription} from 'rxjs/Subscription';
 import {from} from 'rxjs/observable/from';
 import {of } from 'rxjs/observable/of';
 import {concatMap} from 'rxjs/operator/concatMap';
@@ -20,6 +18,8 @@ import {first} from 'rxjs/operator/first';
 import {map} from 'rxjs/operator/map';
 import {mergeMap} from 'rxjs/operator/mergeMap';
 import {reduce} from 'rxjs/operator/reduce';
+import {Subject} from 'rxjs/Subject';
+import {Subscription} from 'rxjs/Subscription';
 
 import {applyRedirects} from './apply_redirects';
 import {InternalRoute, QueryParamsHandling, ResolveData, Route, Routes, RunGuardsAndResolvers, validateConfig} from './config';
@@ -31,10 +31,10 @@ import {recognize} from './recognize';
 import {DetachedRouteHandle, DetachedRouteHandleInternal, RouteReuseStrategy} from './route_reuse_strategy';
 import {LoadedRouterConfig, RouterConfigLoader} from './router_config_loader';
 import {RouterOutletMap} from './router_outlet_map';
-import {ActivatedRoute, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot, advanceActivatedRoute, createEmptyState, equalParamsAndUrlSegments, inheritedParamsDataResolve} from './router_state';
-import {PRIMARY_OUTLET, Params, isNavigationCancelingError} from './shared';
+import {ActivatedRoute, ActivatedRouteSnapshot, advanceActivatedRoute, createEmptyState, equalParamsAndUrlSegments, inheritedParamsDataResolve, RouterState, RouterStateSnapshot} from './router_state';
+import {isNavigationCancelingError, Params, PRIMARY_OUTLET} from './shared';
 import {DefaultUrlHandlingStrategy, UrlHandlingStrategy} from './url_handling_strategy';
-import {UrlSerializer, UrlTree, containsTree, createEmptyUrlTree} from './url_tree';
+import {containsTree, createEmptyUrlTree, UrlSerializer, UrlTree} from './url_tree';
 import {andObservables, forEach, shallowEqual, waitForMap, wrapIntoObservable} from './utils/collection';
 import {TreeNode} from './utils/tree';
 
@@ -47,108 +47,108 @@ declare let Zone: any;
  */
 export interface NavigationExtras {
   /**
-  * Enables relative navigation from the current ActivatedRoute.
-  *
-  * Configuration:
-  *
-  * ```
-  * [{
-  *   path: 'parent',
-  *   component: ParentComponent,
-  *   children: [{
-  *     path: 'list',
-  *     component: ListComponent
-  *   },{
-  *     path: 'child',
-  *     component: ChildComponent
-  *   }]
-  * }]
-  * ```
-  *
-  * Navigate to list route from child route:
-  *
-  * ```
-  *  @Component({...})
-  *  class ChildComponent {
-  *    constructor(private router: Router, private route: ActivatedRoute) {}
-  *
-  *    go() {
-  *      this.router.navigate(['../list'], { relativeTo: this.route });
-  *    }
-  *  }
-  * ```
-  */
+   * Enables relative navigation from the current ActivatedRoute.
+   *
+   * Configuration:
+   *
+   * ```
+   * [{
+   *   path: 'parent',
+   *   component: ParentComponent,
+   *   children: [{
+   *     path: 'list',
+   *     component: ListComponent
+   *   },{
+   *     path: 'child',
+   *     component: ChildComponent
+   *   }]
+   * }]
+   * ```
+   *
+   * Navigate to list route from child route:
+   *
+   * ```
+   *  @Component({...})
+   *  class ChildComponent {
+   *    constructor(private router: Router, private route: ActivatedRoute) {}
+   *
+   *    go() {
+   *      this.router.navigate(['../list'], { relativeTo: this.route });
+   *    }
+   *  }
+   * ```
+   */
   relativeTo?: ActivatedRoute;
 
   /**
-  * Sets query parameters to the URL.
-  *
-  * ```
-  * // Navigate to /results?page=1
-  * this.router.navigate(['/results'], { queryParams: { page: 1 } });
-  * ```
-  */
+   * Sets query parameters to the URL.
+   *
+   * ```
+   * // Navigate to /results?page=1
+   * this.router.navigate(['/results'], { queryParams: { page: 1 } });
+   * ```
+   */
   queryParams?: Params;
 
   /**
-  * Sets the hash fragment for the URL.
-  *
-  * ```
-  * // Navigate to /results#top
-  * this.router.navigate(['/results'], { fragment: 'top' });
-  * ```
-  */
+   * Sets the hash fragment for the URL.
+   *
+   * ```
+   * // Navigate to /results#top
+   * this.router.navigate(['/results'], { fragment: 'top' });
+   * ```
+   */
   fragment?: string;
 
   /**
-  * Preserves the query parameters for the next navigation.
-  *
-  * deprecated, use `queryParamsHandling` instead
-  *
-  * ```
-  * // Preserve query params from /results?page=1 to /view?page=1
-  * this.router.navigate(['/view'], { preserveQueryParams: true });
-  * ```
-  *
-  * @deprecated since v4
-  */
+   * Preserves the query parameters for the next navigation.
+   *
+   * deprecated, use `queryParamsHandling` instead
+   *
+   * ```
+   * // Preserve query params from /results?page=1 to /view?page=1
+   * this.router.navigate(['/view'], { preserveQueryParams: true });
+   * ```
+   *
+   * @deprecated since v4
+   */
   preserveQueryParams?: boolean;
 
   /**
-  *  config strategy to handle the query parameters for the next navigation.
-  *
-  * ```
-  * // from /results?page=1 to /view?page=1&page=2
-  * this.router.navigate(['/view'], { queryParams: { page: 2 },  queryParamsHandling: "merge" });
-  * ```
-  */
+   *  config strategy to handle the query parameters for the next navigation.
+   *
+   * ```
+   * // from /results?page=1 to /view?page=1&page=2
+   * this.router.navigate(['/view'], { queryParams: { page: 2 },  queryParamsHandling: "merge" });
+   * ```
+   */
   queryParamsHandling?: QueryParamsHandling;
   /**
-  * Preserves the fragment for the next navigation
-  *
-  * ```
-  * // Preserve fragment from /results#top to /view#top
-  * this.router.navigate(['/view'], { preserveFragment: true });
-  * ```
-  */
+   * Preserves the fragment for the next navigation
+   *
+   * ```
+   * // Preserve fragment from /results#top to /view#top
+   * this.router.navigate(['/view'], { preserveFragment: true });
+   * ```
+   */
   preserveFragment?: boolean;
   /**
-  * Navigates without pushing a new state into history.
-  *
-  * ```
-  * // Navigate silently to /view
-  * this.router.navigate(['/view'], { skipLocationChange: true });
-  * ```
-  */
+   * Navigates without pushing a new state into history.
+   *
+   * ```
+   * // Navigate silently to /view
+   * this.router.navigate(['/view'], { skipLocationChange: true });
+   * ```
+   */
   skipLocationChange?: boolean;
   /**
-  * Navigates while replacing the current state in history.
-  *
-  * ```
-  * // Navigate to /view
-  * this.router.navigate(['/view'], { replaceUrl: true });
-  * ```
-  */
+   * Navigates while replacing the current state in history.
+   *
+   * ```
+   * // Navigate to /view
+   * this.router.navigate(['/view'], { replaceUrl: true });
+   * ```
+   */
   replaceUrl?: boolean;
 }
 
@@ -168,7 +168,7 @@ function defaultErrorHandler(error: any): any {
   throw error;
 }
 
-type NavigationSource = 'imperative' | 'popstate' | 'hashchange';
+type NavigationSource = 'imperative'|'popstate'|'hashchange';
 
 type NavigationParams = {
   id: number,
@@ -196,10 +196,16 @@ function defaultRouterHook(snapshot: RouterStateSnapshot): Observable<void> {
  * Does not detach any subtrees. Reuses routes as long as their route config is the same.
  */
 export class DefaultRouteReuseStrategy implements RouteReuseStrategy {
-  shouldDetach(route: ActivatedRouteSnapshot): boolean { return false; }
+  shouldDetach(route: ActivatedRouteSnapshot): boolean {
+    return false;
+  }
   store(route: ActivatedRouteSnapshot, detachedTree: DetachedRouteHandle): void {}
-  shouldAttach(route: ActivatedRouteSnapshot): boolean { return false; }
-  retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle { return null; }
+  shouldAttach(route: ActivatedRouteSnapshot): boolean {
+    return false;
+  }
+  retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
+    return null;
+  }
   shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
     return future.routeConfig === curr.routeConfig;
   }
@@ -311,22 +317,32 @@ export class Router {
       this.locationSubscription = <any>this.location.subscribe(Zone.current.wrap((change: any) => {
         const rawUrlTree = this.urlSerializer.parse(change['url']);
         const source: NavigationSource = change['type'] === 'popstate' ? 'popstate' : 'hashchange';
-        setTimeout(() => { this.scheduleNavigation(rawUrlTree, source, {replaceUrl: true}); }, 0);
+        setTimeout(() => {
+          this.scheduleNavigation(rawUrlTree, source, {replaceUrl: true});
+        }, 0);
       }));
     }
   }
 
   /** The current route state */
-  get routerState(): RouterState { return this.currentRouterState; }
+  get routerState(): RouterState {
+    return this.currentRouterState;
+  }
 
   /** The current url */
-  get url(): string { return this.serializeUrl(this.currentUrlTree); }
+  get url(): string {
+    return this.serializeUrl(this.currentUrlTree);
+  }
 
   /** An observable of router events */
-  get events(): Observable<Event> { return this.routerEvents; }
+  get events(): Observable<Event> {
+    return this.routerEvents;
+  }
 
   /** @internal */
-  triggerEvent(e: Event) { this.routerEvents.next(e); }
+  triggerEvent(e: Event) {
+    this.routerEvents.next(e);
+  }
 
   /**
    * Resets the configuration used for navigation and generating links.
@@ -348,7 +364,9 @@ export class Router {
   }
 
   /** @docsNotRequired */
-  ngOnDestroy() { this.dispose(); }
+  ngOnDestroy() {
+    this.dispose();
+  }
 
   /** Disposes of the router */
   dispose(): void {
@@ -399,9 +417,14 @@ export class Router {
    * router.createUrlTree(['../../team/44/user/22'], {relativeTo: route});
    * ```
    */
-  createUrlTree(
-      commands: any[], {relativeTo, queryParams, fragment, preserveQueryParams, queryParamsHandling,
-                        preserveFragment}: NavigationExtras = {}): UrlTree {
+  createUrlTree(commands: any[], {
+    relativeTo,
+    queryParams,
+    fragment,
+    preserveQueryParams,
+    queryParamsHandling,
+    preserveFragment
+  }: NavigationExtras = {}): UrlTree {
     if (isDevMode() && preserveQueryParams && <any>console && <any>console.warn) {
       console.warn('preserveQueryParams is deprecated, use queryParamsHandling instead.');
     }
@@ -484,10 +507,14 @@ export class Router {
   }
 
   /** Serializes a {@link UrlTree} into a string */
-  serializeUrl(url: UrlTree): string { return this.urlSerializer.serialize(url); }
+  serializeUrl(url: UrlTree): string {
+    return this.urlSerializer.serialize(url);
+  }
 
   /** Parses a string into a {@link UrlTree} */
-  parseUrl(url: string): UrlTree { return this.urlSerializer.parse(url); }
+  parseUrl(url: string): UrlTree {
+    return this.urlSerializer.parse(url);
+  }
 
   /** Returns whether the url is activated */
   isActive(url: string|UrlTree, exact: boolean): boolean {
@@ -764,7 +791,9 @@ export class Router {
 
 class CanActivate {
   constructor(public path: ActivatedRouteSnapshot[]) {}
-  get route(): ActivatedRouteSnapshot { return this.path[this.path.length - 1]; }
+  get route(): ActivatedRouteSnapshot {
+    return this.path[this.path.length - 1];
+  }
 }
 
 class CanDeactivate {
@@ -813,8 +842,9 @@ export class PreActivation {
       delete prevChildren[c.value.outlet];
     });
     forEach(
-        prevChildren, (v: TreeNode<ActivatedRouteSnapshot>, k: string) =>
-                          this.deactiveRouteAndItsChildren(v, outletMap._outlets[k]));
+        prevChildren,
+        (v: TreeNode<ActivatedRouteSnapshot>, k: string) =>
+            this.deactiveRouteAndItsChildren(v, outletMap._outlets[k]));
   }
 
   private traverseRoutes(
@@ -913,8 +943,9 @@ export class PreActivation {
   private runCanActivateChecks(): Observable<boolean> {
     const checks$ = from(this.canActivateChecks);
     const runningChecks$ = mergeMap.call(
-        checks$, (check: CanActivate) => andObservables(from(
-                     [this.runCanActivateChild(check.path), this.runCanActivate(check.route)])));
+        checks$,
+        (check: CanActivate) => andObservables(
+            from([this.runCanActivateChild(check.path), this.runCanActivate(check.route)])));
     return every.call(runningChecks$, (result: boolean) => result === true);
   }
 
@@ -1034,8 +1065,9 @@ class ActivateRoutes {
       futureNode: TreeNode<ActivatedRoute>, currNode: TreeNode<ActivatedRoute>,
       outletMap: RouterOutletMap): void {
     const prevChildren: {[key: string]: any} = nodeChildrenAsMap(currNode);
-    futureNode.children.forEach(
-        c => { this.activateRoutes(c, prevChildren[c.value.outlet], outletMap); });
+    futureNode.children.forEach(c => {
+      this.activateRoutes(c, prevChildren[c.value.outlet], outletMap);
+    });
   }
 
   deactivateRoutes(

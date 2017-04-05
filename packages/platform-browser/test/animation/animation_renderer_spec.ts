@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {AnimationPlayer, AnimationTriggerMetadata, animate, state, style, transition, trigger} from '@angular/animations';
+import {animate, AnimationPlayer, AnimationTriggerMetadata, state, style, transition, trigger} from '@angular/animations';
 import {ɵAnimationEngine} from '@angular/animations/browser';
 import {Component, Injectable, RendererFactory2, RendererType2, ViewChild} from '@angular/core';
 import {TestBed} from '@angular/core/testing';
@@ -90,7 +90,9 @@ export function main() {
         const renderer = makeRenderer();
         const engine = TestBed.get(ɵAnimationEngine) as MockAnimationEngine;
 
-        const cb = (event: any): boolean => { return true; };
+        const cb = (event: any): boolean => {
+          return true;
+        };
 
         renderer.listen(element, 'event', cb);
         expect(engine.captures['listen']).toBeFalsy();
@@ -104,7 +106,9 @@ export function main() {
            const renderer = makeRenderer();
            const engine = TestBed.get(ɵAnimationEngine) as MockAnimationEngine;
 
-           const cb = (event: any): boolean => { return true; };
+           const cb = (event: any): boolean => {
+             return true;
+           };
 
            renderer.listen('body', '@event', cb);
            expect(engine.captures['listen'].pop()[0]).toBe(document.body);
@@ -134,7 +138,9 @@ export function main() {
         class Cmp {
           exp: any;
           event: any;
-          onStart(event: any) { this.event = event; }
+          onStart(event: any) {
+            this.event = event;
+          }
         }
 
         TestBed.configureTestingModule({
@@ -279,11 +285,17 @@ class MockAnimationEngine extends ɵAnimationEngine {
     data.push(args);
   }
 
-  registerTrigger(trigger: AnimationTriggerMetadata) { this.triggers.push(trigger); }
+  registerTrigger(trigger: AnimationTriggerMetadata) {
+    this.triggers.push(trigger);
+  }
 
-  onInsert(element: any, domFn: () => any): void { this._capture('onInsert', [element]); }
+  onInsert(element: any, domFn: () => any): void {
+    this._capture('onInsert', [element]);
+  }
 
-  onRemove(element: any, domFn: () => any): void { this._capture('onRemove', [element]); }
+  onRemove(element: any, domFn: () => any): void {
+    this._capture('onRemove', [element]);
+  }
 
   setProperty(element: any, property: string, value: any): void {
     this._capture('setProperty', [element, property, value]);

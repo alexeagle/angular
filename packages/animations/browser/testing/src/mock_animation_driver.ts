@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {AUTO_STYLE, AnimationPlayer, NoopAnimationPlayer, ɵStyleData} from '@angular/animations';
+import {AnimationPlayer, AUTO_STYLE, NoopAnimationPlayer, ɵStyleData} from '@angular/animations';
 
 import {AnimationDriver} from '../../src/render/animation_driver';
 
@@ -41,13 +41,17 @@ export class MockAnimationPlayer extends NoopAnimationPlayer {
     previousPlayers.forEach(player => {
       if (player instanceof MockAnimationPlayer) {
         const styles = player._captureStyles();
-        Object.keys(styles).forEach(prop => { this.previousStyles[prop] = styles[prop]; });
+        Object.keys(styles).forEach(prop => {
+          this.previousStyles[prop] = styles[prop];
+        });
       }
     });
   }
 
   /* @internal */
-  onInit(fn: () => any) { this._onInitFns.push(fn); }
+  onInit(fn: () => any) {
+    this._onInitFns.push(fn);
+  }
 
   /* @internal */
   init() {

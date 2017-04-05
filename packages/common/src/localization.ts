@@ -49,7 +49,9 @@ export function getPluralCategory(
  */
 @Injectable()
 export class NgLocaleLocalization extends NgLocalization {
-  constructor(@Inject(LOCALE_ID) protected locale: string) { super(); }
+  constructor(@Inject(LOCALE_ID) protected locale: string) {
+    super();
+  }
 
   getPluralCategory(value: any): string {
     const plural = getPluralCase(this.locale, value);
@@ -89,7 +91,7 @@ export enum Plural {
  *
  * @experimental
  */
-export function getPluralCase(locale: string, nLike: number | string): Plural {
+export function getPluralCase(locale: string, nLike: number|string): Plural {
   // TODO(vicb): lazy compute
   if (typeof nLike === 'string') {
     nLike = parseInt(<string>nLike, 10);

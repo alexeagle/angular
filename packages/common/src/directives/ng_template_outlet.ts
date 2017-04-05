@@ -46,7 +46,9 @@ export class NgTemplateOutlet implements OnChanges {
    * @deprecated v4.0.0 - Renamed to ngTemplateOutletContext.
    */
   @Input()
-  set ngOutletContext(context: Object) { this.ngTemplateOutletContext = context; }
+  set ngOutletContext(context: Object) {
+    this.ngTemplateOutletContext = context;
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this._viewRef) {

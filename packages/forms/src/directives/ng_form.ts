@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directive, EventEmitter, Inject, Optional, Self, forwardRef} from '@angular/core';
+import {Directive, EventEmitter, forwardRef, Inject, Optional, Self} from '@angular/core';
 
 import {AbstractControl, FormControl, FormGroup} from '../model';
 import {NG_ASYNC_VALIDATORS, NG_VALIDATORS} from '../validators';
@@ -77,15 +77,25 @@ export class NgForm extends ControlContainer implements Form {
         new FormGroup({}, composeValidators(validators), composeAsyncValidators(asyncValidators));
   }
 
-  get submitted(): boolean { return this._submitted; }
+  get submitted(): boolean {
+    return this._submitted;
+  }
 
-  get formDirective(): Form { return this; }
+  get formDirective(): Form {
+    return this;
+  }
 
-  get control(): FormGroup { return this.form; }
+  get control(): FormGroup {
+    return this.form;
+  }
 
-  get path(): string[] { return []; }
+  get path(): string[] {
+    return [];
+  }
 
-  get controls(): {[key: string]: AbstractControl} { return this.form.controls; }
+  get controls(): {[key: string]: AbstractControl} {
+    return this.form.controls;
+  }
 
   addControl(dir: NgModel): void {
     resolvedPromise.then(() => {
@@ -96,7 +106,9 @@ export class NgForm extends ControlContainer implements Form {
     });
   }
 
-  getControl(dir: NgModel): FormControl { return <FormControl>this.form.get(dir.path); }
+  getControl(dir: NgModel): FormControl {
+    return <FormControl>this.form.get(dir.path);
+  }
 
   removeControl(dir: NgModel): void {
     resolvedPromise.then(() => {
@@ -126,7 +138,9 @@ export class NgForm extends ControlContainer implements Form {
     });
   }
 
-  getFormGroup(dir: NgModelGroup): FormGroup { return <FormGroup>this.form.get(dir.path); }
+  getFormGroup(dir: NgModelGroup): FormGroup {
+    return <FormGroup>this.form.get(dir.path);
+  }
 
   updateModel(dir: NgControl, value: any): void {
     resolvedPromise.then(() => {
@@ -135,7 +149,9 @@ export class NgForm extends ControlContainer implements Form {
     });
   }
 
-  setValue(value: {[key: string]: any}): void { this.control.setValue(value); }
+  setValue(value: {[key: string]: any}): void {
+    this.control.setValue(value);
+  }
 
   onSubmit($event: Event): boolean {
     this._submitted = true;
@@ -143,7 +159,9 @@ export class NgForm extends ControlContainer implements Form {
     return false;
   }
 
-  onReset(): void { this.resetForm(); }
+  onReset(): void {
+    this.resetForm();
+  }
 
   resetForm(value: any = undefined): void {
     this.form.reset(value);

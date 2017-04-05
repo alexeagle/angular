@@ -20,7 +20,9 @@ describe('StaticSymbolResolver', () => {
   let symbolResolver: StaticSymbolResolver;
   let symbolCache: StaticSymbolCache;
 
-  beforeEach(() => { symbolCache = new StaticSymbolCache(); });
+  beforeEach(() => {
+    symbolCache = new StaticSymbolCache();
+  });
 
   function init(
       testData: {[key: string]: any} = DEFAULT_TEST_DATA, summaries: Summary<StaticSymbol>[] = [],
@@ -368,10 +370,9 @@ describe('StaticSymbolResolver', () => {
 });
 
 export class MockSummaryResolver implements SummaryResolver<StaticSymbol> {
-  constructor(private summaries: Summary<StaticSymbol>[] = [], private importAs: {
-    symbol: StaticSymbol,
-    importAs: StaticSymbol
-  }[] = []) {}
+  constructor(
+      private summaries: Summary<StaticSymbol>[] = [],
+      private importAs: {symbol: StaticSymbol, importAs: StaticSymbol}[] = []) {}
 
   resolveSummary(reference: StaticSymbol): Summary<StaticSymbol> {
     return this.summaries.find(summary => summary.symbol === reference);
@@ -385,8 +386,12 @@ export class MockSummaryResolver implements SummaryResolver<StaticSymbol> {
     return entry ? entry.importAs : undefined;
   }
 
-  isLibraryFile(filePath: string): boolean { return filePath.endsWith('.d.ts'); }
-  getLibraryFileName(filePath: string): string { return filePath.replace(/(\.d)?\.ts$/, '.d.ts'); }
+  isLibraryFile(filePath: string): boolean {
+    return filePath.endsWith('.d.ts');
+  }
+  getLibraryFileName(filePath: string): string {
+    return filePath.replace(/(\.d)?\.ts$/, '.d.ts');
+  }
 }
 
 export class MockStaticSymbolResolverHost implements StaticSymbolResolverHost {
@@ -398,7 +403,9 @@ export class MockStaticSymbolResolverHost implements StaticSymbolResolverHost {
 
   // In tests, assume that symbols are not re-exported
   moduleNameToFileName(modulePath: string, containingFile?: string): string {
-    function splitPath(path: string): string[] { return path.split(/\/|\\/g); }
+    function splitPath(path: string): string[] {
+      return path.split(/\/|\\/g);
+    }
 
     function resolvePath(pathParts: string[]): string {
       const result: string[] = [];
@@ -439,7 +446,9 @@ export class MockStaticSymbolResolverHost implements StaticSymbolResolverHost {
     return '/tmp/' + modulePath + '.d.ts';
   }
 
-  getMetadataFor(moduleId: string): any { return this._getMetadataFor(moduleId); }
+  getMetadataFor(moduleId: string): any {
+    return this._getMetadataFor(moduleId);
+  }
 
   private _getMetadataFor(filePath: string): any {
     if (this.data[filePath] && filePath.match(TS_EXT)) {
@@ -449,8 +458,9 @@ export class MockStaticSymbolResolverHost implements StaticSymbolResolverHost {
             filePath, this.data[filePath], ts.ScriptTarget.ES5, /* setParentNodes */ true);
         const diagnostics: ts.Diagnostic[] = (<any>sf).parseDiagnostics;
         if (diagnostics && diagnostics.length) {
-          const errors = diagnostics.map(d => `(${d.start}-${d.start+d.length}): ${d.messageText}`)
-                             .join('\n   ');
+          const errors =
+              diagnostics.map(d => `(${d.start}-${d.start + d.length}): ${d.messageText}`)
+                  .join('\n   ');
           throw Error(`Error encountered during parse of file ${filePath}\n${errors}`);
         }
         return [this.collector.getMetadata(sf)];

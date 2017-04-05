@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Attribute, Component, ContentChild, ContentChildren, Directive, Host, HostBinding, HostListener, Inject, Injectable, Input, NgModule, Optional, Output, Pipe, Self, SkipSelf, ViewChild, ViewChildren, animate, group, keyframes, sequence, state, style, transition, trigger, ɵReflectorReader} from '@angular/core';
+import {animate, Attribute, Component, ContentChild, ContentChildren, Directive, group, Host, HostBinding, HostListener, Inject, Injectable, Input, keyframes, NgModule, Optional, Output, Pipe, Self, sequence, SkipSelf, state, style, transition, trigger, ViewChild, ViewChildren, ɵReflectorReader} from '@angular/core';
 
 import {CompileSummaryKind} from '../compile_metadata';
 import {SummaryResolver} from '../summary_resolver';
@@ -135,8 +135,18 @@ export class StaticReflector implements ɵReflectorReader {
           if (!typeHasRequiredAnnotation) {
             this.reportError(
                 syntaxError(
-                    `Class ${type.name} in ${type.filePath} extends from a ${CompileSummaryKind[summary.type.summaryKind]} in another compilation unit without duplicating the decorator. ` +
-                    `Please add a ${requiredAnnotationTypes.map(type => this.annotationNames.get(type)).join(' or ')} decorator to the class.`),
+                    `Class ${
+                             type.name
+                           } in ${
+                                  type.filePath
+                                } extends from a ${
+                                                   CompileSummaryKind[summary.type.summaryKind]
+                                                 } in another compilation unit without duplicating the decorator. ` +
+                    `Please add a ${
+                                    requiredAnnotationTypes
+                                        .map(type => this.annotationNames.get(type))
+                                        .join(' or ')
+                                  } decorator to the class.`),
                 type);
           }
         }
@@ -589,7 +599,9 @@ export class StaticReflector implements ɵReflectorReader {
                 let message = produceErrorMessage(expression);
                 if (expression['line']) {
                   message =
-                      `${message} (position ${expression['line']+1}:${expression['character']+1} in the original .ts file)`;
+                      `${message} (position ${expression['line'] + 1}:${
+                                                                        expression['character'] + 1
+                                                                      } in the original .ts file)`;
                   self.reportError(
                       positionalError(
                           message, context.filePath, expression['line'], expression['character']),
@@ -648,7 +660,9 @@ function expandedMessage(error: any): string {
   switch (error.message) {
     case 'Reference to non-exported class':
       if (error.context && error.context.className) {
-        return `Reference to a non-exported class ${error.context.className}. Consider exporting the class`;
+        return `Reference to a non-exported class ${
+                                                    error.context.className
+                                                  }. Consider exporting the class`;
       }
       break;
     case 'Variable not initialized':
@@ -667,7 +681,9 @@ function expandedMessage(error: any): string {
           'unction calls are not supported. Consider replacing the function or lambda with a reference to an exported function';
     case 'Reference to a local symbol':
       if (error.context && error.context.name) {
-        return `Reference to a local (non-exported) symbol '${error.context.name}'. Consider exporting the symbol`;
+        return `Reference to a local (non-exported) symbol '${
+                                                              error.context.name
+                                                            }'. Consider exporting the symbol`;
       }
       break;
   }
@@ -724,7 +740,9 @@ abstract class BindingScope {
 }
 
 class PopulatedScope extends BindingScope {
-  constructor(private bindings: Map<string, any>) { super(); }
+  constructor(private bindings: Map<string, any>) {
+    super();
+  }
 
   resolve(name: string): any {
     return this.bindings.has(name) ? this.bindings.get(name) : BindingScope.missing;

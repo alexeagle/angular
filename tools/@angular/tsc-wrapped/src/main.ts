@@ -11,14 +11,14 @@ import * as path from 'path';
 import * as tsickle from 'tsickle';
 import * as ts from 'typescript';
 
-import {check, tsc} from './tsc';
-
-import NgOptions from './options';
-import {MetadataWriterHost, SyntheticIndexHost} from './compiler_host';
+import {CompilerHostAdapter, MetadataBundler} from './bundler';
 import {CliOptions} from './cli_options';
-import {VinylFile, isVinylFile} from './vinyl_file';
-import {MetadataBundler, CompilerHostAdapter} from './bundler';
+import {MetadataWriterHost, SyntheticIndexHost} from './compiler_host';
 import {privateEntriesToIndex} from './index_writer';
+import NgOptions from './options';
+import {check, tsc} from './tsc';
+import {isVinylFile, VinylFile} from './vinyl_file';
+
 export {UserError} from './tsc';
 
 const DTS = /\.d\.ts$/;
@@ -29,7 +29,7 @@ export type CodegenExtension =
         Promise<void>;
 
 export function main(
-    project: string | VinylFile, cliOptions: CliOptions, codegen?: CodegenExtension,
+    project: string|VinylFile, cliOptions: CliOptions, codegen?: CodegenExtension,
     options?: ts.CompilerOptions): Promise<any> {
   try {
     let projectDir = project;
@@ -158,8 +158,9 @@ export function main(
       tsc.emit(programWithCodegen);
 
       if (diagnostics) {
-        (ts as any).performance.forEachMeasure(
-            (name: string, duration: number) => { console.error(`TS ${name}: ${duration}ms`); });
+        (ts as any).performance.forEachMeasure((name: string, duration: number) => {
+          console.error(`TS ${name}: ${duration}ms`);
+        });
       }
     });
   } catch (e) {

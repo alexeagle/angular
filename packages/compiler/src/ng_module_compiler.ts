@@ -9,7 +9,7 @@
 import {ɵLifecycleHooks} from '@angular/core';
 
 import {CompileDiDependencyMetadata, CompileIdentifierMetadata, CompileNgModuleMetadata, CompileProviderMetadata, CompileTokenMetadata, identifierModuleUrl, identifierName, tokenName, tokenReference} from './compile_metadata';
-import {Identifiers, createIdentifier, resolveIdentifier} from './identifiers';
+import {createIdentifier, Identifiers, resolveIdentifier} from './identifiers';
 import {CompilerInjectable} from './injectable';
 import {ClassBuilder, createClassStmt} from './output/class_builder';
 import * as o from './output/output_ast';
@@ -123,8 +123,9 @@ class _InjectorBuilder implements ClassBuilder {
     });
     const methods = [
       new o.ClassMethod(
-          'createInternal', [], this._createStmts.concat(new o.ReturnStatement(
-                                    this._instances.get(this._ngModuleMeta.type.reference))),
+          'createInternal', [],
+          this._createStmts.concat(
+              new o.ReturnStatement(this._instances.get(this._ngModuleMeta.type.reference))),
           o.importType(this._ngModuleMeta.type)),
       new o.ClassMethod(
           'getInternal',

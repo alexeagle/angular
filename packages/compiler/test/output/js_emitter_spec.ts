@@ -29,8 +29,12 @@ class SimpleJsImportGenerator implements ImportResolver {
   fileNameToModuleName(importedUrlStr: string, moduleUrlStr: string): string {
     return importedUrlStr;
   }
-  getImportAs(symbol: StaticSymbol): StaticSymbol { return null; }
-  getTypeArity(symbol: StaticSymbol): number /*|null*/ { return null; }
+  getImportAs(symbol: StaticSymbol): StaticSymbol {
+    return null;
+  }
+  getTypeArity(symbol: StaticSymbol): number /*|null*/ {
+    return null;
+  }
 }
 
 export function main() {
@@ -215,13 +219,16 @@ export function main() {
       ].join('\n'));
     });
 
-    it('should support support throwing',
-       () => { expect(emitStmt(new o.ThrowStmt(someVar))).toEqual('throw someVar;'); });
+    it('should support support throwing', () => {
+      expect(emitStmt(new o.ThrowStmt(someVar))).toEqual('throw someVar;');
+    });
 
     describe('classes', () => {
       let callSomeMethod: o.Statement;
 
-      beforeEach(() => { callSomeMethod = o.THIS_EXPR.callMethod('someMethod', []).toStmt(); });
+      beforeEach(() => {
+        callSomeMethod = o.THIS_EXPR.callMethod('someMethod', []).toStmt();
+      });
 
       it('should support declaring classes', () => {
         expect(emitStmt(new o.ClassStmt('SomeClass', null, [], [], null, [

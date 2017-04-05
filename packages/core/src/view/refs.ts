@@ -20,7 +20,7 @@ import {Renderer as RendererV1, Renderer2} from '../render/api';
 import {Type} from '../type';
 import {VERSION} from '../version';
 
-import {DepFlags, ElementData, NodeDef, NodeFlags, Services, TemplateData, ViewContainerData, ViewData, ViewDefinitionFactory, ViewState, asElementData, asProviderData, asTextData} from './types';
+import {asElementData, asProviderData, asTextData, DepFlags, ElementData, NodeDef, NodeFlags, Services, TemplateData, ViewContainerData, ViewData, ViewDefinitionFactory, ViewState} from './types';
 import {markParentViewsForCheck, resolveViewDefinition, rootRenderNodes, splitNamespace, tokenKey, viewParentEl} from './util';
 import {attachEmbeddedView, detachEmbeddedView, moveEmbeddedView, renderDetachView} from './view_attach';
 
@@ -85,7 +85,7 @@ class ComponentFactory_ extends ComponentFactory<any> {
       throw new Error('ngModule should be provided');
     }
     const viewDef = resolveViewDefinition(this.viewDefFactory);
-    const componentNodeIndex = viewDef.nodes[0].element !.componentProvider !.index;
+    const componentNodeIndex = viewDef.nodes[0].element!.componentProvider!.index;
     const view = Services.createRootView(
         injector, projectableNodes || [], rootSelectorOrNode, viewDef, ngModule, EMPTY_CONTEXT);
     const component = asProviderData(view, componentNodeIndex).instance;
@@ -104,14 +104,28 @@ class ComponentRef_ extends ComponentRef<any> {
   get location(): ElementRef {
     return new ElementRef(asElementData(this._view, this._elDef.index).renderElement);
   }
-  get injector(): Injector { return new Injector_(this._view, this._elDef); }
-  get instance(): any { return this._component; };
-  get hostView(): ViewRef { return this._viewRef; };
-  get changeDetectorRef(): ChangeDetectorRef { return this._viewRef; };
-  get componentType(): Type<any> { return <any>this._component.constructor; }
+  get injector(): Injector {
+    return new Injector_(this._view, this._elDef);
+  }
+  get instance(): any {
+    return this._component;
+  };
+  get hostView(): ViewRef {
+    return this._viewRef;
+  };
+  get changeDetectorRef(): ChangeDetectorRef {
+    return this._viewRef;
+  };
+  get componentType(): Type<any> {
+    return <any>this._component.constructor;
+  }
 
-  destroy(): void { this._viewRef.destroy(); }
-  onDestroy(callback: Function): void { this._viewRef.onDestroy(callback); }
+  destroy(): void {
+    this._viewRef.destroy();
+  }
+  onDestroy(callback: Function): void {
+    this._viewRef.onDestroy(callback);
+  }
 }
 
 export function createViewContainerData(
@@ -126,16 +140,20 @@ class ViewContainerRef_ implements ViewContainerData {
   _embeddedViews: ViewData[] = [];
   constructor(private _view: ViewData, private _elDef: NodeDef, private _data: ElementData) {}
 
-  get element(): ElementRef { return new ElementRef(this._data.renderElement); }
+  get element(): ElementRef {
+    return new ElementRef(this._data.renderElement);
+  }
 
-  get injector(): Injector { return new Injector_(this._view, this._elDef); }
+  get injector(): Injector {
+    return new Injector_(this._view, this._elDef);
+  }
 
   get parentInjector(): Injector {
     let view = this._view;
     let elDef = this._elDef.parent;
     while (!elDef && view) {
       elDef = viewParentEl(view);
-      view = view.parent !;
+      view = view.parent!;
     }
 
     return view ? new Injector_(view, elDef) : new Injector_(this._view, null);
@@ -144,7 +162,7 @@ class ViewContainerRef_ implements ViewContainerData {
   clear(): void {
     const len = this._embeddedViews.length;
     for (let i = len - 1; i >= 0; i--) {
-      const view = detachEmbeddedView(this._data, i) !;
+      const view = detachEmbeddedView(this._data, i)!;
       Services.destroyView(view);
     }
   }
@@ -159,7 +177,9 @@ class ViewContainerRef_ implements ViewContainerData {
     return null;
   }
 
-  get length(): number { return this._embeddedViews.length; };
+  get length(): number {
+    return this._embeddedViews.length;
+  };
 
   createEmbeddedView<C>(templateRef: TemplateRef<C>, context?: C, index?: number):
       EmbeddedViewRef<C> {
@@ -228,18 +248,34 @@ export class ViewRef_ implements EmbeddedViewRef<any>, InternalViewRef {
     this._appRef = null;
   }
 
-  get rootNodes(): any[] { return rootRenderNodes(this._view); }
+  get rootNodes(): any[] {
+    return rootRenderNodes(this._view);
+  }
 
-  get context() { return this._view.context; }
+  get context() {
+    return this._view.context;
+  }
 
-  get destroyed(): boolean { return (this._view.state & ViewState.Destroyed) !== 0; }
+  get destroyed(): boolean {
+    return (this._view.state & ViewState.Destroyed) !== 0;
+  }
 
-  markForCheck(): void { markParentViewsForCheck(this._view); }
-  detach(): void { this._view.state &= ~ViewState.ChecksEnabled; }
-  detectChanges(): void { Services.checkAndUpdateView(this._view); }
-  checkNoChanges(): void { Services.checkNoChangesView(this._view); }
+  markForCheck(): void {
+    markParentViewsForCheck(this._view);
+  }
+  detach(): void {
+    this._view.state &= ~ViewState.ChecksEnabled;
+  }
+  detectChanges(): void {
+    Services.checkAndUpdateView(this._view);
+  }
+  checkNoChanges(): void {
+    Services.checkNoChangesView(this._view);
+  }
 
-  reattach(): void { this._view.state |= ViewState.ChecksEnabled; }
+  reattach(): void {
+    this._view.state |= ViewState.ChecksEnabled;
+  }
   onDestroy(callback: Function) {
     if (!this._view.disposables) {
       this._view.disposables = [];
@@ -287,7 +323,9 @@ class TemplateRef_ extends TemplateRef<any> implements TemplateData {
    */
   _projectedViews: ViewData[];
 
-  constructor(private _parentView: ViewData, private _def: NodeDef) { super(); }
+  constructor(private _parentView: ViewData, private _def: NodeDef) {
+    super();
+  }
 
   createEmbeddedView(context: any): EmbeddedViewRef<any> {
     return new ViewRef_(Services.createEmbeddedView(this._parentView, this._def, context));
@@ -317,7 +355,7 @@ export function nodeValue(view: ViewData, index: number): any {
   const def = view.def.nodes[index];
   if (def.flags & NodeFlags.TypeElement) {
     const elData = asElementData(view, def.index);
-    return def.element !.template ? elData.template : elData.renderElement;
+    return def.element!.template ? elData.template : elData.renderElement;
   } else if (def.flags & NodeFlags.TypeText) {
     return asTextData(view, def.index).renderText;
   } else if (def.flags & (NodeFlags.CatProvider | NodeFlags.TypePipe)) {
@@ -345,7 +383,9 @@ class RendererAdapter implements RendererV1 {
     return el;
   }
 
-  createViewRoot(hostElement: Element): Element|DocumentFragment { return hostElement; }
+  createViewRoot(hostElement: Element): Element|DocumentFragment {
+    return hostElement;
+  }
 
   createTemplateAnchor(parentElement: Element|DocumentFragment): Comment {
     const comment = this.delegate.createComment('');
@@ -387,7 +427,7 @@ class RendererAdapter implements RendererV1 {
 
   destroyView(hostElement: Element|DocumentFragment, viewAllNodes: Node[]) {
     for (let i = 0; i < viewAllNodes.length; i++) {
-      this.delegate.destroyNode !(viewAllNodes[i]);
+      this.delegate.destroyNode!(viewAllNodes[i]);
     }
   }
 
@@ -436,7 +476,11 @@ class RendererAdapter implements RendererV1 {
     (renderElement as any)[methodName].apply(renderElement, args);
   }
 
-  setText(renderNode: Text, text: string): void { this.delegate.setValue(renderNode, text); }
+  setText(renderNode: Text, text: string): void {
+    this.delegate.setValue(renderNode, text);
+  }
 
-  animate(): any { throw new Error('Renderer.animate is no longer supported!'); }
+  animate(): any {
+    throw new Error('Renderer.animate is no longer supported!');
+  }
 }

@@ -7,7 +7,7 @@
  */
 
 import {StaticReflector, StaticSymbol, StaticSymbolCache, StaticSymbolResolver, StaticSymbolResolverHost} from '@angular/compiler';
-import {HostListener, Inject, animate, group, keyframes, sequence, state, style, transition, trigger} from '@angular/core';
+import {animate, group, HostListener, Inject, keyframes, sequence, state, style, transition, trigger} from '@angular/core';
 import {CollectorOptions} from '@angular/tsc-wrapped';
 
 import {MockStaticSymbolResolverHost, MockSummaryResolver} from './static_symbol_resolver_spec';

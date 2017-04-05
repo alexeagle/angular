@@ -31,14 +31,18 @@ export interface Node {
 export class Text implements Node {
   constructor(public value: string, public sourceSpan: ParseSourceSpan) {}
 
-  visit(visitor: Visitor, context?: any): any { return visitor.visitText(this, context); }
+  visit(visitor: Visitor, context?: any): any {
+    return visitor.visitText(this, context);
+  }
 }
 
 // TODO(vicb): do we really need this node (vs an array) ?
 export class Container implements Node {
   constructor(public children: Node[], public sourceSpan: ParseSourceSpan) {}
 
-  visit(visitor: Visitor, context?: any): any { return visitor.visitContainer(this, context); }
+  visit(visitor: Visitor, context?: any): any {
+    return visitor.visitContainer(this, context);
+  }
 }
 
 export class Icu implements Node {
@@ -47,7 +51,9 @@ export class Icu implements Node {
       public expression: string, public type: string, public cases: {[k: string]: Node},
       public sourceSpan: ParseSourceSpan) {}
 
-  visit(visitor: Visitor, context?: any): any { return visitor.visitIcu(this, context); }
+  visit(visitor: Visitor, context?: any): any {
+    return visitor.visitIcu(this, context);
+  }
 }
 
 export class TagPlaceholder implements Node {
@@ -56,19 +62,25 @@ export class TagPlaceholder implements Node {
       public closeName: string, public children: Node[], public isVoid: boolean,
       public sourceSpan: ParseSourceSpan) {}
 
-  visit(visitor: Visitor, context?: any): any { return visitor.visitTagPlaceholder(this, context); }
+  visit(visitor: Visitor, context?: any): any {
+    return visitor.visitTagPlaceholder(this, context);
+  }
 }
 
 export class Placeholder implements Node {
   constructor(public value: string, public name: string, public sourceSpan: ParseSourceSpan) {}
 
-  visit(visitor: Visitor, context?: any): any { return visitor.visitPlaceholder(this, context); }
+  visit(visitor: Visitor, context?: any): any {
+    return visitor.visitPlaceholder(this, context);
+  }
 }
 
 export class IcuPlaceholder implements Node {
   constructor(public value: Icu, public name: string, public sourceSpan: ParseSourceSpan) {}
 
-  visit(visitor: Visitor, context?: any): any { return visitor.visitIcuPlaceholder(this, context); }
+  visit(visitor: Visitor, context?: any): any {
+    return visitor.visitIcuPlaceholder(this, context);
+  }
 }
 
 export interface Visitor {
@@ -82,7 +94,9 @@ export interface Visitor {
 
 // Clone the AST
 export class CloneVisitor implements Visitor {
-  visitText(text: Text, context?: any): Text { return new Text(text.value, text.sourceSpan); }
+  visitText(text: Text, context?: any): Text {
+    return new Text(text.value, text.sourceSpan);
+  }
 
   visitContainer(container: Container, context?: any): Container {
     const children = container.children.map(n => n.visit(this, context));
@@ -121,7 +135,9 @@ export class RecurseVisitor implements Visitor {
   }
 
   visitIcu(icu: Icu, context?: any): any {
-    Object.keys(icu.cases).forEach(k => { icu.cases[k].visit(this); });
+    Object.keys(icu.cases).forEach(k => {
+      icu.cases[k].visit(this);
+    });
   }
 
   visitTagPlaceholder(ph: TagPlaceholder, context?: any): any {

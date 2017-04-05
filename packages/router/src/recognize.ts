@@ -8,13 +8,13 @@
 
 import {Type} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
 import {of } from 'rxjs/observable/of';
+import {Observer} from 'rxjs/Observer';
 
 import {Data, InternalRoute, ResolveData, Route, Routes} from './config';
-import {ActivatedRouteSnapshot, RouterStateSnapshot, inheritedParamsDataResolve} from './router_state';
-import {PRIMARY_OUTLET, defaultUrlMatcher} from './shared';
-import {UrlSegment, UrlSegmentGroup, UrlTree, mapChildrenIntoArray} from './url_tree';
+import {ActivatedRouteSnapshot, inheritedParamsDataResolve, RouterStateSnapshot} from './router_state';
+import {defaultUrlMatcher, PRIMARY_OUTLET} from './shared';
+import {mapChildrenIntoArray, UrlSegment, UrlSegmentGroup, UrlTree} from './url_tree';
 import {forEach, last} from './utils/collection';
 import {TreeNode} from './utils/tree';
 
@@ -180,7 +180,9 @@ function match(segmentGroup: UrlSegmentGroup, route: Route, segments: UrlSegment
   if (!res) throw new NoMatch();
 
   const posParams: {[n: string]: string} = {};
-  forEach(res.posParams, (v: UrlSegment, k: string) => { posParams[k] = v.path; });
+  forEach(res.posParams, (v: UrlSegment, k: string) => {
+    posParams[k] = v.path;
+  });
   const parameters = {...posParams, ...res.consumed[res.consumed.length - 1].parameters};
 
   return {consumedSegments: res.consumed, lastChild: res.consumed.length, parameters};
@@ -223,9 +225,10 @@ function split(
   if (slicedSegments.length > 0 &&
       containsEmptyPathMatchesWithNamedOutlets(segmentGroup, slicedSegments, config)) {
     const s = new UrlSegmentGroup(
-        consumedSegments, createChildrenForEmptyPaths(
-                              segmentGroup, consumedSegments, config,
-                              new UrlSegmentGroup(slicedSegments, segmentGroup.children)));
+        consumedSegments,
+        createChildrenForEmptyPaths(
+            segmentGroup, consumedSegments, config,
+            new UrlSegmentGroup(slicedSegments, segmentGroup.children)));
     s._sourceSegment = segmentGroup;
     s._segmentIndexShift = consumedSegments.length;
     return {segmentGroup: s, slicedSegments: []};
@@ -234,8 +237,9 @@ function split(
   if (slicedSegments.length === 0 &&
       containsEmptyPathMatches(segmentGroup, slicedSegments, config)) {
     const s = new UrlSegmentGroup(
-        segmentGroup.segments, addEmptyPathsToChildrenIfNeeded(
-                                   segmentGroup, slicedSegments, config, segmentGroup.children));
+        segmentGroup.segments,
+        addEmptyPathsToChildrenIfNeeded(
+            segmentGroup, slicedSegments, config, segmentGroup.children));
     s._sourceSegment = segmentGroup;
     s._segmentIndexShift = consumedSegments.length;
     return {segmentGroup: s, slicedSegments};

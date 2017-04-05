@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ɵGetterFn, ɵMethodFn, ɵReflectionCapabilities, ɵSetterFn, ɵreflector} from '@angular/core';
+import {ɵGetterFn, ɵMethodFn, ɵReflectionCapabilities, ɵreflector, ɵSetterFn} from '@angular/core';
+
 import {StaticReflector} from './static_reflector';
 import {StaticSymbol} from './static_symbol';
 
@@ -19,8 +20,12 @@ export class StaticAndDynamicReflectionCapabilities {
 
   constructor(private staticDelegate: StaticReflector) {}
 
-  isReflectionEnabled(): boolean { return true; }
-  factory(type: any): Function { return this.dynamicDelegate.factory(type); }
+  isReflectionEnabled(): boolean {
+    return true;
+  }
+  factory(type: any): Function {
+    return this.dynamicDelegate.factory(type);
+  }
 
   hasLifecycleHook(type: any, lcProperty: string): boolean {
     return isStaticType(type) ? this.staticDelegate.hasLifecycleHook(type, lcProperty) :
@@ -38,11 +43,21 @@ export class StaticAndDynamicReflectionCapabilities {
     return isStaticType(typeOrFunc) ? this.staticDelegate.propMetadata(typeOrFunc) :
                                       this.dynamicDelegate.propMetadata(typeOrFunc);
   }
-  getter(name: string): ɵGetterFn { return this.dynamicDelegate.getter(name); }
-  setter(name: string): ɵSetterFn { return this.dynamicDelegate.setter(name); }
-  method(name: string): ɵMethodFn { return this.dynamicDelegate.method(name); }
-  importUri(type: any): string { return this.staticDelegate.importUri(type); }
-  resourceUri(type: any): string { return this.staticDelegate.resourceUri(type); }
+  getter(name: string): ɵGetterFn {
+    return this.dynamicDelegate.getter(name);
+  }
+  setter(name: string): ɵSetterFn {
+    return this.dynamicDelegate.setter(name);
+  }
+  method(name: string): ɵMethodFn {
+    return this.dynamicDelegate.method(name);
+  }
+  importUri(type: any): string {
+    return this.staticDelegate.importUri(type);
+  }
+  resourceUri(type: any): string {
+    return this.staticDelegate.resourceUri(type);
+  }
   resolveIdentifier(name: string, moduleUrl: string, members: string[], runtime: any) {
     return this.staticDelegate.resolveIdentifier(name, moduleUrl, members);
   }

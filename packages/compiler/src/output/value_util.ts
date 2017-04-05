@@ -32,7 +32,9 @@ class _ValueOutputAstTransformer implements ValueTransformer {
     return new o.LiteralMapExpr(entries, type);
   }
 
-  visitPrimitive(value: any, type: o.Type): o.Expression { return o.literal(value, type); }
+  visitPrimitive(value: any, type: o.Type): o.Expression {
+    return o.literal(value, type);
+  }
 
   visitOther(value: any, type: o.Type): o.Expression {
     if (value instanceof o.Expression) {

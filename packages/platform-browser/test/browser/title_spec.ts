@@ -18,10 +18,13 @@ export function main() {
     const initialTitle = getDOM().getTitle(doc);
     const titleService = new Title(doc);
 
-    afterEach(() => { getDOM().setTitle(doc, initialTitle); });
+    afterEach(() => {
+      getDOM().setTitle(doc, initialTitle);
+    });
 
-    it('should allow reading initial title',
-       () => { expect(titleService.getTitle()).toEqual(initialTitle); });
+    it('should allow reading initial title', () => {
+      expect(titleService.getTitle()).toEqual(initialTitle);
+    });
 
     it('should set a title on the injected document', () => {
       titleService.setTitle('test title');
@@ -49,7 +52,8 @@ export function main() {
       });
     });
 
-    it('should inject Title service when using BrowserModule',
-       () => { expect(TestBed.get(DependsOnTitle).title).toBeAnInstanceOf(Title); });
+    it('should inject Title service when using BrowserModule', () => {
+      expect(TestBed.get(DependsOnTitle).title).toBeAnInstanceOf(Title);
+    });
   });
 }

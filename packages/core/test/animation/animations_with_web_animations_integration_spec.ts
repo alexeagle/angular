@@ -7,7 +7,7 @@
  */
 import {animate, style, transition, trigger} from '@angular/animations';
 import {AnimationDriver, ɵAnimationEngine} from '@angular/animations/browser';
-import {ɵDomAnimationEngine, ɵWebAnimationsDriver, ɵWebAnimationsPlayer, ɵsupportsWebAnimations} from '@angular/animations/browser'
+import {ɵDomAnimationEngine, ɵsupportsWebAnimations, ɵWebAnimationsDriver, ɵWebAnimationsPlayer} from '@angular/animations/browser'
 import {Component, ViewChild} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -83,8 +83,7 @@ export function main() {
   });
 }
 
-function assertStyleBetween(
-    element: any, prop: string, start: string | number, end: string | number) {
+function assertStyleBetween(element: any, prop: string, start: string|number, end: string|number) {
   const style = (window.getComputedStyle(element) as any)[prop] as string;
   if (typeof start == 'number' && typeof end == 'number') {
     const value = parseFloat(style);

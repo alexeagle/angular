@@ -1,6 +1,6 @@
 {
   "name": "angular-srcs",
-  "version": "4.0.0-rc.5",
+  "version": "4.1.0-beta.0",
   "dependencies": {
     "@types/angularjs": {
       "version": "1.5.13-alpha",
@@ -1944,7 +1944,7 @@
       "dev": true
     },
     "clang-format": {
-      "version": "1.0.41",
+      "version": "1.0.49",
       "dev": true,
       "dependencies": {
         "async": {
@@ -1952,7 +1952,7 @@
           "dev": true
         },
         "glob": {
-          "version": "7.0.3",
+          "version": "7.1.1",
           "dev": true
         }
       }
@@ -6231,7 +6231,7 @@
       "dev": true
     },
     "typescript": {
-      "version": "2.1.5",
+      "version": "2.2.1",
       "dev": true
     },
     "ua-parser-js": {

@@ -53,6 +53,8 @@ export class Tab {
 export class ContentChildrenComp {
   shouldShow = false;
 
-  show() { this.shouldShow = true; }
+  show() {
+    this.shouldShow = true;
+  }
 }
 // #enddocregion

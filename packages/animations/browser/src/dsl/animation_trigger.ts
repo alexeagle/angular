@@ -24,8 +24,8 @@ export function buildTrigger(name: string, definitions: AnimationMetadata[]): An
 }
 
 /**
-* @experimental Animation support is experimental.
-*/
+ * @experimental Animation support is experimental.
+ */
 export class AnimationTrigger {
   public transitionFactories: AnimationTransitionFactory[] = [];
   public states: {[stateName: string]: ɵStyleData} = {};
@@ -33,8 +33,9 @@ export class AnimationTrigger {
   constructor(
       public name: string, states: {[stateName: string]: ɵStyleData},
       private _transitionAsts: AnimationTransitionMetadata[]) {
-    Object.keys(states).forEach(
-        stateName => { this.states[stateName] = copyStyles(states[stateName], false); });
+    Object.keys(states).forEach(stateName => {
+      this.states[stateName] = copyStyles(states[stateName], false);
+    });
 
     const errors: string[] = [];
     _transitionAsts.forEach(ast => {
@@ -51,7 +52,9 @@ export class AnimationTrigger {
     if (errors.length) {
       const LINE_START = '\n - ';
       throw new Error(
-          `Animation parsing for the ${name} trigger have failed:${LINE_START}${errors.join(LINE_START)}`);
+          `Animation parsing for the ${name} trigger have failed:${
+                                                                   LINE_START
+                                                                 }${errors.join(LINE_START)}`);
     }
   }
 
@@ -87,7 +90,9 @@ class AnimationTriggerVisitor implements AnimationDslVisitor {
 
   visitState(ast: AnimationStateMetadata, context: any): any {
     const styles = normalizeStyles(ast.styles.styles);
-    ast.name.split(/\s*,\s*/).forEach(name => { context.states[name] = styles; });
+    ast.name.split(/\s*,\s*/).forEach(name => {
+      context.states[name] = styles;
+    });
   }
 
   visitTransition(ast: AnimationTransitionMetadata, context: any): any {

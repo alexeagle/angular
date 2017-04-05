@@ -46,7 +46,9 @@ export class AotSummaryResolver implements SummaryResolver<StaticSymbol> {
     return !this.host.isSourceFile(stripNgFactory(filePath));
   }
 
-  getLibraryFileName(filePath: string) { return this.host.getOutputFileName(filePath); }
+  getLibraryFileName(filePath: string) {
+    return this.host.getOutputFileName(filePath);
+  }
 
   resolveSummary(staticSymbol: StaticSymbol): Summary<StaticSymbol> {
     staticSymbol.assertNoMembers();

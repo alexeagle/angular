@@ -9,7 +9,7 @@ import {AnimateTimings, ɵStyleData} from '@angular/animations';
 
 export const ONE_SECOND = 1000;
 
-export function parseTimeExpression(exp: string | number, errors: string[]): AnimateTimings {
+export function parseTimeExpression(exp: string|number, errors: string[]): AnimateTimings {
   const regex = /^([\.\d]+)(m?s)(?:\s+([\.\d]+)(m?s))?(?:\s+([-a-z]+(?:\(.+?\))?))?$/i;
   let duration: number;
   let delay: number = 0;
@@ -49,7 +49,7 @@ export function parseTimeExpression(exp: string | number, errors: string[]): Ani
   return {duration, delay, easing};
 }
 
-export function normalizeStyles(styles: ɵStyleData | ɵStyleData[]): ɵStyleData {
+export function normalizeStyles(styles: ɵStyleData|ɵStyleData[]): ɵStyleData {
   const normalizedStyles: ɵStyleData = {};
   if (Array.isArray(styles)) {
     styles.forEach(data => copyStyles(data, false, normalizedStyles));

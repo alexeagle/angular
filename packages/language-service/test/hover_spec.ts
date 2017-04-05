@@ -100,5 +100,7 @@ describe('hover', () => {
     }
   }
 
-  function toText(hover: Hover): string { return hover.text.map(h => h.text).join(''); }
+  function toText(hover: Hover): string {
+    return hover.text.map(h => h.text).join('');
+  }
 });

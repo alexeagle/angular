@@ -117,12 +117,16 @@ export class Location {
   /**
    * Navigates forward in the platform's history.
    */
-  forward(): void { this._platformStrategy.forward(); }
+  forward(): void {
+    this._platformStrategy.forward();
+  }
 
   /**
    * Navigates back in the platform's history.
    */
-  back(): void { this._platformStrategy.back(); }
+  back(): void {
+    this._platformStrategy.back();
+  }
 
   /**
    * Subscribe to the platform's `popState` events.
@@ -170,7 +174,9 @@ export class Location {
   /**
    * If url has a trailing slash, remove it, otherwise return url as is.
    */
-  public static stripTrailingSlash(url: string): string { return url.replace(/\/$/, ''); }
+  public static stripTrailingSlash(url: string): string {
+    return url.replace(/\/$/, '');
+  }
 }
 
 function _stripBaseHref(baseHref: string, url: string): string {

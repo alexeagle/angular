@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Attribute, ChangeDetectionStrategy, Component, ComponentFactory, Directive, Host, Inject, Injectable, InjectionToken, ModuleWithProviders, Optional, Provider, Query, RendererType2, SchemaMetadata, Self, SkipSelf, Type, resolveForwardRef, ɵConsole as Console, ɵERROR_COMPONENT_TYPE, ɵLIFECYCLE_HOOKS_VALUES, ɵReflectorReader, ɵccf as createComponentFactory, ɵreflector, ɵstringify as stringify} from '@angular/core';
+import {Attribute, ChangeDetectionStrategy, Component, ComponentFactory, Directive, Host, Inject, Injectable, InjectionToken, ModuleWithProviders, Optional, Provider, Query, RendererType2, resolveForwardRef, SchemaMetadata, Self, SkipSelf, Type, ɵccf as createComponentFactory, ɵConsole as Console, ɵERROR_COMPONENT_TYPE, ɵLIFECYCLE_HOOKS_VALUES, ɵreflector, ɵReflectorReader, ɵstringify as stringify} from '@angular/core';
 
 import {StaticSymbol, StaticSymbolCache} from './aot/static_symbol';
 import {ngfactoryFilePath} from './aot/util';
@@ -23,7 +23,7 @@ import {PipeResolver} from './pipe_resolver';
 import {ElementSchemaRegistry} from './schema/element_schema_registry';
 import {SummaryResolver} from './summary_resolver';
 import {getUrlScheme} from './url_resolver';
-import {MODULE_SUFFIX, ValueTransformer, syntaxError, visitValue} from './util';
+import {MODULE_SUFFIX, syntaxError, ValueTransformer, visitValue} from './util';
 
 export type ErrorCollector = (error: any, type?: any) => void;
 export const ERROR_COLLECTOR_TOKEN = new InjectionToken('ErrorCollector');
@@ -354,7 +354,10 @@ export class CompileMetadataResolver {
     if (!dirMeta) {
       this._reportError(
           syntaxError(
-              `Illegal state: getDirectiveMetadata can only be called after loadNgModuleDirectiveAndPipeMetadata for a module that declares it. Directive ${stringifyType(directiveType)}.`),
+              `Illegal state: getDirectiveMetadata can only be called after loadNgModuleDirectiveAndPipeMetadata for a module that declares it. Directive ${
+                                                                                                                                                            stringifyType(
+                                                                                                                                                                directiveType)
+                                                                                                                                                          }.`),
           directiveType);
     }
     return dirMeta;
@@ -372,9 +375,13 @@ export class CompileMetadataResolver {
     return dirSummary;
   }
 
-  isDirective(type: any) { return this._directiveResolver.isDirective(type); }
+  isDirective(type: any) {
+    return this._directiveResolver.isDirective(type);
+  }
 
-  isPipe(type: any) { return this._pipeResolver.isPipe(type); }
+  isPipe(type: any) {
+    return this._pipeResolver.isPipe(type);
+  }
 
   getNgModuleSummary(moduleType: any): cpl.CompileNgModuleSummary {
     let moduleSummary =
@@ -450,7 +457,13 @@ export class CompileMetadataResolver {
           if (!importedModuleSummary) {
             this._reportError(
                 syntaxError(
-                    `Unexpected ${this._getTypeDescriptor(importedType)} '${stringifyType(importedType)}' imported by the module '${stringifyType(moduleType)}'. Please add a @NgModule annotation.`),
+                    `Unexpected ${
+                                  this._getTypeDescriptor(importedType)
+                                } '${
+                                     stringifyType(importedType)
+                                   }' imported by the module '${
+                                                                stringifyType(moduleType)
+                                                              }'. Please add a @NgModule annotation.`),
                 moduleType);
             return;
           }
@@ -458,7 +471,9 @@ export class CompileMetadataResolver {
         } else {
           this._reportError(
               syntaxError(
-                  `Unexpected value '${stringifyType(importedType)}' imported by the module '${stringifyType(moduleType)}'`),
+                  `Unexpected value '${
+                                       stringifyType(importedType)
+                                     }' imported by the module '${stringifyType(moduleType)}'`),
               moduleType);
           return;
         }
@@ -470,7 +485,9 @@ export class CompileMetadataResolver {
         if (!isValidType(exportedType)) {
           this._reportError(
               syntaxError(
-                  `Unexpected value '${stringifyType(exportedType)}' exported by the module '${stringifyType(moduleType)}'`),
+                  `Unexpected value '${
+                                       stringifyType(exportedType)
+                                     }' exported by the module '${stringifyType(moduleType)}'`),
               moduleType);
           return;
         }
@@ -491,7 +508,9 @@ export class CompileMetadataResolver {
         if (!isValidType(declaredType)) {
           this._reportError(
               syntaxError(
-                  `Unexpected value '${stringifyType(declaredType)}' declared by the module '${stringifyType(moduleType)}'`),
+                  `Unexpected value '${
+                                       stringifyType(declaredType)
+                                     }' declared by the module '${stringifyType(moduleType)}'`),
               moduleType);
           return;
         }
@@ -508,7 +527,13 @@ export class CompileMetadataResolver {
         } else {
           this._reportError(
               syntaxError(
-                  `Unexpected ${this._getTypeDescriptor(declaredType)} '${stringifyType(declaredType)}' declared by the module '${stringifyType(moduleType)}'. Please add a @Pipe/@Directive/@Component annotation.`),
+                  `Unexpected ${
+                                this._getTypeDescriptor(declaredType)
+                              } '${
+                                   stringifyType(declaredType)
+                                 }' declared by the module '${
+                                                              stringifyType(moduleType)
+                                                            }'. Please add a @Pipe/@Directive/@Component annotation.`),
               moduleType);
           return;
         }
@@ -526,8 +551,13 @@ export class CompileMetadataResolver {
         transitiveModule.addExportedPipe(exportedId);
       } else {
         this._reportError(
-            syntaxError(
-                `Can't export ${this._getTypeDescriptor(exportedId.reference)} ${stringifyType(exportedId.reference)} from ${stringifyType(moduleType)} as it was neither declared nor imported!`),
+            syntaxError(`Can't export ${
+                                        this._getTypeDescriptor(exportedId.reference)
+                                      } ${
+                                          stringifyType(exportedId.reference)
+                                        } from ${
+                                                 stringifyType(moduleType)
+                                               } as it was neither declared nor imported!`),
             moduleType);
         return;
       }
@@ -551,7 +581,12 @@ export class CompileMetadataResolver {
         if (!isValidType(type)) {
           this._reportError(
               syntaxError(
-                  `Unexpected value '${stringifyType(type)}' used in the bootstrap property of module '${stringifyType(moduleType)}'`),
+                  `Unexpected value '${
+                                       stringifyType(type)
+                                     }' used in the bootstrap property of module '${
+                                                                                    stringifyType(
+                                                                                        moduleType)
+                                                                                  }'`),
               moduleType);
           return;
         }
@@ -624,9 +659,30 @@ export class CompileMetadataResolver {
     if (oldModule && oldModule !== moduleType) {
       this._reportError(
           syntaxError(
-              `Type ${stringifyType(type)} is part of the declarations of 2 modules: ${stringifyType(oldModule)} and ${stringifyType(moduleType)}! ` +
-              `Please consider moving ${stringifyType(type)} to a higher module that imports ${stringifyType(oldModule)} and ${stringifyType(moduleType)}. ` +
-              `You can also create a new NgModule that exports and includes ${stringifyType(type)} then import that NgModule in ${stringifyType(oldModule)} and ${stringifyType(moduleType)}.`),
+              `Type ${
+                      stringifyType(type)
+                    } is part of the declarations of 2 modules: ${
+                                                                  stringifyType(oldModule)
+                                                                } and ${
+                                                                        stringifyType(moduleType)
+                                                                      }! ` +
+              `Please consider moving ${
+                                        stringifyType(type)
+                                      } to a higher module that imports ${
+                                                                          stringifyType(oldModule)
+                                                                        } and ${
+                                                                                stringifyType(
+                                                                                    moduleType)
+                                                                              }. ` +
+              `You can also create a new NgModule that exports and includes ${
+                                                                              stringifyType(type)
+                                                                            } then import that NgModule in ${
+                                                                                                             stringifyType(
+                                                                                                                 oldModule)
+                                                                                                           } and ${
+                                                                                                                   stringifyType(
+                                                                                                                       moduleType)
+                                                                                                                 }.`),
           moduleType);
       return;
     }
@@ -725,7 +781,10 @@ export class CompileMetadataResolver {
     if (!pipeMeta) {
       this._reportError(
           syntaxError(
-              `Illegal state: getPipeMetadata can only be called after loadNgModuleDirectiveAndPipeMetadata for a module that declares it. Pipe ${stringifyType(pipeType)}.`),
+              `Illegal state: getPipeMetadata can only be called after loadNgModuleDirectiveAndPipeMetadata for a module that declares it. Pipe ${
+                                                                                                                                                  stringifyType(
+                                                                                                                                                      pipeType)
+                                                                                                                                                }.`),
           pipeType);
     }
     return pipeMeta;
@@ -880,7 +939,11 @@ export class CompileMetadataResolver {
                   .join(', ');
           this._reportError(
               syntaxError(
-                  `Invalid ${debugInfo ? debugInfo : 'provider'} - only instances of Provider and Type are allowed, got: [${providersInfo}]`),
+                  `Invalid ${
+                             debugInfo ? debugInfo : 'provider'
+                           } - only instances of Provider and Type are allowed, got: [${
+                                                                                        providersInfo
+                                                                                      }]`),
               type);
           return;
         }
@@ -896,8 +959,10 @@ export class CompileMetadataResolver {
 
   private _validateProvider(provider: any): void {
     if (provider.hasOwnProperty('useClass') && provider.useClass == null) {
-      this._reportError(syntaxError(
-          `Invalid provider for ${stringifyType(provider.provide)}. useClass cannot be ${provider.useClass}.
+      this._reportError(
+          syntaxError(`Invalid provider for ${
+                                              stringifyType(provider.provide)
+                                            }. useClass cannot be ${provider.useClass}.
            Usually it happens when:
            1. There's a circular dependency (might be caused by using index.ts (barrel) files).
            2. Class was used before it was declared. Use forwardRef in this case.`));
@@ -992,7 +1057,9 @@ export class CompileMetadataResolver {
     return res;
   }
 
-  private _queryVarBindings(selector: any): string[] { return selector.split(/\s*,\s*/); }
+  private _queryVarBindings(selector: any): string[] {
+    return selector.split(/\s*,\s*/);
+  }
 
   private _getQueryMetadata(q: Query, propertyName: string, typeOrFunc: Type<any>|Function):
       cpl.CompileQueryMetadata {
@@ -1004,7 +1071,11 @@ export class CompileMetadataResolver {
       if (!q.selector) {
         this._reportError(
             syntaxError(
-                `Can't construct a query for the property "${propertyName}" of "${stringifyType(typeOrFunc)}" since the query selector wasn't defined.`),
+                `Can't construct a query for the property "${
+                                                             propertyName
+                                                           }" of "${
+                                                                    stringifyType(typeOrFunc)
+                                                                  }" since the query selector wasn't defined.`),
             typeOrFunc);
         selectors = [];
       } else {
@@ -1015,7 +1086,8 @@ export class CompileMetadataResolver {
     return {
       selectors,
       first: q.first,
-      descendants: q.descendants, propertyName,
+      descendants: q.descendants,
+      propertyName,
       read: q.read ? this._getTokenMetadata(q.read) : null
     };
   }
@@ -1074,7 +1146,9 @@ export function componentModuleUrl(
     return scheme ? moduleId : `package:${moduleId}${MODULE_SUFFIX}`;
   } else if (moduleId !== null && moduleId !== void 0) {
     throw syntaxError(
-        `moduleId should be a string in "${stringifyType(type)}". See https://goo.gl/wIDDiL for more information.\n` +
+        `moduleId should be a string in "${
+                                           stringifyType(type)
+                                         }". See https://goo.gl/wIDDiL for more information.\n` +
         `If you're using Webpack you should inline the template and the styles, see https://goo.gl/X2J8zc.`);
   }
 

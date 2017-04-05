@@ -25,7 +25,7 @@ interface IControllerInstance extends IBindingDestination {
   $postLink?: () => void;
 }
 
-type LifecycleHook = '$doCheck' | '$onChanges' | '$onDestroy' | '$onInit' | '$postLink';
+type LifecycleHook = '$doCheck'|'$onChanges'|'$onDestroy'|'$onInit'|'$postLink';
 
 
 const CAMEL_CASE = /([A-Z])/g;
@@ -238,8 +238,9 @@ class UpgradeNg1ComponentAdapter implements OnInit, OnChanges, DoCheck {
     for (let j = 0; j < outputs.length; j++) {
       const emitter = (this as any /** TODO #9100 */)[outputs[j]] = new EventEmitter();
       this.setComponentProperty(
-          outputs[j], ((emitter: any /** TODO #9100 */) => (value: any /** TODO #9100 */) =>
-                           emitter.emit(value))(emitter));
+          outputs[j],
+          ((emitter: any /** TODO #9100 */) => (value: any /** TODO #9100 */) =>
+               emitter.emit(value))(emitter));
     }
     for (let k = 0; k < propOuts.length; k++) {
       (this as any /** TODO #9100 */)[propOuts[k]] = new EventEmitter();
@@ -277,8 +278,10 @@ class UpgradeNg1ComponentAdapter implements OnInit, OnChanges, DoCheck {
         this.element.appendChild(clonedElement[i]);
       }
     }, {
-      parentBoundTranscludeFn: (scope: any /** TODO #9100 */,
-                                cloneAttach: any /** TODO #9100 */) => { cloneAttach(childNodes); }
+      parentBoundTranscludeFn:
+          (scope: any /** TODO #9100 */, cloneAttach: any /** TODO #9100 */) => {
+            cloneAttach(childNodes);
+          }
     });
 
     if (this.controllerInstance && isFunction(this.controllerInstance.$postLink)) {
@@ -375,8 +378,9 @@ class UpgradeNg1ComponentAdapter implements OnInit, OnChanges, DoCheck {
       }
       return deps;
     }
-    throw new Error(
-        `Directive '${this.directive.name}' require syntax unrecognized: ${this.directive.require}`);
+    throw new Error(`Directive '${
+                                  this.directive.name
+                                }' require syntax unrecognized: ${this.directive.require}`);
   }
 }
 

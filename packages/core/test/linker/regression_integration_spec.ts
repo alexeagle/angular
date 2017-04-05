@@ -7,24 +7,32 @@
  */
 
 import {ANALYZE_FOR_ENTRY_COMPONENTS, Component, ContentChild, Directive, InjectionToken, Injector, Input, Pipe, PipeTransform, Provider, QueryList, Renderer2, SimpleChanges, TemplateRef, ViewChildren, ViewContainerRef} from '@angular/core';
-import {TestBed, fakeAsync, tick} from '@angular/core/testing';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {expect} from '@angular/platform-browser/testing/src/matchers';
 
 export function main() {
-  describe('jit', () => { declareTests({useJit: true}); });
+  describe('jit', () => {
+    declareTests({useJit: true});
+  });
 
-  describe('no jit', () => { declareTests({useJit: false}); });
+  describe('no jit', () => {
+    declareTests({useJit: false});
+  });
 }
 
 function declareTests({useJit}: {useJit: boolean}) {
   // Place to put reproductions for regressions
   describe('regressions', () => {
 
-    beforeEach(() => { TestBed.configureTestingModule({declarations: [MyComp1, PlatformPipe]}); });
+    beforeEach(() => {
+      TestBed.configureTestingModule({declarations: [MyComp1, PlatformPipe]});
+    });
 
     describe('platform pipes', () => {
-      beforeEach(() => { TestBed.configureCompiler({useJit: useJit}); });
+      beforeEach(() => {
+        TestBed.configureCompiler({useJit: useJit});
+      });
 
       it('should overwrite them by custom pipes', () => {
         TestBed.configureTestingModule({declarations: [CustomPipe]});
@@ -80,11 +88,17 @@ function declareTests({useJit}: {useJit: boolean}) {
              changes: SimpleChanges;
 
              @Input()
-             set a(v: number) { this.setterCalls['a'] = v; }
+             set a(v: number) {
+               this.setterCalls['a'] = v;
+             }
              @Input()
-             set b(v: number) { this.setterCalls['b'] = v; }
+             set b(v: number) {
+               this.setterCalls['b'] = v;
+             }
 
-             ngOnChanges(changes: SimpleChanges) { this.changes = changes; }
+             ngOnChanges(changes: SimpleChanges) {
+               this.changes = changes;
+             }
            }
 
            TestBed.configureTestingModule({declarations: [MyDir, MyComp]});
@@ -375,12 +389,16 @@ class MyComp1 {
 
 @Pipe({name: 'somePipe', pure: true})
 class PlatformPipe implements PipeTransform {
-  transform(value: any): any { return 'somePlatformPipe'; }
+  transform(value: any): any {
+    return 'somePlatformPipe';
+  }
 }
 
 @Pipe({name: 'somePipe', pure: true})
 class CustomPipe implements PipeTransform {
-  transform(value: any): any { return 'someCustomPipe'; }
+  transform(value: any): any {
+    return 'someCustomPipe';
+  }
 }
 
 @Component({selector: 'cmp-content', template: `<ng-content></ng-content>`})
@@ -394,7 +412,9 @@ class MyCountingComp {
     return {value: 'counting method value'};
   }
 
-  static reset() { MyCountingComp.calls = 0; }
+  static reset() {
+    MyCountingComp.calls = 0;
+  }
   static calls = 0;
 }
 
@@ -404,7 +424,9 @@ class CountingPipe implements PipeTransform {
     CountingPipe.calls++;
     return {value: 'counting pipe value'};
   }
-  static reset() { CountingPipe.calls = 0; }
+  static reset() {
+    CountingPipe.calls = 0;
+  }
   static calls = 0;
 }
 

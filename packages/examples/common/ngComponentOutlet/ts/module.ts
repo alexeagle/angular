@@ -77,7 +77,9 @@ class NgTemplateOutletOtherModuleExample {
   OtherModuleComponent = OtherModuleComponent;
   myModule: NgModuleFactory<any>;
 
-  constructor(compiler: Compiler) { this.myModule = compiler.compileModuleSync(OtherModule); }
+  constructor(compiler: Compiler) {
+    this.myModule = compiler.compileModuleSync(OtherModule);
+  }
 }
 // #enddocregion
 

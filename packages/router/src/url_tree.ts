@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {PRIMARY_OUTLET, ParamMap, convertToParamMap} from './shared';
+import {convertToParamMap, ParamMap, PRIMARY_OUTLET} from './shared';
 import {forEach, shallowEqual} from './utils/collection';
 
 export function createEmptyUrlTree() {
@@ -123,7 +123,9 @@ export class UrlTree {
   }
 
   /** @docsNotRequired */
-  toString(): string { return DEFAULT_SERIALIZER.serialize(this); }
+  toString(): string {
+    return DEFAULT_SERIALIZER.serialize(this);
+  }
 }
 
 /**
@@ -150,13 +152,19 @@ export class UrlSegmentGroup {
   }
 
   /** Wether the segment has child segments */
-  hasChildren(): boolean { return this.numberOfChildren > 0; }
+  hasChildren(): boolean {
+    return this.numberOfChildren > 0;
+  }
 
   /** Number of child segments */
-  get numberOfChildren(): number { return Object.keys(this.children).length; }
+  get numberOfChildren(): number {
+    return Object.keys(this.children).length;
+  }
 
   /** @docsNotRequired */
-  toString(): string { return serializePaths(this); }
+  toString(): string {
+    return serializePaths(this);
+  }
 }
 
 
@@ -204,7 +212,9 @@ export class UrlSegment {
   }
 
   /** @docsNotRequired */
-  toString(): string { return serializePath(this); }
+  toString(): string {
+    return serializePath(this);
+  }
 }
 
 export function equalSegments(a: UrlSegment[], b: UrlSegment[]): boolean {
@@ -355,7 +365,7 @@ function serializeQueryParams(params: {[key: string]: any}): string {
                                   `${encode(name)}=${encode(value)}`;
   });
 
-  return strParams.length ? `?${strParams.join("&")}` : '';
+  return strParams.length ? `?${strParams.join('&')}` : '';
 }
 
 const SEGMENT_RE = /^[^\/()?;=&#]+/;
@@ -383,9 +393,13 @@ function matchUrlQueryParamValue(str: string): string {
 
 class UrlParser {
   private remaining: string;
-  constructor(private url: string) { this.remaining = url; }
+  constructor(private url: string) {
+    this.remaining = url;
+  }
 
-  peekStartsWith(str: string): boolean { return this.remaining.startsWith(str); }
+  peekStartsWith(str: string): boolean {
+    return this.remaining.startsWith(str);
+  }
 
   capture(str: string): void {
     if (!this.remaining.startsWith(str)) {

@@ -134,7 +134,7 @@ const LOAD_XLIFF = `<?xml version="1.0" encoding="UTF-8" ?>
 export function main(): void {
   const serializer = new Xliff();
 
-  function toXliff(html: string, locale: string | null = null): string {
+  function toXliff(html: string, locale: string|null = null): string {
     const catalog = new MessageBundle(new HtmlParser, [], {}, locale);
     catalog.updateFromTemplate(html, '', DEFAULT_INTERPOLATION_CONFIG);
     return catalog.write(serializer);
@@ -152,9 +152,12 @@ export function main(): void {
 
   describe('XLIFF serializer', () => {
     describe('write', () => {
-      it('should write a valid xliff file', () => { expect(toXliff(HTML)).toEqual(WRITE_XLIFF); });
-      it('should write a valid xliff file with a source language',
-         () => { expect(toXliff(HTML, 'fr')).toContain('file source-language="fr"'); });
+      it('should write a valid xliff file', () => {
+        expect(toXliff(HTML)).toEqual(WRITE_XLIFF);
+      });
+      it('should write a valid xliff file with a source language', () => {
+        expect(toXliff(HTML, 'fr')).toContain('file source-language="fr"');
+      });
     });
 
     describe('load', () => {
@@ -178,8 +181,9 @@ export function main(): void {
         });
       });
 
-      it('should return the target locale',
-         () => { expect(serializer.load(LOAD_XLIFF, 'url').locale).toEqual('fr'); });
+      it('should return the target locale', () => {
+        expect(serializer.load(LOAD_XLIFF, 'url').locale).toEqual('fr');
+      });
 
 
       describe('structure errors', () => {
@@ -256,7 +260,9 @@ export function main(): void {
   </file>
 </xliff>`;
 
-          expect(() => { loadAsMap(XLIFF); })
+          expect(() => {
+            loadAsMap(XLIFF);
+          })
               .toThrowError(
                   new RegExp(escapeRegExp(`[ERROR ->]<b>msg should contain only ph tags</b>`)));
         });

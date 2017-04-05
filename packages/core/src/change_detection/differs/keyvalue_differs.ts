@@ -127,7 +127,9 @@ export class KeyValueDiffers {
    */
   factories: KeyValueDifferFactory[];
 
-  constructor(factories: KeyValueDifferFactory[]) { this.factories = factories; }
+  constructor(factories: KeyValueDifferFactory[]) {
+    this.factories = factories;
+  }
 
   static create<S>(factories: KeyValueDifferFactory[], parent?: KeyValueDiffers): KeyValueDiffers {
     if (parent) {
@@ -143,8 +145,8 @@ export class KeyValueDiffers {
    * {@link KeyValueDiffers} instance.
    *
    * The following example shows how to extend an existing list of factories,
-         * which will only be applied to the injector for this component and its children.
-         * This step is all that's required to make a new {@link KeyValueDiffer} available.
+   * which will only be applied to the injector for this component and its children.
+   * This step is all that's required to make a new {@link KeyValueDiffer} available.
    *
    * ### Example
    *

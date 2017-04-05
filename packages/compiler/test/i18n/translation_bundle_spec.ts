@@ -103,7 +103,9 @@ export function main(): void {
       it('should report missing translation with MissingTranslationStrategy.Warning', () => {
         const log: string[] = [];
         const console = {
-          log: (msg: string) => { throw `unexpected`; },
+          log: (msg: string) => {
+            throw `unexpected`;
+          },
           warn: (msg: string) => log.push(msg),
         };
 

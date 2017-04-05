@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {AST, AttrAst, Attribute, BoundDirectivePropertyAst, BoundElementPropertyAst, BoundEventAst, BoundTextAst, CssSelector, DirectiveAst, Element, ElementAst, EmbeddedTemplateAst, ImplicitReceiver, NAMED_ENTITIES, NgContentAst, Node as HtmlAst, ParseSpan, PropertyRead, ReferenceAst, SelectorMatcher, TagContentType, TemplateAst, TemplateAstVisitor, Text, TextAst, VariableAst, getHtmlTagDefinition, splitNsName, templateVisitAll} from '@angular/compiler';
+import {AST, AttrAst, Attribute, BoundDirectivePropertyAst, BoundElementPropertyAst, BoundEventAst, BoundTextAst, CssSelector, DirectiveAst, Element, ElementAst, EmbeddedTemplateAst, getHtmlTagDefinition, ImplicitReceiver, NAMED_ENTITIES, NgContentAst, Node as HtmlAst, ParseSpan, PropertyRead, ReferenceAst, SelectorMatcher, splitNsName, TagContentType, TemplateAst, TemplateAstVisitor, templateVisitAll, Text, TextAst, VariableAst} from '@angular/compiler';
 
 import {AstResult, AttrInfo, SelectorInfo, TemplateInfo} from './common';
 import {getExpressionCompletions, getExpressionScope} from './expressions';
@@ -290,7 +290,9 @@ class ExpressionVisitor extends NullTemplateVisitor {
     this.attributeValueCompletions(ast.value);
   }
 
-  visitEvent(ast: BoundEventAst): void { this.attributeValueCompletions(ast.handler); }
+  visitEvent(ast: BoundEventAst): void {
+    this.attributeValueCompletions(ast.handler);
+  }
 
   visitElement(ast: ElementAst): void {
     if (this.attr && getSelectors(this.info) && this.attr.name.startsWith(TEMPLATE_ATTR_PREFIX)) {

@@ -145,7 +145,8 @@ describe('tree benchmark perf', () => {
 
   function runTreeBenchmark(config: {
     id: string,
-    url: string, ignoreBrowserSynchronization?: boolean,
+    url: string,
+    ignoreBrowserSynchronization?: boolean,
     work: () => any,
     prepare?: () => any,
     extraParams?: {name: string, value: any}[],

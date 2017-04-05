@@ -11,14 +11,16 @@ import {ParseError, ParseSourceSpan} from '../parse_util';
 import * as html from './ast';
 import {DEFAULT_INTERPOLATION_CONFIG, InterpolationConfig} from './interpolation_config';
 import * as lex from './lexer';
-import {TagDefinition, getNsPrefix, mergeNsAndName} from './tags';
+import {getNsPrefix, mergeNsAndName, TagDefinition} from './tags';
 
 export class TreeError extends ParseError {
   static create(elementName: string, span: ParseSourceSpan, msg: string): TreeError {
     return new TreeError(elementName, span, msg);
   }
 
-  constructor(public elementName: string, span: ParseSourceSpan, msg: string) { super(span, msg); }
+  constructor(public elementName: string, span: ParseSourceSpan, msg: string) {
+    super(span, msg);
+  }
 }
 
 export class ParseTreeResult {
@@ -306,7 +308,9 @@ class _TreeBuilder {
           `Void elements do not have end tags "${endTagToken.parts[1]}"`));
     } else if (!this._popElement(fullName)) {
       const errMsg =
-          `Unexpected closing tag "${fullName}". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags`;
+          `Unexpected closing tag "${
+                                     fullName
+                                   }". It may happen when the tag has already been closed by another tag. For more info see https://www.w3.org/TR/html5/syntax.html#closing-elements-that-have-implied-end-tags`;
       this._errors.push(TreeError.create(fullName, endTagToken.sourceSpan, errMsg));
     }
   }

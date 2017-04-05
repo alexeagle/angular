@@ -7,9 +7,9 @@
  */
 
 import {LOCALE_ID} from '@angular/core';
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import {NgLocaleLocalization, NgLocalization, getPluralCategory} from '../src/localization';
+import {getPluralCategory, NgLocaleLocalization, NgLocalization} from '../src/localization';
 
 export function main() {
   describe('l10n', () => {

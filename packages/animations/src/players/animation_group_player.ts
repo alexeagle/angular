@@ -44,15 +44,25 @@ export class AnimationGroupPlayer implements AnimationPlayer {
     }
   }
 
-  init(): void { this._players.forEach(player => player.init()); }
+  init(): void {
+    this._players.forEach(player => player.init());
+  }
 
-  onStart(fn: () => void): void { this._onStartFns.push(fn); }
+  onStart(fn: () => void): void {
+    this._onStartFns.push(fn);
+  }
 
-  onDone(fn: () => void): void { this._onDoneFns.push(fn); }
+  onDone(fn: () => void): void {
+    this._onDoneFns.push(fn);
+  }
 
-  onDestroy(fn: () => void): void { this._onDestroyFns.push(fn); }
+  onDestroy(fn: () => void): void {
+    this._onDestroyFns.push(fn);
+  }
 
-  hasStarted() { return this._started; }
+  hasStarted() {
+    return this._started;
+  }
 
   play() {
     if (!this.parentPlayer) {
@@ -66,9 +76,13 @@ export class AnimationGroupPlayer implements AnimationPlayer {
     this._players.forEach(player => player.play());
   }
 
-  pause(): void { this._players.forEach(player => player.pause()); }
+  pause(): void {
+    this._players.forEach(player => player.pause());
+  }
 
-  restart(): void { this._players.forEach(player => player.restart()); }
+  restart(): void {
+    this._players.forEach(player => player.restart());
+  }
 
   finish(): void {
     this._onFinish();
@@ -93,7 +107,9 @@ export class AnimationGroupPlayer implements AnimationPlayer {
   }
 
   setPosition(p: number): void {
-    this._players.forEach(player => { player.setPosition(p); });
+    this._players.forEach(player => {
+      player.setPosition(p);
+    });
   }
 
   getPosition(): number {
@@ -105,5 +121,7 @@ export class AnimationGroupPlayer implements AnimationPlayer {
     return min;
   }
 
-  get players(): AnimationPlayer[] { return this._players; }
+  get players(): AnimationPlayer[] {
+    return this._players;
+  }
 }

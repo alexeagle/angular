@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {COMPILER_OPTIONS, Compiler, CompilerFactory, CompilerOptions, Inject, InjectionToken, MissingTranslationStrategy, Optional, PLATFORM_INITIALIZER, PlatformRef, Provider, ReflectiveInjector, TRANSLATIONS, TRANSLATIONS_FORMAT, Type, ViewEncapsulation, createPlatformFactory, isDevMode, platformCore, ɵConsole as Console, ɵReflectionCapabilities as ReflectionCapabilities, ɵReflector as Reflector, ɵReflectorReader as ReflectorReader, ɵreflector as reflector} from '@angular/core';
+import {Compiler, COMPILER_OPTIONS, CompilerFactory, CompilerOptions, createPlatformFactory, Inject, InjectionToken, isDevMode, MissingTranslationStrategy, Optional, PLATFORM_INITIALIZER, platformCore, PlatformRef, Provider, ReflectiveInjector, TRANSLATIONS, TRANSLATIONS_FORMAT, Type, ViewEncapsulation, ɵConsole as Console, ɵReflectionCapabilities as ReflectionCapabilities, ɵReflector as Reflector, ɵreflector as reflector, ɵReflectorReader as ReflectorReader} from '@angular/core';
+
 import {CompilerConfig} from '../config';
 import {DirectiveNormalizer} from '../directive_normalizer';
 import {DirectiveResolver} from '../directive_resolver';
@@ -31,9 +32,10 @@ import {ViewCompiler} from '../view_compiler/view_compiler';
 import {JitCompiler} from './compiler';
 
 const _NO_RESOURCE_LOADER: ResourceLoader = {
-  get(url: string): Promise<string>{
-      throw new Error(
-          `No ResourceLoader implementation has been provided. Can't read the url "${url}"`);}
+  get(url: string): Promise<string> {
+    throw new Error(
+        `No ResourceLoader implementation has been provided. Can't read the url "${url}"`);
+  }
 };
 
 const baseHtmlParser = new InjectionToken('HtmlParser');
@@ -56,10 +58,10 @@ export const COMPILER_PROVIDERS: Array<any|Type<any>|{[k: string]: any}|any[]> =
   },
   {
     provide: i18n.I18NHtmlParser,
-    useFactory: (parser: HtmlParser, translations: string, format: string, config: CompilerConfig,
-                 console: Console) =>
-                    new i18n.I18NHtmlParser(
-                        parser, translations, format, config.missingTranslation, console),
+    useFactory: (
+        parser: HtmlParser, translations: string, format: string, config: CompilerConfig,
+        console: Console) =>
+        new i18n.I18NHtmlParser(parser, translations, format, config.missingTranslation, console),
     deps: [
       baseHtmlParser,
       [new Optional(), new Inject(TRANSLATIONS)],

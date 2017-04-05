@@ -22,7 +22,9 @@ const SOME_HTTP_MODULE_URL = 'http://some/module/a.js';
 
 export function main() {
   describe('DirectiveNormalizer', () => {
-    beforeEach(() => { TestBed.configureCompiler({providers: TEST_COMPILER_PROVIDERS}); });
+    beforeEach(() => {
+      TestBed.configureCompiler({providers: TEST_COMPILER_PROVIDERS});
+    });
 
     describe('normalizeDirective', () => {
       it('should throw if no template was specified',
@@ -39,7 +41,7 @@ export function main() {
              ngModuleType: null,
              componentType: SomeComp,
              moduleUrl: SOME_MODULE_URL,
-             template: <any>{}
+             template: <any> {}
            })).toThrowError('The template specified for component SomeComp is not a string');
          }));
       it('should throw if templateUrl is not a string',
@@ -48,7 +50,7 @@ export function main() {
              ngModuleType: null,
              componentType: SomeComp,
              moduleUrl: SOME_MODULE_URL,
-             templateUrl: <any>{}
+             templateUrl: <any> {}
            })).toThrowError('The templateUrl specified for component SomeComp is not a string');
          }));
       it('should throw if both template and templateUrl are defined',

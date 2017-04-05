@@ -71,7 +71,7 @@ export function main(): void {
   });
 }
 
-function toXmb(html: string, locale: string | null = null): string {
+function toXmb(html: string, locale: string|null = null): string {
   const catalog = new MessageBundle(new HtmlParser, [], {}, locale);
   const serializer = new Xmb();
 

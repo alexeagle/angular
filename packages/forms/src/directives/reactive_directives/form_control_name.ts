@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directive, EventEmitter, Host, Inject, Input, OnChanges, OnDestroy, Optional, Output, Self, SimpleChanges, SkipSelf, forwardRef} from '@angular/core';
+import {Directive, EventEmitter, forwardRef, Host, Inject, Input, OnChanges, OnDestroy, Optional, Output, Self, SimpleChanges, SkipSelf} from '@angular/core';
 
 import {FormControl} from '../../model';
 import {NG_ASYNC_VALIDATORS, NG_VALIDATORS} from '../../validators';
@@ -91,7 +91,9 @@ export class FormControlName extends NgControl implements OnChanges, OnDestroy {
   @Input('ngModel') model: any;
   @Output('ngModelChange') update = new EventEmitter();
   @Input('disabled')
-  set isDisabled(isDisabled: boolean) { ReactiveErrors.disabledAttrWarning(); }
+  set isDisabled(isDisabled: boolean) {
+    ReactiveErrors.disabledAttrWarning();
+  }
 
   constructor(
       @Optional() @Host() @SkipSelf() parent: ControlContainer,
@@ -125,17 +127,25 @@ export class FormControlName extends NgControl implements OnChanges, OnDestroy {
     this.update.emit(newValue);
   }
 
-  get path(): string[] { return controlPath(this.name, this._parent); }
+  get path(): string[] {
+    return controlPath(this.name, this._parent);
+  }
 
-  get formDirective(): any { return this._parent ? this._parent.formDirective : null; }
+  get formDirective(): any {
+    return this._parent ? this._parent.formDirective : null;
+  }
 
-  get validator(): ValidatorFn { return composeValidators(this._rawValidators); }
+  get validator(): ValidatorFn {
+    return composeValidators(this._rawValidators);
+  }
 
   get asyncValidator(): AsyncValidatorFn {
     return composeAsyncValidators(this._rawAsyncValidators);
   }
 
-  get control(): FormControl { return this._control; }
+  get control(): FormControl {
+    return this._control;
+  }
 
   private _checkParentType(): void {
     if (!(this._parent instanceof FormGroupName) &&

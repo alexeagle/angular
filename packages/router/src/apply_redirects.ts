@@ -8,9 +8,9 @@
 
 import {Injector, NgModuleRef} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Observer} from 'rxjs/Observer';
 import {from} from 'rxjs/observable/from';
 import {of } from 'rxjs/observable/of';
+import {Observer} from 'rxjs/Observer';
 import {_catch} from 'rxjs/operator/catch';
 import {concatAll} from 'rxjs/operator/concatAll';
 import {first} from 'rxjs/operator/first';
@@ -20,7 +20,7 @@ import {EmptyError} from 'rxjs/util/EmptyError';
 
 import {InternalRoute, Route, Routes} from './config';
 import {LoadedRouterConfig, RouterConfigLoader} from './router_config_loader';
-import {PRIMARY_OUTLET, Params, defaultUrlMatcher, navigationCancelingError} from './shared';
+import {defaultUrlMatcher, navigationCancelingError, Params, PRIMARY_OUTLET} from './shared';
 import {UrlSegment, UrlSegmentGroup, UrlSerializer, UrlTree} from './url_tree';
 import {andObservables, forEach, waitForMap, wrapIntoObservable} from './utils/collection';
 
@@ -51,7 +51,9 @@ function namedOutletsRedirect(redirectTo: string): Observable<any> {
 function canLoadFails(route: Route): Observable<LoadedRouterConfig> {
   return new Observable<LoadedRouterConfig>(
       (obs: Observer<LoadedRouterConfig>) => obs.error(navigationCancelingError(
-          `Cannot load children because the guard of the route "path: '${route.path}'" returned false`)));
+          `Cannot load children because the guard of the route "path: '${
+                                                                         route.path
+                                                                       }'" returned false`)));
 }
 
 export function applyRedirects(
@@ -74,8 +76,9 @@ class ApplyRedirects {
     const expanded$ =
         this.expandSegmentGroup(this.ngModule, this.config, this.urlTree.root, PRIMARY_OUTLET);
     const urlTrees$ = map.call(
-        expanded$, (rootSegmentGroup: UrlSegmentGroup) => this.createUrlTree(
-                       rootSegmentGroup, this.urlTree.queryParams, this.urlTree.fragment));
+        expanded$,
+        (rootSegmentGroup: UrlSegmentGroup) =>
+            this.createUrlTree(rootSegmentGroup, this.urlTree.queryParams, this.urlTree.fragment));
     return _catch.call(urlTrees$, (e: any) => {
       if (e instanceof AbsoluteRedirect) {
         // after an absolute redirect we do not apply any more redirects!
@@ -96,8 +99,9 @@ class ApplyRedirects {
     const expanded$ =
         this.expandSegmentGroup(this.ngModule, this.config, tree.root, PRIMARY_OUTLET);
     const mapped$ = map.call(
-        expanded$, (rootSegmentGroup: UrlSegmentGroup) =>
-                       this.createUrlTree(rootSegmentGroup, tree.queryParams, tree.fragment));
+        expanded$,
+        (rootSegmentGroup: UrlSegmentGroup) =>
+            this.createUrlTree(rootSegmentGroup, tree.queryParams, tree.fragment));
     return _catch.call(mapped$, (e: any): Observable<UrlTree> => {
       if (e instanceof NoMatch) {
         throw this.noMatchError(e);
@@ -281,8 +285,9 @@ class ApplyRedirects {
       const expanded$ = this.expandSegment(
           childModule, segmentGroup, childConfig, slicedSegments, PRIMARY_OUTLET, true);
       return map.call(
-          expanded$, (cs: UrlSegmentGroup) =>
-                         new UrlSegmentGroup(consumedSegments.concat(cs.segments), cs.children));
+          expanded$,
+          (cs: UrlSegmentGroup) =>
+              new UrlSegmentGroup(consumedSegments.concat(cs.segments), cs.children));
     });
   }
 
@@ -445,16 +450,18 @@ function split(
   if (slicedSegments.length > 0 &&
       containsEmptyPathRedirectsWithNamedOutlets(segmentGroup, slicedSegments, config)) {
     const s = new UrlSegmentGroup(
-        consumedSegments, createChildrenForEmptySegments(
-                              config, new UrlSegmentGroup(slicedSegments, segmentGroup.children)));
+        consumedSegments,
+        createChildrenForEmptySegments(
+            config, new UrlSegmentGroup(slicedSegments, segmentGroup.children)));
     return {segmentGroup: mergeTrivialChildren(s), slicedSegments: []};
   }
 
   if (slicedSegments.length === 0 &&
       containsEmptyPathRedirects(segmentGroup, slicedSegments, config)) {
     const s = new UrlSegmentGroup(
-        segmentGroup.segments, addEmptySegmentsToChildrenIfNeeded(
-                                   segmentGroup, slicedSegments, config, segmentGroup.children));
+        segmentGroup.segments,
+        addEmptySegmentsToChildrenIfNeeded(
+            segmentGroup, slicedSegments, config, segmentGroup.children));
     return {segmentGroup: mergeTrivialChildren(s), slicedSegments};
   }
 

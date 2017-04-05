@@ -7,18 +7,18 @@
  */
 
 import {animate, style, transition, trigger} from '@angular/animations';
-import {APP_BASE_HREF, PlatformLocation, isPlatformServer} from '@angular/common';
-import {ApplicationRef, CompilerFactory, Component, HostListener, Input, NgModule, NgModuleRef, NgZone, PLATFORM_ID, PlatformRef, ViewEncapsulation, destroyPlatform, getPlatform} from '@angular/core';
-import {TestBed, async, inject} from '@angular/core/testing';
+import {APP_BASE_HREF, isPlatformServer, PlatformLocation} from '@angular/common';
+import {ApplicationRef, CompilerFactory, Component, destroyPlatform, getPlatform, HostListener, Input, NgModule, NgModuleRef, NgZone, PLATFORM_ID, PlatformRef, ViewEncapsulation} from '@angular/core';
+import {async, inject, TestBed} from '@angular/core/testing';
 import {Http, HttpModule, Response, ResponseOptions, XHRBackend} from '@angular/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 import {BrowserModule, DOCUMENT, Title} from '@angular/platform-browser';
 import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
-import {INITIAL_CONFIG, PlatformState, ServerModule, platformDynamicServer, renderModule, renderModuleFactory} from '@angular/platform-server';
-import {Subscription} from 'rxjs/Subscription';
+import {INITIAL_CONFIG, platformDynamicServer, PlatformState, renderModule, renderModuleFactory, ServerModule} from '@angular/platform-server';
 import {filter} from 'rxjs/operator/filter';
 import {first} from 'rxjs/operator/first';
 import {toPromise} from 'rxjs/operator/toPromise';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({selector: 'app', template: `Works!`})
 class MyServerApp {
@@ -47,7 +47,9 @@ class ExampleModule2 {
 @Component({selector: 'app', template: ``})
 class TitleApp {
   constructor(private title: Title) {}
-  ngOnInit() { this.title.setTitle('Test App Title'); }
+  ngOnInit() {
+    this.title.setTitle('Test App Title');
+  }
 }
 
 @NgModule({declarations: [TitleApp], imports: [ServerModule], bootstrap: [TitleApp]})
@@ -59,10 +61,14 @@ class MyAsyncServerApp {
   text = '';
 
   @HostListener('window:scroll')
-  track() { console.error('scroll'); }
+  track() {
+    console.error('scroll');
+  }
 
   ngOnInit() {
-    Promise.resolve(null).then(() => setTimeout(() => { this.text = 'Works!'; }, 10));
+    Promise.resolve(null).then(() => setTimeout(() => {
+                                 this.text = 'Works!';
+                               }, 10));
   }
 }
 
@@ -360,7 +366,9 @@ export function main() {
         doc = '<html><head></head><body><app></app></body></html>';
         called = false;
       });
-      afterEach(() => { expect(called).toBe(true); });
+      afterEach(() => {
+        expect(called).toBe(true);
+      });
 
       it('using long from should work', async(() => {
            const platform =

@@ -25,8 +25,9 @@ let moduleFactories = new Map<string, NgModuleFactory<any>>();
 export function registerModuleFactory(id: string, factory: NgModuleFactory<any>) {
   const existing = moduleFactories.get(id);
   if (existing) {
-    throw new Error(`Duplicate module registered for ${id
-                    } - ${existing.moduleType.name} vs ${factory.moduleType.name}`);
+    throw new Error(`Duplicate module registered for ${id} - ${
+                                                               existing.moduleType.name
+                                                             } vs ${factory.moduleType.name}`);
   }
   moduleFactories.set(id, factory);
 }

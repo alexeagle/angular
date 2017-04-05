@@ -15,7 +15,9 @@ class ReflectorModuleModuleResolutionHost implements ts.ModuleResolutionHost {
       this.directoryExists = directoryName => this.host.directoryExists(directoryName);
   }
 
-  fileExists(fileName: string): boolean { return !!this.host.getScriptSnapshot(fileName); }
+  fileExists(fileName: string): boolean {
+    return !!this.host.getScriptSnapshot(fileName);
+  }
 
   readFile(fileName: string): string {
     let snapshot = this.host.getScriptSnapshot(fileName);
@@ -37,7 +39,9 @@ export class ReflectorHost extends CompilerHost {
         {verboseInvalidExpression: true});
   }
 
-  protected get program() { return this.getProgram(); }
+  protected get program() {
+    return this.getProgram();
+  }
   protected set program(value: ts.Program) {
     // Discard the result set by ancestor constructor
   }

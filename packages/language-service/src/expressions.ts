@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {AST, ASTWithSource, AstVisitor, Binary, BindingPipe, Chain, Conditional, ElementAst, EmbeddedTemplateAst, FunctionCall, ImplicitReceiver, Interpolation, KeyedRead, KeyedWrite, LiteralArray, LiteralMap, LiteralPrimitive, MethodCall, PrefixNot, PropertyRead, PropertyWrite, Quote, ReferenceAst, SafeMethodCall, SafePropertyRead, StaticSymbol, TemplateAst, identifierName, templateVisitAll, tokenReference} from '@angular/compiler';
+import {AST, AstVisitor, ASTWithSource, Binary, BindingPipe, Chain, Conditional, ElementAst, EmbeddedTemplateAst, FunctionCall, identifierName, ImplicitReceiver, Interpolation, KeyedRead, KeyedWrite, LiteralArray, LiteralMap, LiteralPrimitive, MethodCall, PrefixNot, PropertyRead, PropertyWrite, Quote, ReferenceAst, SafeMethodCall, SafePropertyRead, StaticSymbol, TemplateAst, templateVisitAll, tokenReference} from '@angular/compiler';
 
 import {AstPath as AstPathBase} from './ast_path';
 import {TemplateInfo} from './common';
@@ -31,7 +31,9 @@ export function getExpressionCompletions(
   const tail = path.tail;
   let result: SymbolTable|undefined = scope;
 
-  function getType(ast: AST): Symbol { return new AstType(scope, query, {}).getType(ast); }
+  function getType(ast: AST): Symbol {
+    return new AstType(scope, query, {}).getType(ast);
+  }
 
   // If the completion request is in a not in a pipe or property access then the global scope
   // (that is the scope of the implicit receiver) is the right scope as the user is typing the
@@ -42,7 +44,9 @@ export function getExpressionCompletions(
     visitConditional(ast) {},
     visitFunctionCall(ast) {},
     visitImplicitReceiver(ast) {},
-    visitInterpolation(ast) { result = undefined; },
+    visitInterpolation(ast) {
+      result = undefined;
+    },
     visitKeyedRead(ast) {},
     visitKeyedWrite(ast) {},
     visitLiteralArray(ast) {},
@@ -89,7 +93,9 @@ export function getExpressionSymbol(
   if (path.empty) return undefined;
   const tail = path.tail;
 
-  function getType(ast: AST): Symbol { return new AstType(scope, query, {}).getType(ast); }
+  function getType(ast: AST): Symbol {
+    return new AstType(scope, query, {}).getType(ast);
+  }
 
   let symbol: Symbol = undefined;
   let span: Span = undefined;
@@ -194,7 +200,9 @@ class AstType implements ExpressionVisitor {
       private scope: SymbolTable, private query: SymbolQuery,
       private context: ExpressionDiagnosticsContext) {}
 
-  getType(ast: AST): Symbol { return ast.visit(this); }
+  getType(ast: AST): Symbol {
+    return ast.visit(this);
+  }
 
   getDiagnostics(ast: AST): TypeDiagnostic[] {
     this.diagnostics = [];
@@ -362,10 +370,20 @@ class AstType implements ExpressionVisitor {
       callable: false,
       public: true,
       definition: undefined,
-      members(): SymbolTable{return _this.scope;},
-      signatures(): Signature[]{return [];},
-      selectSignature(types): Signature | undefined{return undefined;},
-      indexed(argument): Symbol | undefined{return undefined;}
+      members(): SymbolTable {
+        return _this.scope;
+      },
+      signatures(): Signature[] {
+        return [];
+      },
+      selectSignature(types): Signature |
+          undefined {
+            return undefined;
+          },
+      indexed(argument): Symbol |
+          undefined {
+            return undefined;
+          }
     };
   }
 
@@ -563,7 +581,9 @@ class AstPath extends AstPathBase<AST> {
 class AstPathVisitor extends NullVisitor {
   public path: AST[] = [];
 
-  constructor(private position: number, private excludeEmpty: boolean) { super(); }
+  constructor(private position: number, private excludeEmpty: boolean) {
+    super();
+  }
 
   visit(ast: AST) {
     if ((!this.excludeEmpty || ast.span.start < ast.span.end) && inSpan(this.position, ast.span)) {
@@ -585,16 +605,22 @@ class AstPathVisitor extends NullVisitor {
 
 // TODO: Consider moving to expression_parser/ast
 function visitChildren(ast: AST, visitor: ExpressionVisitor) {
-  function visit(ast: AST) { visitor.visit && visitor.visit(ast) || ast.visit(visitor); }
+  function visit(ast: AST) {
+    visitor.visit && visitor.visit(ast) || ast.visit(visitor);
+  }
 
-  function visitAll<T extends AST>(asts: T[]) { asts.forEach(visit); }
+  function visitAll<T extends AST>(asts: T[]) {
+    asts.forEach(visit);
+  }
 
   ast.visit({
     visitBinary(ast) {
       visit(ast.left);
       visit(ast.right);
     },
-    visitChain(ast) { visitAll(ast.expressions); },
+    visitChain(ast) {
+      visitAll(ast.expressions);
+    },
     visitConditional(ast) {
       visit(ast.condition);
       visit(ast.trueExp);
@@ -605,7 +631,9 @@ function visitChildren(ast: AST, visitor: ExpressionVisitor) {
       visitAll(ast.args);
     },
     visitImplicitReceiver(ast) {},
-    visitInterpolation(ast) { visitAll(ast.expressions); },
+    visitInterpolation(ast) {
+      visitAll(ast.expressions);
+    },
     visitKeyedRead(ast) {
       visit(ast.obj);
       visit(ast.key);
@@ -615,7 +643,9 @@ function visitChildren(ast: AST, visitor: ExpressionVisitor) {
       visit(ast.key);
       visit(ast.obj);
     },
-    visitLiteralArray(ast) { visitAll(ast.expressions); },
+    visitLiteralArray(ast) {
+      visitAll(ast.expressions);
+    },
     visitLiteralMap(ast) {},
     visitLiteralPrimitive(ast) {},
     visitMethodCall(ast) {
@@ -626,8 +656,12 @@ function visitChildren(ast: AST, visitor: ExpressionVisitor) {
       visit(ast.exp);
       visitAll(ast.args);
     },
-    visitPrefixNot(ast) { visit(ast.expression); },
-    visitPropertyRead(ast) { visit(ast.receiver); },
+    visitPrefixNot(ast) {
+      visit(ast.expression);
+    },
+    visitPropertyRead(ast) {
+      visit(ast.receiver);
+    },
     visitPropertyWrite(ast) {
       visit(ast.receiver);
       visit(ast.value);
@@ -637,7 +671,9 @@ function visitChildren(ast: AST, visitor: ExpressionVisitor) {
       visit(ast.receiver);
       visitAll(ast.args);
     },
-    visitSafePropertyRead(ast) { visit(ast.receiver); },
+    visitSafePropertyRead(ast) {
+      visit(ast.receiver);
+    },
   });
 }
 
@@ -684,7 +720,9 @@ function getReferences(info: TemplateInfo): SymbolDeclaration[] {
         name: reference.name,
         kind: 'reference',
         type: type || info.template.query.getBuiltinType(BuiltinType.Any),
-        get definition() { return getDefintionOf(info, reference); }
+        get definition() {
+          return getDefintionOf(info, reference);
+        }
       });
     }
   }
@@ -739,7 +777,11 @@ function getVarDeclarations(info: TemplateInfo, path: TemplateAstPath): SymbolDe
         }
         result.push({
           name,
-          kind: 'variable', type, get definition() { return getDefintionOf(info, variable); }
+          kind: 'variable',
+          type,
+          get definition() {
+            return getDefintionOf(info, variable);
+          }
         });
       }
     }

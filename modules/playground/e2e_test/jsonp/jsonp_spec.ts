@@ -25,5 +25,7 @@ describe('jsonp', function() {
 
 function getComponentText(selector: string, innerSelector: string) {
   return browser.executeScript(
-      `return document.querySelector("${selector}").querySelector("${innerSelector}").textContent.trim()`);
+      `return document.querySelector("${selector}").querySelector("${
+                                                                     innerSelector
+                                                                   }").textContent.trim()`);
 }

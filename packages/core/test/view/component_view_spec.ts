@@ -7,7 +7,7 @@
  */
 
 import {Injector, RenderComponentType, RootRenderer, Sanitizer, SecurityContext, ViewEncapsulation} from '@angular/core';
-import {ArgumentType, BindingFlags, NodeCheckFn, NodeDef, NodeFlags, OutputType, RootData, Services, ViewData, ViewDefinition, ViewFlags, ViewHandleEventFn, ViewState, ViewUpdateFn, anchorDef, asElementData, asProviderData, directiveDef, elementDef, rootRenderNodes, textDef, viewDef} from '@angular/core/src/view/index';
+import {anchorDef, ArgumentType, asElementData, asProviderData, BindingFlags, directiveDef, elementDef, NodeCheckFn, NodeDef, NodeFlags, OutputType, RootData, rootRenderNodes, Services, textDef, ViewData, viewDef, ViewDefinition, ViewFlags, ViewHandleEventFn, ViewState, ViewUpdateFn} from '@angular/core/src/view/index';
 import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
 
 import {createRootView, isBrowser, removeNodes} from './helper';
@@ -27,18 +27,20 @@ export function main() {
     }
 
     it('should create and attach component views', () => {
-      let instance: AComp = undefined !;
+      let instance: AComp = undefined!;
       class AComp {
-        constructor() { instance = this; }
+        constructor() {
+          instance = this;
+        }
       }
 
       const {view, rootNodes} = createAndGetRootNodes(compViewDef([
         elementDef(
-            NodeFlags.None, null !, null !, 1, 'div', null !, null !, null !, null !,
+            NodeFlags.None, null!, null!, 1, 'div', null!, null!, null!, null!,
             () => compViewDef([
-              elementDef(NodeFlags.None, null !, null !, 0, 'span'),
+              elementDef(NodeFlags.None, null!, null!, 0, 'span'),
             ])),
-        directiveDef(NodeFlags.Component, null !, 0, AComp, []),
+        directiveDef(NodeFlags.Component, null!, 0, AComp, []),
       ]));
 
       const compView = asElementData(view, 0).componentView;
@@ -62,7 +64,7 @@ export function main() {
         it('should select root elements based on a selector', () => {
           const view = createRootView(
               compViewDef([
-                elementDef(NodeFlags.None, null !, null !, 0, 'div'),
+                elementDef(NodeFlags.None, null!, null!, 0, 'div'),
               ]),
               {}, [], 'root');
           const rootNodes = rootRenderNodes(view);
@@ -72,7 +74,7 @@ export function main() {
         it('should select root elements based on a node', () => {
           const view = createRootView(
               compViewDef([
-                elementDef(NodeFlags.None, null !, null !, 0, 'div'),
+                elementDef(NodeFlags.None, null!, null!, 0, 'div'),
               ]),
               {}, [], rootNode);
           const rootNodes = rootRenderNodes(view);
@@ -82,7 +84,7 @@ export function main() {
         it('should set attributes on the root node', () => {
           const view = createRootView(
               compViewDef([
-                elementDef(NodeFlags.None, null !, null !, 0, 'div', [['a', 'b']]),
+                elementDef(NodeFlags.None, null!, null!, 0, 'div', [['a', 'b']]),
               ]),
               {}, [], rootNode);
           expect(rootNode.getAttribute('a')).toBe('b');
@@ -92,7 +94,7 @@ export function main() {
           rootNode.appendChild(document.createElement('div'));
           const view = createRootView(
               compViewDef([
-                elementDef(NodeFlags.None, null !, null !, 0, 'div', [['a', 'b']]),
+                elementDef(NodeFlags.None, null!, null!, 0, 'div', [['a', 'b']]),
               ]),
               {}, [], rootNode);
           expect(rootNode.childNodes.length).toBe(0);
@@ -112,15 +114,18 @@ export function main() {
               check(view, 0, ArgumentType.Inline, value);
             });
 
-        const {view, rootNodes} = createAndGetRootNodes(
-          compViewDef([
-            elementDef(NodeFlags.None, null!, null!, 1, 'div', null!, null!, null!, null!, () => compViewDef(
-              [
-                elementDef(NodeFlags.None, null!, null!, 0, 'span', null!, [[BindingFlags.TypeElementAttribute, 'a', SecurityContext.NONE]]),
-              ], null!, update
-            )),
-            directiveDef(NodeFlags.Component, null!, 0, AComp, []),
-          ]));
+        const {view, rootNodes} = createAndGetRootNodes(compViewDef([
+          elementDef(
+              NodeFlags.None, null!, null!, 1, 'div', null!, null!, null!, null!,
+              () => compViewDef(
+                  [
+                    elementDef(
+                        NodeFlags.None, null!, null!, 0, 'span', null!,
+                        [[BindingFlags.TypeElementAttribute, 'a', SecurityContext.NONE]]),
+                  ],
+                  null!, update)),
+          directiveDef(NodeFlags.Component, null!, 0, AComp, []),
+        ]));
         const compView = asElementData(view, 0).componentView;
 
         value = 'v1';
@@ -148,13 +153,13 @@ export function main() {
 
         const {view, rootNodes} = createAndGetRootNodes(compViewDef([
           elementDef(
-              NodeFlags.None, null !, null !, 1, 'div', null !, null !, null !, null !,
+              NodeFlags.None, null!, null!, 1, 'div', null!, null!, null!, null!,
               () => compViewDef(
                   [
-                    elementDef(NodeFlags.None, null !, null !, 0, 'span'),
+                    elementDef(NodeFlags.None, null!, null!, 0, 'span'),
                   ],
                   update)),
-          directiveDef(NodeFlags.Component, null !, 0, AComp, [], null !, null !),
+          directiveDef(NodeFlags.Component, null!, 0, AComp, [], null!, null!),
         ]));
 
         const compView = asElementData(view, 0).componentView;
@@ -185,19 +190,21 @@ export function main() {
           const {view} = createAndGetRootNodes(compViewDef(
               [
                 elementDef(
-                    NodeFlags.None, null !, null !, 1, 'div', null !, null !, null !, null !,
+                    NodeFlags.None, null!, null!, 1, 'div', null!, null!, null!, null!,
                     () => {
                       return compViewDef(
                           [
                             elementDef(
-                                NodeFlags.None, null !, null !, 0, 'span', null !, null !,
-                                [[null !, 'click']]),
+                                NodeFlags.None, null!, null!, 0, 'span', null!, null!,
+                                [[null!, 'click']]),
                           ],
-                          update, null !, ViewFlags.OnPush);
+                          update, null!, ViewFlags.OnPush);
                     }),
-                directiveDef(NodeFlags.Component, null !, 0, AComp, [], {a: [0, 'a']}),
+                directiveDef(NodeFlags.Component, null!, 0, AComp, [], {a: [0, 'a']}),
               ],
-              (check, view) => { check(view, 1, ArgumentType.Inline, compInputValue); }));
+              (check, view) => {
+                check(view, 1, ArgumentType.Inline, compInputValue);
+              }));
 
           Services.checkAndUpdateView(view);
 
@@ -238,19 +245,23 @@ export function main() {
         const update = jasmine.createSpy('updater');
 
         const {view, rootNodes} = createAndGetRootNodes(compViewDef([
-          elementDef(NodeFlags.None, null!, null!, 1, 'div', null!, null!, null!, null!, () => compViewDef(
+          elementDef(
+              NodeFlags.None, null!, null!, 1, 'div', null!, null!, null!, null!,
+              () => compViewDef(
                   [
-                    elementDef(NodeFlags.None, null!, null!, 0, 'span', null!, [[BindingFlags.TypeElementAttribute, 'a', SecurityContext.NONE]]),
+                    elementDef(
+                        NodeFlags.None, null!, null!, 0, 'span', null!,
+                        [[BindingFlags.TypeElementAttribute, 'a', SecurityContext.NONE]]),
                   ],
                   null!, update)),
-          directiveDef(
-              NodeFlags.Component, null!, 0, AComp, [], null!, null!,
-              ),
+          directiveDef(NodeFlags.Component, null!, 0, AComp, [], null!, null!, ),
         ]));
 
         const compView = asElementData(view, 0).componentView;
 
-        update.and.callFake((check: NodeCheckFn, view: ViewData) => { throw new Error('Test'); });
+        update.and.callFake((check: NodeCheckFn, view: ViewData) => {
+          throw new Error('Test');
+        });
         expect(() => Services.checkAndUpdateView(view)).toThrowError('Test');
         expect(update).toHaveBeenCalled();
 
@@ -268,17 +279,19 @@ export function main() {
         class AComp {}
 
         class ChildProvider {
-          ngOnDestroy() { log.push('ngOnDestroy'); };
+          ngOnDestroy() {
+            log.push('ngOnDestroy');
+          };
         }
 
         const {view, rootNodes} = createAndGetRootNodes(compViewDef([
           elementDef(
-              NodeFlags.None, null !, null !, 1, 'div', null !, null !, null !, null !,
+              NodeFlags.None, null!, null!, 1, 'div', null!, null!, null!, null!,
               () => compViewDef([
-                elementDef(NodeFlags.None, null !, null !, 1, 'span'),
-                directiveDef(NodeFlags.OnDestroy, null !, 0, ChildProvider, [])
+                elementDef(NodeFlags.None, null!, null!, 1, 'span'),
+                directiveDef(NodeFlags.OnDestroy, null!, 0, ChildProvider, [])
               ])),
-          directiveDef(NodeFlags.Component, null !, 0, AComp, [], null !, null !, ),
+          directiveDef(NodeFlags.Component, null!, 0, AComp, [], null!, null!, ),
         ]));
 
         Services.destroyView(view);
@@ -289,7 +302,7 @@ export function main() {
       it('should throw on dirty checking destroyed views', () => {
         const {view, rootNodes} = createAndGetRootNodes(compViewDef(
             [
-              elementDef(NodeFlags.None, null !, null !, 0, 'div'),
+              elementDef(NodeFlags.None, null!, null!, 0, 'div'),
             ],
             (view) => {}));
 

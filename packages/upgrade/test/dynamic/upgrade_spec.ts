@@ -6,12 +6,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ChangeDetectorRef, Class, Component, EventEmitter, Input, NO_ERRORS_SCHEMA, NgModule, NgZone, SimpleChange, SimpleChanges, Testability, destroyPlatform, forwardRef} from '@angular/core';
+import {ChangeDetectorRef, Class, Component, destroyPlatform, EventEmitter, forwardRef, Input, NgModule, NgZone, NO_ERRORS_SCHEMA, SimpleChange, SimpleChanges, Testability} from '@angular/core';
 import {async, fakeAsync, flushMicrotasks, tick} from '@angular/core/testing';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import * as angular from '@angular/upgrade/src/common/angular1';
 import {UpgradeAdapter, UpgradeAdapterRef} from '@angular/upgrade/src/dynamic/upgrade_adapter';
+
 import {html, multiTrim} from './test_helpers';
 
 export function main() {
@@ -164,7 +165,11 @@ export function main() {
            const Ng2 = Component({
                          selector: 'ng2',
                          template: `{{l('2A')}}<ng1a></ng1a>{{l('2B')}}<ng1b></ng1b>{{l('2C')}}`
-                       }).Class({constructor: function() { this.l = l; }});
+                       }).Class({
+             constructor: function() {
+               this.l = l;
+             }
+           });
 
            const Ng2Module =
                NgModule({
@@ -194,7 +199,9 @@ export function main() {
            @Component({selector: 'my-app', template: '<my-child [value]="value"></my-child>'})
            class AppComponent {
              value: number;
-             constructor() { appComponent = this; }
+             constructor() {
+               appComponent = this;
+             }
            }
 
            @Component({
@@ -204,7 +211,9 @@ export function main() {
            class ChildComponent {
              valueFromPromise: number;
              @Input()
-             set value(v: number) { expect(NgZone.isInAngularZone()).toBe(true); }
+             set value(v: number) {
+               expect(NgZone.isInAngularZone()).toBe(true);
+             }
 
              constructor(private zone: NgZone) {}
 
@@ -290,8 +299,9 @@ export function main() {
 
       it('should bind properties, events', async(() => {
            const adapter: UpgradeAdapter = new UpgradeAdapter(forwardRef(() => Ng2Module));
-           const ng1Module =
-               angular.module('ng1', []).value('$exceptionHandler', (err: any) => { throw err; });
+           const ng1Module = angular.module('ng1', []).value('$exceptionHandler', (err: any) => {
+             throw err;
+           });
 
            ng1Module.run(($rootScope: any) => {
              $rootScope.name = 'world';
@@ -344,7 +354,9 @@ export function main() {
                  const actValue = changes[prop].currentValue;
                  if (actValue != value) {
                    throw new Error(
-                       `Expected changes record for'${prop}' to be '${value}' but was '${actValue}'`);
+                       `Expected changes record for'${prop}' to be '${value}' but was '${
+                                                                                         actValue
+                                                                                       }'`);
                  }
                };
 
@@ -414,16 +426,24 @@ export function main() {
            const adapter: UpgradeAdapter = new UpgradeAdapter(forwardRef(() => Ng2Module));
            const ng1Module = angular.module('ng1', []);
 
-           ng1Module.run(($rootScope: any /** TODO #9100 */) => { $rootScope.modelA = 'A'; });
+           ng1Module.run(($rootScope: any /** TODO #9100 */) => {
+             $rootScope.modelA = 'A';
+           });
 
            let ng2Instance: Ng2;
            @Component({selector: 'ng2', template: '{{_value}}'})
            class Ng2 {
              private _value: any = '';
              private _onChangeCallback: (_: any) => void = () => {};
-             constructor() { ng2Instance = this; }
-             writeValue(value: any) { this._value = value; }
-             registerOnChange(fn: any) { this._onChangeCallback = fn; }
+             constructor() {
+               ng2Instance = this;
+             }
+             writeValue(value: any) {
+               this._value = value;
+             }
+             registerOnChange(fn: any) {
+               this._onChangeCallback = fn;
+             }
              doChange(newValue: string) {
                this._value = newValue;
                this._onChangeCallback(newValue);
@@ -465,14 +485,18 @@ export function main() {
              return {
                template: '<div ng-if="!destroyIt"><ng2></ng2></div>',
                controller: function($rootScope: any, $timeout: Function) {
-                 $timeout(() => { $rootScope.destroyIt = true; });
+                 $timeout(() => {
+                   $rootScope.destroyIt = true;
+                 });
                }
              };
            });
 
            const Ng2 = Component({selector: 'ng2', template: 'test'}).Class({
              constructor: function() {},
-             ngOnDestroy: function() { onDestroyed.emit('destroyed'); }
+             ngOnDestroy: function() {
+               onDestroyed.emit('destroyed');
+             }
            });
 
            const Ng2Module = NgModule({
@@ -483,7 +507,9 @@ export function main() {
            ng1Module.directive('ng2', adapter.downgradeNg2Component(Ng2));
            const element = html('<ng1></ng1>');
            adapter.bootstrap(element, ['ng1']).ready((ref) => {
-             onDestroyed.subscribe(() => { ref.dispose(); });
+             onDestroyed.subscribe(() => {
+               ref.dispose();
+             });
            });
          }));
 
@@ -718,7 +744,9 @@ export function main() {
                restrict: 'E',
                template: '{{someText}} - Length: {{data.length}}',
                scope: {data: '='},
-               controller: function($scope: any) { $scope.someText = 'ng1 - Data: ' + $scope.data; }
+               controller: function($scope: any) {
+                 $scope.someText = 'ng1 - Data: ' + $scope.data;
+               }
              };
            };
 
@@ -763,7 +791,9 @@ export function main() {
                restrict: 'E',
                template: '{{someText}} - Length: {{data.length}}',
                scope: {data: '='},
-               link: function($scope: any) { $scope.someText = 'ng1 - Data: ' + $scope.data; }
+               link: function($scope: any) {
+                 $scope.someText = 'ng1 - Data: ' + $scope.data;
+               }
              };
            };
 
@@ -807,7 +837,9 @@ export function main() {
                  cbFn(200, `${method}:${url}`);
                });
 
-           const ng1 = () => { return {templateUrl: 'url.html'}; };
+           const ng1 = () => {
+             return {templateUrl: 'url.html'};
+           };
            ng1Module.directive('ng1', ng1);
            const Ng2 = Component({selector: 'ng2', template: '<ng1></ng1>'}).Class({
              constructor: function() {}
@@ -834,7 +866,13 @@ export function main() {
                  cbFn(200, `${method}:${url}`);
                });
 
-           const ng1 = () => { return {templateUrl() { return 'url.html'; }}; };
+           const ng1 = () => {
+             return {
+               templateUrl() {
+                 return 'url.html';
+               }
+             };
+           };
            ng1Module.directive('ng1', ng1);
            const Ng2 = Component({selector: 'ng2', template: '<ng1></ng1>'}).Class({
              constructor: function() {}
@@ -857,7 +895,9 @@ export function main() {
            const adapter: UpgradeAdapter = new UpgradeAdapter(forwardRef(() => Ng2Module));
            const ng1Module = angular.module('ng1', []);
 
-           const ng1 = () => { return {template: ''}; };
+           const ng1 = () => {
+             return {template: ''};
+           };
            ng1Module.directive('ng1', ng1);
 
            const Ng2 = Component({selector: 'ng2', template: '<ng1></ng1>'}).Class({
@@ -881,7 +921,13 @@ export function main() {
            const adapter: UpgradeAdapter = new UpgradeAdapter(forwardRef(() => Ng2Module));
            const ng1Module = angular.module('ng1', []);
 
-           const ng1 = () => { return {template() { return ''; }}; };
+           const ng1 = () => {
+             return {
+               template() {
+                 return '';
+               }
+             };
+           };
            ng1Module.directive('ng1', ng1);
 
            const Ng2 = Component({selector: 'ng2', template: '<ng1></ng1>'}).Class({
@@ -906,7 +952,9 @@ export function main() {
            const ng1Module = angular.module('ng1', []);
            ng1Module.run(($templateCache: any) => $templateCache.put('url.html', 'WORKS'));
 
-           const ng1 = () => { return {templateUrl: 'url.html'}; };
+           const ng1 = () => {
+             return {templateUrl: 'url.html'};
+           };
            ng1Module.directive('ng1', ng1);
 
            const Ng2 = Component({selector: 'ng2', template: '<ng1></ng1>'}).Class({
@@ -943,7 +991,9 @@ export function main() {
                    this.hasElement = $element[0].nodeName;
                    this.$element = $element;
                  },
-                 verifyIAmAClass: function() { this.isClass = 'isClass'; },
+                 verifyIAmAClass: function() {
+                   this.isClass = 'isClass';
+                 },
                  isPublished: function() {
                    return this.$element.controller('ng1') == this ? 'published' : 'not-published';
                  }
@@ -1044,7 +1094,11 @@ export function main() {
                template: '{{ctl.status}}',
                require: 'ng1',
                controllerAs: 'ctrl',
-               controller: Class({constructor: function() { this.status = 'WORKS'; }}),
+               controller: Class({
+                 constructor: function() {
+                   this.status = 'WORKS';
+                 }
+               }),
                link: function(scope: any, element: any, attrs: any, linkController: any) {
                  expect(scope.$root).toEqual($rootScope);
                  expect(element[0].nodeName).toEqual('NG1');
@@ -1077,7 +1131,13 @@ export function main() {
            const ng1Module = angular.module('ng1', []);
 
            const parent = () => {
-             return {controller: Class({constructor: function() { this.parent = 'PARENT'; }})};
+             return {
+               controller: Class({
+                 constructor: function() {
+                   this.parent = 'PARENT';
+                 }
+               })
+             };
            };
            const ng1 = () => {
              return {
@@ -1086,7 +1146,11 @@ export function main() {
                template: '{{parent.parent}}:{{ng1.status}}',
                require: ['ng1', '^parent', '?^^notFound'],
                controllerAs: 'ctrl',
-               controller: Class({constructor: function() { this.status = 'WORKS'; }}),
+               controller: Class({
+                 constructor: function() {
+                   this.status = 'WORKS';
+                 }
+               }),
                link: function(scope: any, element: any, attrs: any, linkControllers: any) {
                  expect(linkControllers[0].status).toEqual('WORKS');
                  expect(linkControllers[1].parent).toEqual('PARENT');
@@ -1132,14 +1196,20 @@ export function main() {
                                       scope: {},
                                       bindToController: true,
                                       controllerAs: '$ctrl',
-                                      controller: class {$onInit() { $onInitSpyA(); }}
+                                      controller: class {
+                                        $onInit() {
+                                          $onInitSpyA();
+                                        }
+                                      }
                                     }))
                  .directive('ng1B', () => ({
                                       template: '',
                                       scope: {},
                                       bindToController: false,
                                       controllerAs: '$ctrl',
-                                      controller: function() { this.$onInit = $onInitSpyB; }
+                                      controller: function() {
+                                        this.$onInit = $onInitSpyB;
+                                      }
                                     }))
                  .directive('ng2', adapter.downgradeNg2Component(Ng2Component));
 
@@ -1216,7 +1286,9 @@ export function main() {
 
              @Component({selector: 'ng2', template: '<ng1-a></ng1-a> | <ng1-b></ng1-b>'})
              class Ng2Component {
-               constructor(cd: ChangeDetectorRef) { changeDetector = cd; }
+               constructor(cd: ChangeDetectorRef) {
+                 changeDetector = cd;
+               }
              }
 
              angular.module('ng1', [])
@@ -1225,14 +1297,20 @@ export function main() {
                                       scope: {},
                                       bindToController: true,
                                       controllerAs: '$ctrl',
-                                      controller: class {$doCheck() { $doCheckSpyA(); }}
+                                      controller: class {
+                                        $doCheck() {
+                                          $doCheckSpyA();
+                                        }
+                                      }
                                     }))
                  .directive('ng1B', () => ({
                                       template: '',
                                       scope: {},
                                       bindToController: false,
                                       controllerAs: '$ctrl',
-                                      controller: function() { this.$doCheck = $doCheckSpyB; }
+                                      controller: function() {
+                                        this.$doCheck = $doCheckSpyB;
+                                      }
                                     }))
                  .directive('ng2', adapter.downgradeNg2Component(Ng2Component));
 
@@ -1270,7 +1348,9 @@ export function main() {
 
              @Component({selector: 'ng2', template: '<ng1-a></ng1-a> | <ng1-b></ng1-b>'})
              class Ng2Component {
-               constructor(cd: ChangeDetectorRef) { changeDetector = cd; }
+               constructor(cd: ChangeDetectorRef) {
+                 changeDetector = cd;
+               }
              }
 
              angular.module('ng1', [])
@@ -1332,14 +1412,20 @@ export function main() {
                                       scope: {},
                                       bindToController: true,
                                       controllerAs: '$ctrl',
-                                      controller: class {$postLink() { $postLinkSpyA(); }}
+                                      controller: class {
+                                        $postLink() {
+                                          $postLinkSpyA();
+                                        }
+                                      }
                                     }))
                  .directive('ng1B', () => ({
                                       template: '',
                                       scope: {},
                                       bindToController: false,
                                       controllerAs: '$ctrl',
-                                      controller: function() { this.$postLink = $postLinkSpyB; }
+                                      controller: function() {
+                                        this.$postLink = $postLinkSpyB;
+                                      }
                                     }))
                  .directive('ng2', adapter.downgradeNg2Component(Ng2Component));
 
@@ -1420,7 +1506,9 @@ export function main() {
                template: '<ng1-a [valA]="val"></ng1-a> | <ng1-b [valB]="val"></ng1-b>'
              })
              class Ng2Component {
-               constructor() { ng2Instance = this; }
+               constructor() {
+                 ng2Instance = this;
+               }
              }
 
              angular.module('ng1', [])
@@ -1433,17 +1521,17 @@ export function main() {
                                         this.$onChanges = $onChangesControllerSpyA;
                                       }
                                     }))
-                 .directive(
-                     'ng1B',
-                     () => ({
-                       template: '',
-                       scope: {valB: '<'},
-                       bindToController: false,
-                       controllerAs: '$ctrl',
-                       controller: class {
-                         $onChanges(changes: SimpleChanges) { $onChangesControllerSpyB(changes); }
-                       }
-                     }))
+                 .directive('ng1B', () => ({
+                                      template: '',
+                                      scope: {valB: '<'},
+                                      bindToController: false,
+                                      controllerAs: '$ctrl',
+                                      controller: class {
+                                        $onChanges(changes: SimpleChanges) {
+                                          $onChangesControllerSpyB(changes);
+                                        }
+                                      }
+                                    }))
                  .directive('ng2', adapter.downgradeNg2Component(Ng2Component))
                  .run(($rootScope: angular.IRootScopeService) => {
                    Object.getPrototypeOf($rootScope).$onChanges = $onChangesScopeSpy;
@@ -1518,7 +1606,9 @@ export function main() {
              })
              class Ng2Component {
                ng2Destroy: boolean = false;
-               constructor() { ng2ComponentInstance = this; }
+               constructor() {
+                 ng2ComponentInstance = this;
+               }
              }
 
              // On browsers that don't support `requestAnimationFrame` (IE 9, Android <= 4.3),
@@ -1531,14 +1621,20 @@ export function main() {
                                       scope: {},
                                       bindToController: true,
                                       controllerAs: '$ctrl',
-                                      controller: class {$onDestroy() { $onDestroySpyA(); }}
+                                      controller: class {
+                                        $onDestroy() {
+                                          $onDestroySpyA();
+                                        }
+                                      }
                                     }))
                  .directive('ng1B', () => ({
                                       template: '',
                                       scope: {},
                                       bindToController: false,
                                       controllerAs: '$ctrl',
-                                      controller: function() { this.$onDestroy = $onDestroySpyB; }
+                                      controller: function() {
+                                        this.$onDestroy = $onDestroySpyB;
+                                      }
                                     }))
                  .directive('ng2', adapter.downgradeNg2Component(Ng2Component));
 
@@ -1606,7 +1702,9 @@ export function main() {
              })
              class Ng2Component {
                ng2Destroy: boolean = false;
-               constructor() { ng2ComponentInstance = this; }
+               constructor() {
+                 ng2ComponentInstance = this;
+               }
              }
 
              // On browsers that don't support `requestAnimationFrame` (IE 9, Android <= 4.3),
@@ -1684,7 +1782,9 @@ export function main() {
 
            const Ng2 =
                Component({selector: 'ng2', template: '<ng1 [personProfile]="goku"></ng1>'}).Class({
-                 constructor: function() { this.goku = {firstName: 'GOKU', lastName: 'SAN'}; }
+                 constructor: function() {
+                   this.goku = {firstName: 'GOKU', lastName: 'SAN'};
+                 }
                });
 
            const Ng2Module = NgModule({

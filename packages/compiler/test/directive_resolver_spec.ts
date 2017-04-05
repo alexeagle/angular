@@ -37,7 +37,9 @@ class SomeDirectiveWithSetterProps {
 @Directive({selector: 'someDirective'})
 class SomeDirectiveWithGetterOutputs {
   @Output('renamed')
-  get a(): any { return null; }
+  get a(): any {
+    return null;
+  }
 }
 
 @Directive({selector: 'someDirective', host: {'[c]': 'c'}})
@@ -110,7 +112,9 @@ export function main() {
   describe('DirectiveResolver', () => {
     let resolver: DirectiveResolver;
 
-    beforeEach(() => { resolver = new DirectiveResolver(); });
+    beforeEach(() => {
+      resolver = new DirectiveResolver();
+    });
 
     it('should read out the Directive metadata', () => {
       const directiveMetadata = resolver.resolve(SomeDirective);

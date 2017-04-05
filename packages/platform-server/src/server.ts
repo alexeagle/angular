@@ -9,9 +9,9 @@
 import {ɵAnimationEngine} from '@angular/animations/browser';
 import {PlatformLocation, ɵPLATFORM_SERVER_ID as PLATFORM_SERVER_ID} from '@angular/common';
 import {platformCoreDynamic} from '@angular/compiler';
-import {Injectable, InjectionToken, Injector, NgModule, NgZone, PLATFORM_ID, PLATFORM_INITIALIZER, PlatformRef, Provider, RendererFactory2, RootRenderer, Testability, createPlatformFactory, isDevMode, platformCore, ɵALLOW_MULTIPLE_PLATFORMS as ALLOW_MULTIPLE_PLATFORMS} from '@angular/core';
+import {createPlatformFactory, Injectable, InjectionToken, Injector, isDevMode, NgModule, NgZone, PLATFORM_ID, PLATFORM_INITIALIZER, platformCore, PlatformRef, Provider, RendererFactory2, RootRenderer, Testability, ɵALLOW_MULTIPLE_PLATFORMS as ALLOW_MULTIPLE_PLATFORMS} from '@angular/core';
 import {HttpModule} from '@angular/http';
-import {BrowserModule, DOCUMENT, ɵSharedStylesHost as SharedStylesHost, ɵgetDOM as getDOM} from '@angular/platform-browser';
+import {BrowserModule, DOCUMENT, ɵgetDOM as getDOM, ɵSharedStylesHost as SharedStylesHost} from '@angular/platform-browser';
 import {NoopAnimationsModule, ɵAnimationRendererFactory} from '@angular/platform-browser/animations';
 
 import {SERVER_HTTP_PROVIDERS} from './http';
@@ -36,7 +36,9 @@ export const INTERNAL_SERVER_PLATFORM_PROVIDERS: Array<any /*Type | Provider | a
 ];
 
 function initParse5Adapter(injector: Injector) {
-  return () => { Parse5DomAdapter.makeCurrent(); };
+  return () => {
+    Parse5DomAdapter.makeCurrent();
+  };
 }
 
 export function instantiateServerRendererFactory(

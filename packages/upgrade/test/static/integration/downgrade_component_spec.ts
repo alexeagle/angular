@@ -6,12 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Compiler, Component, ComponentFactoryResolver, EventEmitter, Injector, NgModule, NgModuleRef, OnChanges, OnDestroy, SimpleChanges, destroyPlatform} from '@angular/core';
+import {Compiler, Component, ComponentFactoryResolver, destroyPlatform, EventEmitter, Injector, NgModule, NgModuleRef, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
 import {async} from '@angular/core/testing';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import * as angular from '@angular/upgrade/src/common/angular1';
-import {UpgradeModule, downgradeComponent} from '@angular/upgrade/static';
+import {downgradeComponent, UpgradeModule} from '@angular/upgrade/static';
 
 import {$apply, bootstrap, html, multiTrim} from '../test_helpers';
 
@@ -22,18 +22,21 @@ export function main() {
     afterEach(() => destroyPlatform());
 
     it('should bind properties, events', async(() => {
-         const ng1Module =
-             angular.module('ng1', []).value('$exceptionHandler', (err: any) => {
-                                        throw err;
-                                      }).run(($rootScope: angular.IScope) => {
-               $rootScope['name'] = 'world';
-               $rootScope['dataA'] = 'A';
-               $rootScope['dataB'] = 'B';
-               $rootScope['modelA'] = 'initModelA';
-               $rootScope['modelB'] = 'initModelB';
-               $rootScope['eventA'] = '?';
-               $rootScope['eventB'] = '?';
-             });
+         const ng1Module = angular.module('ng1', [])
+                               .value(
+                                   '$exceptionHandler',
+                                   (err: any) => {
+                                     throw err;
+                                   })
+                               .run(($rootScope: angular.IScope) => {
+                                 $rootScope['name'] = 'world';
+                                 $rootScope['dataA'] = 'A';
+                                 $rootScope['dataB'] = 'B';
+                                 $rootScope['modelA'] = 'initModelA';
+                                 $rootScope['modelB'] = 'initModelB';
+                                 $rootScope['eventA'] = '?';
+                                 $rootScope['eventB'] = '?';
+                               });
 
          @Component({
            selector: 'ng2',
@@ -76,7 +79,9 @@ export function main() {
                const actualValue = changes[prop].currentValue;
                if (actualValue != value) {
                  throw new Error(
-                     `Expected changes record for'${prop}' to be '${value}' but was '${actualValue}'`);
+                     `Expected changes record for'${prop}' to be '${value}' but was '${
+                                                                                       actualValue
+                                                                                     }'`);
                }
              };
 
@@ -149,17 +154,24 @@ export function main() {
        }));
 
     it('should bind to ng-model', async(() => {
-         const ng1Module = angular.module('ng1', []).run(
-             ($rootScope: angular.IScope) => { $rootScope['modelA'] = 'A'; });
+         const ng1Module = angular.module('ng1', []).run(($rootScope: angular.IScope) => {
+           $rootScope['modelA'] = 'A';
+         });
 
          let ng2Instance: Ng2;
          @Component({selector: 'ng2', template: '<span>{{_value}}</span>'})
          class Ng2 {
            private _value: any = '';
            private _onChangeCallback: (_: any) => void = () => {};
-           constructor() { ng2Instance = this; }
-           writeValue(value: any) { this._value = value; }
-           registerOnChange(fn: any) { this._onChangeCallback = fn; }
+           constructor() {
+             ng2Instance = this;
+           }
+           writeValue(value: any) {
+             this._value = value;
+           }
+           registerOnChange(fn: any) {
+             this._onChangeCallback = fn;
+           }
            doChange(newValue: string) {
              this._value = newValue;
              this._onChangeCallback(newValue);
@@ -198,7 +210,9 @@ export function main() {
          let destroyed = false;
          @Component({selector: 'ng2', template: 'test'})
          class Ng2Component implements OnDestroy {
-           ngOnDestroy() { destroyed = true; }
+           ngOnDestroy() {
+             destroyed = true;
+           }
          }
 
          @NgModule({
@@ -210,12 +224,13 @@ export function main() {
            ngDoBootstrap() {}
          }
 
-         const ng1Module =
-             angular.module('ng1', [])
-                 .directive(
-                     'ng1',
-                     () => { return {template: '<div ng-if="!destroyIt"><ng2></ng2></div>'}; })
-                 .directive('ng2', downgradeComponent({component: Ng2Component}));
+         const ng1Module = angular.module('ng1', [])
+                               .directive(
+                                   'ng1',
+                                   () => {
+                                     return {template: '<div ng-if="!destroyIt"><ng2></ng2></div>'};
+                                   })
+                               .directive('ng2', downgradeComponent({component: Ng2Component}));
          const element = html('<ng1></ng1>');
          platformBrowserDynamic().bootstrapModule(Ng2Module).then((ref) => {
            const adapter = ref.injector.get(UpgradeModule) as UpgradeModule;
@@ -368,7 +383,9 @@ export function main() {
 
          @Component({selector: 'ng2', template: ''})
          class Ng2Component {
-           constructor(injector: Injector) { componentInjector = injector; }
+           constructor(injector: Injector) {
+             componentInjector = injector;
+           }
          }
 
          @NgModule({

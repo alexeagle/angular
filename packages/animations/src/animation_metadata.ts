@@ -218,8 +218,9 @@ export function trigger(name: string, definitions: AnimationMetadata[]): Animati
  * @experimental Animation support is experimental.
  */
 export function animate(
-    timings: string | number, styles: AnimationStyleMetadata | AnimationKeyframesSequenceMetadata |
-        null = null): AnimationAnimateMetadata {
+    timings: string|number,
+    styles: AnimationStyleMetadata|AnimationKeyframesSequenceMetadata|null =
+        null): AnimationAnimateMetadata {
   return {type: AnimationMetadataType.Animate, styles: styles, timings: timings};
 }
 
@@ -338,9 +339,8 @@ export function sequence(steps: AnimationMetadata[]): AnimationSequenceMetadata 
  *
  * @experimental Animation support is experimental.
  */
-export function style(
-    tokens: {[key: string]: string | number} |
-    Array<{[key: string]: string | number}>): AnimationStyleMetadata {
+export function style(tokens: {[key: string]: string | number}|
+                      Array<{[key: string]: string | number}>): AnimationStyleMetadata {
   return {type: AnimationMetadataType.Style, styles: tokens};
 }
 
@@ -553,7 +553,7 @@ export function keyframes(steps: AnimationStyleMetadata[]): AnimationKeyframesSe
  * @experimental Animation support is experimental.
  */
 export function transition(
-    stateChangeExpr: string | ((fromState: string, toState: string) => boolean),
-    steps: AnimationMetadata | AnimationMetadata[]): AnimationTransitionMetadata {
+    stateChangeExpr: string|((fromState: string, toState: string) => boolean),
+    steps: AnimationMetadata|AnimationMetadata[]): AnimationTransitionMetadata {
   return {type: AnimationMetadataType.Transition, expr: stateChangeExpr, animation: steps};
 }

@@ -96,11 +96,15 @@ export class Xliff extends Serializer {
     return {locale, i18nNodesByMsgId};
   }
 
-  digest(message: i18n.Message): string { return digest(message); }
+  digest(message: i18n.Message): string {
+    return digest(message);
+  }
 }
 
 class _WriteVisitor implements i18n.Visitor {
-  visitText(text: i18n.Text, context?: any): xml.Node[] { return [new xml.Text(text.value)]; }
+  visitText(text: i18n.Text, context?: any): xml.Node[] {
+    return [new xml.Text(text.value)];
+  }
 
   visitContainer(container: i18n.Container, context?: any): xml.Node[] {
     const nodes: xml.Node[] = [];
@@ -253,7 +257,9 @@ class XmlToI18n implements ml.Visitor {
     };
   }
 
-  visitText(text: ml.Text, context: any) { return new i18n.Text(text.value, text.sourceSpan); }
+  visitText(text: ml.Text, context: any) {
+    return new i18n.Text(text.value, text.sourceSpan);
+  }
 
   visitElement(el: ml.Element, context: any): i18n.Placeholder {
     if (el.name === _PLACEHOLDER_TAG) {

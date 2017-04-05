@@ -16,13 +16,23 @@ import {EventEmitter, Injectable, NgZone} from '@angular/core';
 export class MockNgZone extends NgZone {
   private _mockOnStable: EventEmitter<any> = new EventEmitter(false);
 
-  constructor() { super({enableLongStackTrace: false}); }
+  constructor() {
+    super({enableLongStackTrace: false});
+  }
 
-  get onStable() { return this._mockOnStable; }
+  get onStable() {
+    return this._mockOnStable;
+  }
 
-  run(fn: Function): any { return fn(); }
+  run(fn: Function): any {
+    return fn();
+  }
 
-  runOutsideAngular(fn: Function): any { return fn(); }
+  runOutsideAngular(fn: Function): any {
+    return fn();
+  }
 
-  simulateZoneExit(): void { this.onStable.emit(null); }
+  simulateZoneExit(): void {
+    this.onStable.emit(null);
+  }
 }

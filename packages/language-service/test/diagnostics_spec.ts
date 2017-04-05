@@ -13,7 +13,7 @@ import {Diagnostics} from '../src/types';
 import {TypeScriptServiceHost} from '../src/typescript_host';
 
 import {toh} from './test_data';
-import {MockTypescriptHost, includeDiagnostic, noDiagnostics} from './test_utils';
+import {includeDiagnostic, MockTypescriptHost, noDiagnostics} from './test_utils';
 
 describe('diagnostics', () => {
   let documentRegistry = ts.createDocumentRegistry();
@@ -23,8 +23,9 @@ describe('diagnostics', () => {
   let ngService = createLanguageService(ngHost);
   ngHost.setSite(ngService);
 
-  it('should be no diagnostics for test.ng',
-     () => { expect(ngService.getDiagnostics('/app/test.ng')).toEqual([]); });
+  it('should be no diagnostics for test.ng', () => {
+    expect(ngService.getDiagnostics('/app/test.ng')).toEqual([]);
+  });
 
   describe('for semantic errors', () => {
     const fileName = '/app/test.ng';
@@ -38,13 +39,15 @@ describe('diagnostics', () => {
       }
     }
 
-    function accept(template: string) { noDiagnostics(diagnostics(template)); }
+    function accept(template: string) {
+      noDiagnostics(diagnostics(template));
+    }
 
     function reject(template: string, message: string): void;
     function reject(template: string, message: string, at: string): void;
     function reject(template: string, message: string, location: string): void;
     function reject(template: string, message: string, location: string, len: number): void;
-    function reject(template: string, message: string, at?: number | string, len?: number): void {
+    function reject(template: string, message: string, at?: number|string, len?: number): void {
       if (typeof at == 'string') {
         len = at.length;
         at = template.indexOf(at);
@@ -62,8 +65,9 @@ describe('diagnostics', () => {
     });
 
     describe('with $event', () => {
-      it('should accept an event',
-         () => { accept('<div (click)="myClick($event)">Click me!</div>'); });
+      it('should accept an event', () => {
+        accept('<div (click)="myClick($event)">Click me!</div>');
+      });
       it('should reject it when not in an event binding', () => {
         reject('<div [tabIndex]="$event"></div>', '\'$event\' is not defined', '$event');
       });
@@ -76,7 +80,9 @@ describe('diagnostics', () => {
       expect(() => {
         const code =
             '\n@Component({template: \'<div *ngFor></div> ~{after-div}\'}) export class MyComponent {}';
-        addCode(code, fileName => { ngService.getDiagnostics(fileName); });
+        addCode(code, fileName => {
+          ngService.getDiagnostics(fileName);
+        });
       }).not.toThrow();
     });
 
@@ -102,15 +108,17 @@ describe('diagnostics', () => {
     it('should not throw getting diagnostics for an index expression', () => {
       const code =
           ` @Component({template: '<a *ngIf="(auth.isAdmin | async) || (event.leads && event.leads[(auth.uid | async)])"></a>'}) export class MyComponent {}`;
-      addCode(
-          code, fileName => { expect(() => ngService.getDiagnostics(fileName)).not.toThrow(); });
+      addCode(code, fileName => {
+        expect(() => ngService.getDiagnostics(fileName)).not.toThrow();
+      });
     });
 
     it('should not throw using a directive with no value', () => {
       const code =
           ` @Component({template: '<form><input [(ngModel)]="name" required /></form>'}) export class MyComponent { name = 'some name'; }`;
-      addCode(
-          code, fileName => { expect(() => ngService.getDiagnostics(fileName)).not.toThrow(); });
+      addCode(code, fileName => {
+        expect(() => ngService.getDiagnostics(fileName)).not.toThrow();
+      });
     });
 
     it('should report an error for invalid metadata', () => {
@@ -125,8 +133,9 @@ describe('diagnostics', () => {
 
     it('should not throw for an invalid class', () => {
       const code = ` @Component({template: ''}) class`;
-      addCode(
-          code, fileName => { expect(() => ngService.getDiagnostics(fileName)).not.toThrow(); });
+      addCode(code, fileName => {
+        expect(() => ngService.getDiagnostics(fileName)).not.toThrow();
+      });
     });
 
     it('should not report an error for sub-types of string', () => {
@@ -202,27 +211,24 @@ describe('diagnostics', () => {
     });
 
     it('should report an error for invalid providers', () => {
-      addCode(
-          `
+      addCode(`
         @Component({
           template: '',
           providers: [null]
        })
        export class MyComponent {}
-      `,
-          fileName => {
-            const diagnostics = ngService.getDiagnostics(fileName);
-            const expected = diagnostics.find(d => d.message.startsWith('Invalid providers for'));
-            const notExpected = diagnostics.find(d => d.message.startsWith('Cannot read property'));
-            expect(expected).toBeDefined();
-            expect(notExpected).toBeUndefined();
-          });
+      `, fileName => {
+        const diagnostics = ngService.getDiagnostics(fileName);
+        const expected = diagnostics.find(d => d.message.startsWith('Invalid providers for'));
+        const notExpected = diagnostics.find(d => d.message.startsWith('Cannot read property'));
+        expect(expected).toBeDefined();
+        expect(notExpected).toBeUndefined();
+      });
     });
 
     // Issue #15768
     it('should be able to parse a template reference', () => {
-      addCode(
-          `
+      addCode(`
         @Component({
           selector: 'my-component',
           template: \`
@@ -232,14 +238,12 @@ describe('diagnostics', () => {
           \`
         })
         export class MyComponent {}
-      `,
-          fileName => onlyModuleDiagnostics(ngService.getDiagnostics(fileName)));
+      `, fileName => onlyModuleDiagnostics(ngService.getDiagnostics(fileName)));
     });
 
     // Issue #15625
     it('should not report errors for localization syntax', () => {
-      addCode(
-          `
+      addCode(`
           @Component({
             selector: 'my-component',
             template: \`
@@ -251,11 +255,10 @@ describe('diagnostics', () => {
           export class MyComponent {
             fieldCount: number;
           }
-      `,
-          fileName => {
-            const diagnostics = ngService.getDiagnostics(fileName);
-            onlyModuleDiagnostics(diagnostics);
-          });
+      `, fileName => {
+        const diagnostics = ngService.getDiagnostics(fileName);
+        onlyModuleDiagnostics(diagnostics);
+      });
     });
 
     function addCode(code: string, cb: (fileName: string, content?: string) => void) {

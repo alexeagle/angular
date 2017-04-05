@@ -152,7 +152,7 @@ export class Http {
   /**
    * Performs a request with `delete` http method.
    */
-  delete (url: string, options?: RequestOptionsArgs): Observable<Response> {
+  delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
     return this.request(
         new Request(mergeOptions(this._defaultOptions, options, RequestMethod.Delete, url)));
   }

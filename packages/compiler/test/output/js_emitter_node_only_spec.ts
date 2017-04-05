@@ -23,8 +23,12 @@ class SimpleJsImportGenerator implements ImportResolver {
   fileNameToModuleName(importedUrlStr: string, moduleUrlStr: string): string {
     return importedUrlStr;
   }
-  getImportAs(symbol: StaticSymbol): StaticSymbol { return null; }
-  getTypeArity(symbol: StaticSymbol): number /*|null*/ { return null; }
+  getImportAs(symbol: StaticSymbol): StaticSymbol {
+    return null;
+  }
+  getTypeArity(symbol: StaticSymbol): number /*|null*/ {
+    return null;
+  }
 }
 
 export function main() {
@@ -39,7 +43,7 @@ export function main() {
     });
 
     function emitSourceMap(
-        stmt: o.Statement | o.Statement[], exportedVars: string[] = null,
+        stmt: o.Statement|o.Statement[], exportedVars: string[] = null,
         preamble?: string): SourceMap {
       const stmts = Array.isArray(stmt) ? stmt : [stmt];
       const source = emitter.emitStatements(

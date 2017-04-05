@@ -134,7 +134,9 @@ export class CssScanner {
     this.advance();
   }
 
-  getMode(): CssLexerMode { return this._currentMode; }
+  getMode(): CssLexerMode {
+    return this._currentMode;
+  }
 
   setMode(mode: CssLexerMode) {
     if (this._currentMode != mode) {
@@ -235,9 +237,10 @@ export class CssScanner {
       }
 
       error = cssScannerError(
-          next, generateErrorMessage(
-                    this.input, errorMessage, next.strValue, previousIndex, previousLine,
-                    previousColumn));
+          next,
+          generateErrorMessage(
+              this.input, errorMessage, next.strValue, previousIndex, previousLine,
+              previousColumn));
     }
 
     return new LexedCssResult(error, next);

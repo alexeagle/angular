@@ -24,8 +24,9 @@ describe('completions', () => {
   let ngService = createLanguageService(ngHost);
   ngHost.setSite(ngService);
 
-  it('should be able to get entity completions',
-     () => { contains('/app/test.ng', 'entity-amp', '&amp;', '&gt;', '&lt;', '&iota;'); });
+  it('should be able to get entity completions', () => {
+    contains('/app/test.ng', 'entity-amp', '&amp;', '&gt;', '&lt;', '&iota;');
+  });
 
   it('should be able to return html elements', () => {
     let htmlTags = ['h1', 'h2', 'div', 'span'];
@@ -35,14 +36,17 @@ describe('completions', () => {
     }
   });
 
-  it('should be able to return element diretives',
-     () => { contains('/app/test.ng', 'empty', 'my-app'); });
+  it('should be able to return element diretives', () => {
+    contains('/app/test.ng', 'empty', 'my-app');
+  });
 
-  it('should be able to return h1 attributes',
-     () => { contains('/app/test.ng', 'h1-after-space', 'id', 'dir', 'lang', 'onclick'); });
+  it('should be able to return h1 attributes', () => {
+    contains('/app/test.ng', 'h1-after-space', 'id', 'dir', 'lang', 'onclick');
+  });
 
-  it('should be able to find common angular attributes',
-     () => { contains('/app/test.ng', 'div-attributes', '(click)', '[ngClass]'); });
+  it('should be able to find common angular attributes', () => {
+    contains('/app/test.ng', 'div-attributes', '(click)', '[ngClass]');
+  });
 
   it('should be able to get completions in some random garbage', () => {
     const fileName = '/app/test.ng';
@@ -52,8 +56,7 @@ describe('completions', () => {
   });
 
   it('should be able to infer the type of a ngForOf', () => {
-    addCode(
-        `
+    addCode(`
       interface Person {
         name: string,
         street: string
@@ -62,13 +65,13 @@ describe('completions', () => {
       @Component({template: '<div *ngFor="let person of people">{{person.~{name}name}}</div'})
       export class MyComponent {
         people: Person[]
-      }`,
-        () => { contains('/app/app.component.ts', 'name', 'name', 'street'); });
+      }`, () => {
+      contains('/app/app.component.ts', 'name', 'name', 'street');
+    });
   });
 
   it('should be able to infer the type of a ngForOf with an async pipe', () => {
-    addCode(
-        `
+    addCode(`
       interface Person {
         name: string,
         street: string
@@ -77,8 +80,9 @@ describe('completions', () => {
       @Component({template: '<div *ngFor="let person of people | async">{{person.~{name}name}}</div'})
       export class MyComponent {
         people: Promise<Person[]>;
-      }`,
-        () => { contains('/app/app.component.ts', 'name', 'name', 'street'); });
+      }`, () => {
+      contains('/app/app.component.ts', 'name', 'name', 'street');
+    });
   });
 
   it('should be able to complete every character in the file', () => {
@@ -95,8 +99,9 @@ describe('completions', () => {
           }
         } catch (e) {
           // Emit enough diagnostic information to reproduce the error.
-          console.error(
-              `Position: ${position}\nContent: "${mockHost.getFileContent(fileName)}"\nStack:\n${e.stack}`);
+          console.error(`Position: ${position}\nContent: "${
+                                                            mockHost.getFileContent(fileName)
+                                                          }"\nStack:\n${e.stack}`);
           throw e;
         }
       }
@@ -148,13 +153,17 @@ describe('completions', () => {
 export class MyComponent {
 
 }`;
-        addCode(code, fileName => { contains(fileName, 'inside-template', 'h1'); });
+        addCode(code, fileName => {
+          contains(fileName, 'inside-template', 'h1');
+        });
       }).not.toThrow();
     });
 
     it('should hot crash with an incomplete class', () => {
       expect(() => {
-        addCode('\nexport class', fileName => { ngHost.updateAnalyzedModules(); });
+        addCode('\nexport class', fileName => {
+          ngHost.updateAnalyzedModules();
+        });
       }).not.toThrow();
     });
 
@@ -186,12 +195,14 @@ export class MyComponent {
 function expectEntries(locationMarker: string, completions: Completions, ...names: string[]) {
   let entries: {[name: string]: boolean} = {};
   if (!completions) {
-    throw new Error(
-        `Expected result from ${locationMarker} to include ${names.join(', ')} but no result provided`);
+    throw new Error(`Expected result from ${locationMarker} to include ${
+                                                                         names.join(', ')
+                                                                       } but no result provided`);
   }
   if (!completions.length) {
-    throw new Error(
-        `Expected result from ${locationMarker} to include ${names.join(', ')} an empty result provided`);
+    throw new Error(`Expected result from ${locationMarker} to include ${
+                                                                         names.join(', ')
+                                                                       } an empty result provided`);
   } else {
     for (let entry of completions) {
       entries[entry.name] = true;
@@ -199,7 +210,19 @@ function expectEntries(locationMarker: string, completions: Completions, ...name
     let missing = names.filter(name => !entries[name]);
     if (missing.length) {
       throw new Error(
-          `Expected result from ${locationMarker} to include at least one of the following, ${missing.join(', ')}, in the list of entries ${completions.map(entry => entry.name).join(', ')}`);
+          `Expected result from ${
+                                  locationMarker
+                                } to include at least one of the following, ${
+                                                                              missing.join(', ')
+                                                                            }, in the list of entries ${
+                                                                                                        completions
+                                                                                                            .map(
+                                                                                                                entry =>
+                                                                                                                    entry
+                                                                                                                        .name)
+                                                                                                            .join(
+                                                                                                                ', ')
+                                                                                                      }`);
     }
   }
 }
@@ -219,7 +242,9 @@ function buildUp(originalText: string, cb: (text: string, position: number) => v
         .join('');
   }
 
-  function randomUnusedIndex() { return Math.floor(Math.random() * unused.length); }
+  function randomUnusedIndex() {
+    return Math.floor(Math.random() * unused.length);
+  }
 
   while (unused.length > 0) {
     let unusedIndex = randomUnusedIndex();

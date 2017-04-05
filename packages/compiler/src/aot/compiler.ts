@@ -8,7 +8,7 @@
 
 import {CompileDirectiveMetadata, CompileIdentifierMetadata, CompileNgModuleMetadata, CompileProviderMetadata, componentFactoryName, createHostComponentMeta, flatten, identifierName, sourceUrl, templateSourceUrl} from '../compile_metadata';
 import {CompilerConfig} from '../config';
-import {Identifiers, createIdentifier, createIdentifierToken} from '../identifiers';
+import {createIdentifier, createIdentifierToken, Identifiers} from '../identifiers';
 import {CompileMetadataResolver} from '../metadata_resolver';
 import {NgModuleCompiler} from '../ng_module_compiler';
 import {OutputEmitter} from '../output/abstract_emitter';
@@ -36,7 +36,9 @@ export class AotCompiler {
       private _translationFormat: string, private _genFilePreamble: string,
       private _symbolResolver: StaticSymbolResolver) {}
 
-  clearCache() { this._metadataResolver.clearCache(); }
+  clearCache() {
+    this._metadataResolver.clearCache();
+  }
 
   compileAll(rootFiles: string[]): Promise<GeneratedFile[]> {
     const programSymbols = extractProgramSymbols(this._symbolResolver, rootFiles, this._host);
@@ -80,7 +82,10 @@ export class AotCompiler {
       const ngModule = ngModuleByPipeOrDirective.get(dirType);
       if (!ngModule) {
         throw new Error(
-            `Internal Error: cannot determine the module for component ${identifierName(compMeta.type)}!`);
+            `Internal Error: cannot determine the module for component ${
+                                                                         identifierName(
+                                                                             compMeta.type)
+                                                                       }!`);
       }
 
       _assertComponent(compMeta);
@@ -221,8 +226,9 @@ export class AotCompiler {
       fileUrl: string, stylesCompileResult: CompiledStylesheet, fileSuffix: string): GeneratedFile {
     _resolveStyleStatements(this._symbolResolver, stylesCompileResult, fileSuffix);
     return this._codegenSourceModule(
-        fileUrl, _stylesModuleUrl(
-                     stylesCompileResult.meta.moduleUrl, stylesCompileResult.isShimmed, fileSuffix),
+        fileUrl,
+        _stylesModuleUrl(
+            stylesCompileResult.meta.moduleUrl, stylesCompileResult.isShimmed, fileSuffix),
         stylesCompileResult.statements, [stylesCompileResult.stylesVar]);
   }
 
@@ -287,8 +293,13 @@ export function analyzeAndValidateNgModules(
   const result = analyzeNgModules(programStaticSymbols, host, metadataResolver);
   if (result.symbolsMissingModule && result.symbolsMissingModule.length) {
     const messages = result.symbolsMissingModule.map(
-        s =>
-            `Cannot determine the module for class ${s.name} in ${s.filePath}! Add ${s.name} to the NgModule to fix it.`);
+        s => `Cannot determine the module for class ${
+                                                      s.name
+                                                    } in ${
+                                                           s.filePath
+                                                         }! Add ${
+                                                                  s.name
+                                                                } to the NgModule to fix it.`);
     throw syntaxError(messages.join('\n'));
   }
   return result;
@@ -364,7 +375,8 @@ function _analyzeNgModules(
     ngModuleByPipeOrDirective,
     // list modules and directives for every source file
     files,
-    ngModules: ngModuleMetas, symbolsMissingModule
+    ngModules: ngModuleMetas,
+    symbolsMissingModule
   };
 }
 

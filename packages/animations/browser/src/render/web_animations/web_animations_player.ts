@@ -5,7 +5,8 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {AUTO_STYLE, AnimationPlayer} from '@angular/animations';
+import {AnimationPlayer, AUTO_STYLE} from '@angular/animations';
+
 import {DOMAnimation} from './dom_animation';
 
 export class WebAnimationsPlayer implements AnimationPlayer {
@@ -105,13 +106,21 @@ export class WebAnimationsPlayer implements AnimationPlayer {
     return element['animate'](keyframes, options) as DOMAnimation;
   }
 
-  get domPlayer() { return this._player; }
+  get domPlayer() {
+    return this._player;
+  }
 
-  onStart(fn: () => void): void { this._onStartFns.push(fn); }
+  onStart(fn: () => void): void {
+    this._onStartFns.push(fn);
+  }
 
-  onDone(fn: () => void): void { this._onDoneFns.push(fn); }
+  onDone(fn: () => void): void {
+    this._onDoneFns.push(fn);
+  }
 
-  onDestroy(fn: () => void): void { this._onDestroyFns.push(fn); }
+  onDestroy(fn: () => void): void {
+    this._onDestroyFns.push(fn);
+  }
 
   play(): void {
     this.init();
@@ -152,7 +161,9 @@ export class WebAnimationsPlayer implements AnimationPlayer {
     this.play();
   }
 
-  hasStarted(): boolean { return this._started; }
+  hasStarted(): boolean {
+    return this._started;
+  }
 
   destroy(): void {
     if (!this._destroyed) {
@@ -164,9 +175,13 @@ export class WebAnimationsPlayer implements AnimationPlayer {
     }
   }
 
-  setPosition(p: number): void { this._player.currentTime = p * this.time; }
+  setPosition(p: number): void {
+    this._player.currentTime = p * this.time;
+  }
 
-  getPosition(): number { return this._player.currentTime / this.time; }
+  getPosition(): number {
+    return this._player.currentTime / this.time;
+  }
 
   private _captureStyles(): {[prop: string]: string | number} {
     const styles: {[key: string]: string | number} = {};

@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {AUTO_STYLE, AnimationEvent, animate, group, keyframes, state, style, transition, trigger} from '@angular/animations';
+import {animate, AnimationEvent, AUTO_STYLE, group, keyframes, state, style, transition, trigger} from '@angular/animations';
 import {AnimationDriver, ɵAnimationEngine, ɵNoopAnimationDriver} from '@angular/animations/browser';
 import {MockAnimationDriver, MockAnimationPlayer} from '@angular/animations/browser/testing';
 import {Component, HostBinding, HostListener, RendererFactory2, ViewChild} from '@angular/core';
@@ -13,7 +13,7 @@ import {ɵDomRendererFactory2} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
 
-import {TestBed, fakeAsync, flushMicrotasks} from '../../testing';
+import {fakeAsync, flushMicrotasks, TestBed} from '../../testing';
 
 export function main() {
   // these tests are only mean't to be run within the DOM (for now)
@@ -24,7 +24,9 @@ export function main() {
       return MockAnimationDriver.log as MockAnimationPlayer[];
     }
 
-    function resetLog() { MockAnimationDriver.log = []; }
+    function resetLog() {
+      MockAnimationDriver.log = [];
+    }
 
     beforeEach(() => {
       resetLog();
@@ -60,7 +62,7 @@ export function main() {
         engine.flush();
 
         expect(getLog().length).toEqual(1);
-        expect(getLog().pop() !.keyframes).toEqual([
+        expect(getLog().pop()!.keyframes).toEqual([
           {offset: 0, opacity: '0'}, {offset: 1, opacity: '1'}
         ]);
       });
@@ -96,7 +98,7 @@ export function main() {
         fixture.detectChanges();
         engine.flush();
 
-        expect(getLog().pop() !.keyframes).toEqual([
+        expect(getLog().pop()!.keyframes).toEqual([
           {offset: 0, width: '0px'}, {offset: 1, width: '100px'}
         ]);
 
@@ -105,7 +107,7 @@ export function main() {
         fixture.detectChanges();
         engine.flush();
 
-        expect(getLog().pop() !.keyframes).toEqual([
+        expect(getLog().pop()!.keyframes).toEqual([
           {offset: 0, height: '0px'}, {offset: 1, height: '100px'}
         ]);
 
@@ -114,7 +116,7 @@ export function main() {
         fixture.detectChanges();
         engine.flush();
 
-        expect(getLog().pop() !.keyframes).toEqual([
+        expect(getLog().pop()!.keyframes).toEqual([
           {offset: 0, height: '0px'}, {offset: 1, height: '100px'}
         ]);
 
@@ -123,7 +125,7 @@ export function main() {
         fixture.detectChanges();
         engine.flush();
 
-        expect(getLog().pop() !.keyframes).toEqual([
+        expect(getLog().pop()!.keyframes).toEqual([
           {offset: 0, height: '0px'}, {offset: 1, height: '100px'}
         ]);
 
@@ -132,7 +134,7 @@ export function main() {
         fixture.detectChanges();
         engine.flush();
 
-        expect(getLog().pop() !.keyframes).toEqual([
+        expect(getLog().pop()!.keyframes).toEqual([
           {offset: 0, height: '0px'}, {offset: 1, height: '100px'}
         ]);
 
@@ -142,7 +144,7 @@ export function main() {
         fixture.detectChanges();
         engine.flush();
 
-        expect(getLog().pop() !.keyframes).toEqual([
+        expect(getLog().pop()!.keyframes).toEqual([
           {offset: 0, width: '0px'}, {offset: 1, width: '100px'}
         ]);
       });
@@ -174,7 +176,7 @@ export function main() {
         fixture.detectChanges();
         engine.flush();
 
-        expect(getLog().pop() !.keyframes).toEqual([
+        expect(getLog().pop()!.keyframes).toEqual([
           {offset: 0, opacity: '0'}, {offset: 1, opacity: '1'}
         ]);
 
@@ -182,7 +184,7 @@ export function main() {
         fixture.detectChanges();
         engine.flush();
 
-        expect(getLog().pop() !.keyframes).toEqual([
+        expect(getLog().pop()!.keyframes).toEqual([
           {offset: 0, opacity: '1'}, {offset: 1, opacity: '0'}
         ]);
       });
@@ -233,7 +235,7 @@ export function main() {
              engine.flush();
              expect(getLog().length).toEqual(1);
 
-             const data = getLog().pop() !;
+             const data = getLog().pop()!;
              expect(data.element).toEqual(fixture.elementRef.nativeElement);
              expect(data.keyframes).toEqual([{offset: 0, opacity: '0'}, {offset: 1, opacity: '1'}]);
            }));
@@ -679,8 +681,8 @@ export function main() {
 
         expect(getLog().length).toEqual(2);
 
-        const player2 = getLog().pop() !;
-        const player1 = getLog().pop() !;
+        const player2 = getLog().pop()!;
+        const player1 = getLog().pop()!;
 
         expect(player2.keyframes).toEqual([
           {width: AUTO_STYLE, offset: 0},
@@ -796,7 +798,9 @@ export function main() {
              exp: any = false;
              event: AnimationEvent;
 
-             callback = (event: any) => { this.event = event; };
+             callback = (event: any) => {
+               this.event = event;
+             };
            }
 
            TestBed.configureTestingModule({declarations: [Cmp]});
@@ -831,7 +835,9 @@ export function main() {
              exp: any = false;
              event: AnimationEvent;
 
-             callback = (event: any) => { this.event = event; };
+             callback = (event: any) => {
+               this.event = event;
+             };
            }
 
            TestBed.configureTestingModule({declarations: [Cmp]});
@@ -883,8 +889,12 @@ export function main() {
           exp2: any = false;
           event1: AnimationEvent;
           event2: AnimationEvent;
-          callback1 = (event: any) => { this.event1 = event; };
-          callback2 = (event: any) => { this.event2 = event; };
+          callback1 = (event: any) => {
+            this.event1 = event;
+          };
+          callback2 = (event: any) => {
+            this.event2 = event;
+          };
         }
 
         TestBed.configureTestingModule({declarations: [Cmp]});
@@ -942,8 +952,12 @@ export function main() {
              exp2: any = false;
              event1: AnimationEvent;
              event2: AnimationEvent;
-             callback1 = (event: any) => { this.event1 = event; };
-             callback2 = (event: any) => { this.event2 = event; };
+             callback1 = (event: any) => {
+               this.event1 = event;
+             };
+             callback2 = (event: any) => {
+               this.event2 = event;
+             };
            }
 
            TestBed.configureTestingModule({declarations: [Cmp]});
@@ -990,7 +1004,9 @@ export function main() {
              exp: any = false;
 
              @HostListener('@myAnimation2.start', ['$event'])
-             callback = (event: any) => { this.event = event; };
+             callback = (event: any) => {
+               this.event = event;
+             };
            }
 
            TestBed.configureTestingModule({declarations: [Cmp]});
@@ -1020,7 +1036,9 @@ export function main() {
            class Cmp {
              exp: string;
              log: any[] = [];
-             callback = (event: any) => { this.log.push(`${event.phaseName} => ${event.toState}`); }
+             callback = (event: any) => {
+               this.log.push(`${event.phaseName} => ${event.toState}`);
+             }
            }
 
            TestBed.configureTestingModule({

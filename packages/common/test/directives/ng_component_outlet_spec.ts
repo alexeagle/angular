@@ -8,14 +8,16 @@
 
 import {CommonModule} from '@angular/common';
 import {NgComponentOutlet} from '@angular/common/src/directives/ng_component_outlet';
-import {Compiler, Component, ComponentRef, Inject, InjectionToken, Injector, NO_ERRORS_SCHEMA, NgModule, NgModuleFactory, Optional, Provider, QueryList, ReflectiveInjector, TemplateRef, Type, ViewChild, ViewChildren, ViewContainerRef} from '@angular/core';
-import {TestBed, async, fakeAsync} from '@angular/core/testing';
+import {Compiler, Component, ComponentRef, Inject, InjectionToken, Injector, NgModule, NgModuleFactory, NO_ERRORS_SCHEMA, Optional, Provider, QueryList, ReflectiveInjector, TemplateRef, Type, ViewChild, ViewChildren, ViewContainerRef} from '@angular/core';
+import {async, fakeAsync, TestBed} from '@angular/core/testing';
 import {expect} from '@angular/platform-browser/testing/src/matchers';
 
 export function main() {
   describe('insert/remove', () => {
 
-    beforeEach(() => { TestBed.configureTestingModule({imports: [TestModule]}); });
+    beforeEach(() => {
+      TestBed.configureTestingModule({imports: [TestModule]});
+    });
 
     it('should do nothing if component is null', async(() => {
          const template = `<ng-template *ngComponentOutlet="currentComponent"></ng-template>`;
@@ -229,8 +231,12 @@ class TestComponent {
   projectables: any[][];
   module: NgModuleFactory<any>;
 
-  get cmpRef(): ComponentRef<any> { return this.ngComponentOutlet['_componentRef']; }
-  set cmpRef(value: ComponentRef<any>) { this.ngComponentOutlet['_componentRef'] = value; }
+  get cmpRef(): ComponentRef<any> {
+    return this.ngComponentOutlet['_componentRef'];
+  }
+  set cmpRef(value: ComponentRef<any>) {
+    this.ngComponentOutlet['_componentRef'] = value;
+  }
 
   @ViewChildren(TemplateRef) tplRefs: QueryList<TemplateRef<any>>;
   @ViewChild(NgComponentOutlet) ngComponentOutlet: NgComponentOutlet;

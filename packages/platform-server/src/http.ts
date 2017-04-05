@@ -25,7 +25,9 @@ function validateRequestUrl(url: string): void {
 
 @Injectable()
 export class ServerXhr implements BrowserXhr {
-  build(): XMLHttpRequest { return new xhr2.XMLHttpRequest(); }
+  build(): XMLHttpRequest {
+    return new xhr2.XMLHttpRequest();
+  }
 }
 
 @Injectable()

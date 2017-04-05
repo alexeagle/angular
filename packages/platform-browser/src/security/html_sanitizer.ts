@@ -194,7 +194,9 @@ class SanitizingHtmlSerializer {
     }
   }
 
-  private chars(chars: string) { this.buf.push(encodeEntities(chars)); }
+  private chars(chars: string) {
+    this.buf.push(encodeEntities(chars));
+  }
 }
 
 function checkClobberedElement(node: Node, nextNode: Node): Node {
@@ -228,7 +230,9 @@ function encodeEntities(value: string) {
           })
       .replace(
           NON_ALPHANUMERIC_REGEXP,
-          function(match: string) { return '&#' + match.charCodeAt(0) + ';'; })
+          function(match: string) {
+            return '&#' + match.charCodeAt(0) + ';';
+          })
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 }

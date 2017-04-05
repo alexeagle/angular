@@ -29,20 +29,32 @@ export class DebugNode {
     this.listeners = [];
   }
 
-  get injector(): Injector { return this._debugContext.injector; }
+  get injector(): Injector {
+    return this._debugContext.injector;
+  }
 
-  get componentInstance(): any { return this._debugContext.component; }
+  get componentInstance(): any {
+    return this._debugContext.component;
+  }
 
-  get context(): any { return this._debugContext.context; }
+  get context(): any {
+    return this._debugContext.context;
+  }
 
-  get references(): {[key: string]: any} { return this._debugContext.references; }
+  get references(): {[key: string]: any} {
+    return this._debugContext.references;
+  }
 
-  get providerTokens(): any[] { return this._debugContext.providerTokens; }
+  get providerTokens(): any[] {
+    return this._debugContext.providerTokens;
+  }
 
   /**
    * @deprecated since v4
    */
-  get source(): string { return 'Deprecated since v4'; }
+  get source(): string {
+    return 'Deprecated since v4';
+  }
 }
 
 /**

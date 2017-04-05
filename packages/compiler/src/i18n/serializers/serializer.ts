@@ -21,7 +21,9 @@ export abstract class Serializer {
 
   // Creates a name mapper, see `PlaceholderMapper`
   // Returning `null` means that no name mapping is used.
-  createNameMapper(message: i18n.Message): PlaceholderMapper { return null; }
+  createNameMapper(message: i18n.Message): PlaceholderMapper {
+    return null;
+  }
 }
 
 /**
@@ -61,7 +63,9 @@ export class SimplePlaceholderMapper extends i18n.RecurseVisitor implements Plac
                                                               null;
   }
 
-  visitText(text: i18n.Text, context?: any): any { return null; }
+  visitText(text: i18n.Text, context?: any): any {
+    return null;
+  }
 
   visitTagPlaceholder(ph: i18n.TagPlaceholder, context?: any): any {
     this.visitPlaceholderName(ph.startName);
@@ -69,7 +73,9 @@ export class SimplePlaceholderMapper extends i18n.RecurseVisitor implements Plac
     this.visitPlaceholderName(ph.closeName);
   }
 
-  visitPlaceholder(ph: i18n.Placeholder, context?: any): any { this.visitPlaceholderName(ph.name); }
+  visitPlaceholder(ph: i18n.Placeholder, context?: any): any {
+    this.visitPlaceholderName(ph.name);
+  }
 
   visitIcuPlaceholder(ph: i18n.IcuPlaceholder, context?: any): any {
     this.visitPlaceholderName(ph.name);

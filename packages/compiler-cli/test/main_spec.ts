@@ -43,7 +43,9 @@ describe('compiler-cli', () => {
   });
 
   // Restore reflector since AoT compiler will update it with a new static reflector
-  afterEach(() => { ɵreflector.updateCapabilities(new ɵReflectionCapabilities()); });
+  afterEach(() => {
+    ɵreflector.updateCapabilities(new ɵReflectionCapabilities());
+  });
 
   it('should compile without errors', (done) => {
     write('test.ts', 'export const A = 1;');

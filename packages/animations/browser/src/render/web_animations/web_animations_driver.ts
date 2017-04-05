@@ -24,8 +24,9 @@ export class WebAnimationsDriver implements AnimationDriver {
       playerOptions['easing'] = easing;
     }
 
-    const previousWebAnimationPlayers = <WebAnimationsPlayer[]>previousPlayers.filter(
-        player => { return player instanceof WebAnimationsPlayer; });
+    const previousWebAnimationPlayers = <WebAnimationsPlayer[]>previousPlayers.filter(player => {
+      return player instanceof WebAnimationsPlayer;
+    });
     return new WebAnimationsPlayer(element, keyframes, playerOptions, previousWebAnimationPlayers);
   }
 }

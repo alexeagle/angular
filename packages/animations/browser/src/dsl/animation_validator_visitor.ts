@@ -122,7 +122,18 @@ export class AnimationValidatorVisitor implements AnimationDslVisitor {
         if (startTime != endTime && startTime >= collectedEntry.startTime &&
             endTime <= collectedEntry.endTime) {
           context.errors.push(
-              `The CSS property "${prop}" that exists between the times of "${collectedEntry.startTime}ms" and "${collectedEntry.endTime}ms" is also being animated in a parallel animation between the times of "${startTime}ms" and "${endTime}ms"`);
+              `The CSS property "${
+                                   prop
+                                 }" that exists between the times of "${
+                                                                        collectedEntry.startTime
+                                                                      }ms" and "${
+                                                                                  collectedEntry
+                                                                                      .endTime
+                                                                                }ms" is also being animated in a parallel animation between the times of "${
+                                                                                                                                                            startTime
+                                                                                                                                                          }ms" and "${
+                                                                                                                                                                      endTime
+                                                                                                                                                                    }ms"`);
           updateCollectedStyle = false;
         }
 

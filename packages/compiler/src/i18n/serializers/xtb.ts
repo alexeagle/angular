@@ -19,7 +19,9 @@ const _TRANSLATION_TAG = 'translation';
 const _PLACEHOLDER_TAG = 'ph';
 
 export class Xtb extends Serializer {
-  write(messages: i18n.Message[], locale: string|null): string { throw new Error('Unsupported'); }
+  write(messages: i18n.Message[], locale: string|null): string {
+    throw new Error('Unsupported');
+  }
 
   load(content: string, url: string):
       {locale: string, i18nNodesByMsgId: {[msgId: string]: i18n.Node[]}} {
@@ -52,7 +54,9 @@ export class Xtb extends Serializer {
     return {locale, i18nNodesByMsgId};
   }
 
-  digest(message: i18n.Message): string { return digest(message); }
+  digest(message: i18n.Message): string {
+    return digest(message);
+  }
 
   createNameMapper(message: i18n.Message): PlaceholderMapper {
     return new SimplePlaceholderMapper(message, toPublicName);
@@ -68,7 +72,9 @@ function createLazyProperty(messages: any, id: string, valueFn: () => any) {
       Object.defineProperty(messages, id, {enumerable: true, value});
       return value;
     },
-    set: _ => { throw new Error('Could not overwrite an XTB translation'); },
+    set: _ => {
+      throw new Error('Could not overwrite an XTB translation');
+    },
   });
 }
 
@@ -168,7 +174,9 @@ class XmlToI18n implements ml.Visitor {
     };
   }
 
-  visitText(text: ml.Text, context: any) { return new i18n.Text(text.value, text.sourceSpan); }
+  visitText(text: ml.Text, context: any) {
+    return new i18n.Text(text.value, text.sourceSpan);
+  }
 
   visitExpansion(icu: ml.Expansion, context: any) {
     const caseMap: {[value: string]: i18n.Node} = {};

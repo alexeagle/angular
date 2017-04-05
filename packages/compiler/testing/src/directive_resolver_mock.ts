@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import {DirectiveResolver} from '@angular/compiler';
-import {Compiler, Component, Directive, Injectable, Injector, Provider, Type, resolveForwardRef, ɵViewMetadata as ViewMetadata} from '@angular/core';
+import {Compiler, Component, Directive, Injectable, Injector, Provider, resolveForwardRef, Type, ɵViewMetadata as ViewMetadata} from '@angular/core';
 
 
 
@@ -22,11 +22,17 @@ export class MockDirectiveResolver extends DirectiveResolver {
   private _views = new Map<Type<any>, ViewMetadata>();
   private _inlineTemplates = new Map<Type<any>, string>();
 
-  constructor(private _injector: Injector) { super(); }
+  constructor(private _injector: Injector) {
+    super();
+  }
 
-  private get _compiler(): Compiler { return this._injector.get(Compiler); }
+  private get _compiler(): Compiler {
+    return this._injector.get(Compiler);
+  }
 
-  private _clearCacheFor(component: Type<any>) { this._compiler.clearCacheFor(component); }
+  private _clearCacheFor(component: Type<any>) {
+    this._compiler.clearCacheFor(component);
+  }
 
   resolve(type: Type<any>, throwIfNotFound = true): Directive {
     let metadata = this._directives.get(type);

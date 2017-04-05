@@ -134,11 +134,17 @@ export class DomAnimationEngine {
       () => void {
     if (!eventPhase) {
       throw new Error(
-          `Unable to listen on the animation trigger "${eventName}" because the provided event is undefined!`);
+          `Unable to listen on the animation trigger "${
+                                                        eventName
+                                                      }" because the provided event is undefined!`);
     }
     if (!this._triggers[eventName]) {
       throw new Error(
-          `Unable to listen on the animation trigger event "${eventPhase}" because the animation trigger "${eventName}" doesn't exist!`);
+          `Unable to listen on the animation trigger event "${
+                                                              eventPhase
+                                                            }" because the animation trigger "${
+                                                                                                eventName
+                                                                                              }" doesn't exist!`);
     }
     let elementListeners = this._triggerListeners.get(element);
     if (!elementListeners) {
@@ -257,8 +263,9 @@ export class DomAnimationEngine {
       previousPlayers: AnimationPlayer[] = []): AnimationPlayer {
     const players = instructions.map((instruction, i) => {
       const player = this._buildPlayer(element, instruction, previousPlayers, i);
-      player.onDestroy(
-          () => { deleteFromArrayMap(this._activeElementAnimations, element, player); });
+      player.onDestroy(() => {
+        deleteFromArrayMap(this._activeElementAnimations, element, player);
+      });
       this._markPlayerAsActive(element, player);
       return player;
     });
@@ -316,7 +323,9 @@ export class DomAnimationEngine {
     player.init();
 
     element.classList.add(MARKED_FOR_ANIMATION_CLASSNAME);
-    player.onDone(() => { element.classList.remove(MARKED_FOR_ANIMATION_CLASSNAME); });
+    player.onDone(() => {
+      element.classList.remove(MARKED_FOR_ANIMATION_CLASSNAME);
+    });
   }
 
   private _flushQueuedAnimations() {
@@ -481,7 +490,11 @@ function validatePlayerEvent(triggerName: string, eventName: string) {
       return;
     default:
       throw new Error(
-          `The provided animation trigger event "${eventName}" for the animation trigger "${triggerName}" is not supported!`);
+          `The provided animation trigger event "${
+                                                   eventName
+                                                 }" for the animation trigger "${
+                                                                                 triggerName
+                                                                               }" is not supported!`);
   }
 }
 

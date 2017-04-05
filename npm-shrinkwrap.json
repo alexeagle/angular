@@ -1,6 +1,6 @@
 {
   "name": "angular-srcs",
-  "version": "4.0.0-rc.5",
+  "version": "4.1.0-beta.0",
   "dependencies": {
     "@types/angularjs": {
       "version": "1.5.13-alpha",
@@ -2794,9 +2794,9 @@
       "dev": true
     },
     "clang-format": {
-      "version": "1.0.41",
-      "from": "clang-format@1.0.41",
-      "resolved": "https://registry.npmjs.org/clang-format/-/clang-format-1.0.41.tgz",
+      "version": "1.0.49",
+      "from": "clang-format@1.0.49",
+      "resolved": "https://registry.npmjs.org/clang-format/-/clang-format-1.0.49.tgz",
       "dev": true,
       "dependencies": {
         "async": {
@@ -2806,9 +2806,9 @@
           "dev": true
         },
         "glob": {
-          "version": "7.0.3",
+          "version": "7.1.1",
           "from": "glob@>=7.0.0 <8.0.0",
-          "resolved": "https://registry.npmjs.org/glob/-/glob-7.0.3.tgz",
+          "resolved": "https://registry.npmjs.org/glob/-/glob-7.1.1.tgz",
           "dev": true
         }
       }
@@ -9111,9 +9111,9 @@
       "dev": true
     },
     "typescript": {
-      "version": "2.1.5",
-      "from": "typescript@>=2.1.0 <2.2.0",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.1.5.tgz",
+      "version": "2.2.1",
+      "from": "typescript@2.2.1",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.2.1.tgz",
       "dev": true
     },
     "ua-parser-js": {

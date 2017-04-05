@@ -43,7 +43,8 @@ describe('tree benchmark spec', () => {
     ];
     openBrowser({
       url: 'all/benchmarks/src/tree/ng2_next/index.html',
-      ignoreBrowserSynchronization: true, params
+      ignoreBrowserSynchronization: true,
+      params
     });
     $('#detectChanges').click();
     expect($('#numberOfChecks').getText()).toContain('10');

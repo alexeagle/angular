@@ -12,8 +12,8 @@ import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operator/map';
 
 import {Data, ResolveData, Route} from './config';
-import {PRIMARY_OUTLET, ParamMap, Params, convertToParamMap} from './shared';
-import {UrlSegment, UrlSegmentGroup, UrlTree, equalSegments} from './url_tree';
+import {convertToParamMap, ParamMap, Params, PRIMARY_OUTLET} from './shared';
+import {equalSegments, UrlSegment, UrlSegmentGroup, UrlTree} from './url_tree';
 import {shallowEqual, shallowEqualArrays} from './utils/collection';
 import {Tree, TreeNode} from './utils/tree';
 
@@ -55,7 +55,9 @@ export class RouterState extends Tree<ActivatedRoute> {
     setRouterStateSnapshot<RouterState, ActivatedRoute>(this, root);
   }
 
-  toString(): string { return this.snapshot.toString(); }
+  toString(): string {
+    return this.snapshot.toString();
+  }
 }
 
 export function createEmptyState(urlTree: UrlTree, rootComponent: Type<any>): RouterState {
@@ -138,22 +140,34 @@ export class ActivatedRoute {
   }
 
   /** The configuration used to match this route */
-  get routeConfig(): Route { return this._futureSnapshot.routeConfig; }
+  get routeConfig(): Route {
+    return this._futureSnapshot.routeConfig;
+  }
 
   /** The root of the router state */
-  get root(): ActivatedRoute { return this._routerState.root; }
+  get root(): ActivatedRoute {
+    return this._routerState.root;
+  }
 
   /** The parent of this route in the router state tree */
-  get parent(): ActivatedRoute { return this._routerState.parent(this); }
+  get parent(): ActivatedRoute {
+    return this._routerState.parent(this);
+  }
 
   /** The first child of this route in the router state tree */
-  get firstChild(): ActivatedRoute { return this._routerState.firstChild(this); }
+  get firstChild(): ActivatedRoute {
+    return this._routerState.firstChild(this);
+  }
 
   /** The children of this route in the router state tree */
-  get children(): ActivatedRoute[] { return this._routerState.children(this); }
+  get children(): ActivatedRoute[] {
+    return this._routerState.children(this);
+  }
 
   /** The path from the root of the router state tree to this route */
-  get pathFromRoot(): ActivatedRoute[] { return this._routerState.pathFromRoot(this); }
+  get pathFromRoot(): ActivatedRoute[] {
+    return this._routerState.pathFromRoot(this);
+  }
 
   get paramMap(): Observable<ParamMap> {
     if (!this._paramMap) {
@@ -275,22 +289,34 @@ export class ActivatedRouteSnapshot {
   }
 
   /** The configuration used to match this route */
-  get routeConfig(): Route { return this._routeConfig; }
+  get routeConfig(): Route {
+    return this._routeConfig;
+  }
 
   /** The root of the router state */
-  get root(): ActivatedRouteSnapshot { return this._routerState.root; }
+  get root(): ActivatedRouteSnapshot {
+    return this._routerState.root;
+  }
 
   /** The parent of this route in the router state tree */
-  get parent(): ActivatedRouteSnapshot { return this._routerState.parent(this); }
+  get parent(): ActivatedRouteSnapshot {
+    return this._routerState.parent(this);
+  }
 
   /** The first child of this route in the router state tree */
-  get firstChild(): ActivatedRouteSnapshot { return this._routerState.firstChild(this); }
+  get firstChild(): ActivatedRouteSnapshot {
+    return this._routerState.firstChild(this);
+  }
 
   /** The children of this route in the router state tree */
-  get children(): ActivatedRouteSnapshot[] { return this._routerState.children(this); }
+  get children(): ActivatedRouteSnapshot[] {
+    return this._routerState.children(this);
+  }
 
   /** The path from the root of the router state tree to this route */
-  get pathFromRoot(): ActivatedRouteSnapshot[] { return this._routerState.pathFromRoot(this); }
+  get pathFromRoot(): ActivatedRouteSnapshot[] {
+    return this._routerState.pathFromRoot(this);
+  }
 
   get paramMap(): ParamMap {
     if (!this._paramMap) {
@@ -347,7 +373,9 @@ export class RouterStateSnapshot extends Tree<ActivatedRouteSnapshot> {
     setRouterStateSnapshot<RouterStateSnapshot, ActivatedRouteSnapshot>(this, root);
   }
 
-  toString(): string { return serializeNode(this._root); }
+  toString(): string {
+    return serializeNode(this._root);
+  }
 }
 
 function setRouterStateSnapshot<U, T extends{_routerState: U}>(state: U, node: TreeNode<T>): void {
@@ -356,7 +384,7 @@ function setRouterStateSnapshot<U, T extends{_routerState: U}>(state: U, node: T
 }
 
 function serializeNode(node: TreeNode<ActivatedRouteSnapshot>): string {
-  const c = node.children.length > 0 ? ` { ${node.children.map(serializeNode).join(", ")} } ` : '';
+  const c = node.children.length > 0 ? ` { ${node.children.map(serializeNode).join(', ')} } ` : '';
   return `${node.value}${c}`;
 }
 

@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Pipe, Type, resolveForwardRef, ɵReflectorReader, ɵreflector, ɵstringify as stringify} from '@angular/core';
+import {Pipe, resolveForwardRef, Type, ɵreflector, ɵReflectorReader, ɵstringify as stringify} from '@angular/core';
+
 import {findLast} from './directive_resolver';
 import {CompilerInjectable} from './injectable';
 

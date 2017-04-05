@@ -234,11 +234,13 @@ export function main() {
     });
 
     it('should support moving non projected light dom around', () => {
-      let sourceDirective: ManualViewportDirective = undefined !;
+      let sourceDirective: ManualViewportDirective = undefined!;
 
       @Directive({selector: '[manual]'})
       class ManualViewportDirective {
-        constructor(public templateRef: TemplateRef<Object>) { sourceDirective = this; }
+        constructor(public templateRef: TemplateRef<Object>) {
+          sourceDirective = this;
+        }
       }
 
       TestBed.configureTestingModule(
@@ -562,15 +564,23 @@ class MultipleContentTagsComponent {
 @Directive({selector: '[manual]'})
 class ManualViewportDirective {
   constructor(public vc: ViewContainerRef, public templateRef: TemplateRef<Object>) {}
-  show() { this.vc.createEmbeddedView(this.templateRef); }
-  hide() { this.vc.clear(); }
+  show() {
+    this.vc.createEmbeddedView(this.templateRef);
+  }
+  hide() {
+    this.vc.clear();
+  }
 }
 
 @Directive({selector: '[project]'})
 class ProjectDirective {
   constructor(public vc: ViewContainerRef) {}
-  show(templateRef: TemplateRef<Object>) { this.vc.createEmbeddedView(templateRef); }
-  hide() { this.vc.clear(); }
+  show(templateRef: TemplateRef<Object>) {
+    this.vc.createEmbeddedView(templateRef);
+  }
+  hide() {
+    this.vc.clear();
+  }
 }
 
 @Component({

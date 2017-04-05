@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {AST, AttrAst, Attribute, BoundDirectivePropertyAst, BoundElementPropertyAst, BoundEventAst, BoundTextAst, CompileDirectiveMetadata, CompileDirectiveSummary, DirectiveAst, ElementAst, EmbeddedTemplateAst, NgAnalyzedModules, NgContentAst, ReferenceAst, StaticSymbol, TemplateAst, TemplateAstVisitor, TextAst, VariableAst, templateVisitAll} from '@angular/compiler';
+import {AST, AttrAst, Attribute, BoundDirectivePropertyAst, BoundElementPropertyAst, BoundEventAst, BoundTextAst, CompileDirectiveMetadata, CompileDirectiveSummary, DirectiveAst, ElementAst, EmbeddedTemplateAst, NgAnalyzedModules, NgContentAst, ReferenceAst, StaticSymbol, TemplateAst, TemplateAstVisitor, templateVisitAll, TextAst, VariableAst} from '@angular/compiler';
 
 import {AstResult, SelectorInfo, TemplateInfo} from './common';
 import {getExpressionDiagnostics, getExpressionScope} from './expressions';
@@ -54,7 +54,8 @@ export function getDeclarationDiagnostics(
     const report = (message: string, span?: Span) => {
       results.push(<Diagnostic>{
         kind: DiagnosticKind.Error,
-        span: span || declaration.declarationSpan, message
+        span: span || declaration.declarationSpan,
+        message
       });
     };
     for (const error of declaration.errors) {
@@ -64,7 +65,9 @@ export function getDeclarationDiagnostics(
       if (declaration.metadata.isComponent) {
         if (!modules.ngModuleByPipeOrDirective.has(declaration.type)) {
           report(
-              `Component '${declaration.type.name}' is not included in a module and will not be available inside a template. Consider adding it to a NgModule declaration`);
+              `Component '${
+                            declaration.type.name
+                          }' is not included in a module and will not be available inside a template. Consider adding it to a NgModule declaration`);
         }
         if (declaration.metadata.template.template == null &&
             !declaration.metadata.template.templateUrl) {
@@ -74,13 +77,16 @@ export function getDeclarationDiagnostics(
         if (!directives) {
           directives = new Set();
           modules.ngModules.forEach(module => {
-            module.declaredDirectives.forEach(
-                directive => { directives.add(directive.reference); });
+            module.declaredDirectives.forEach(directive => {
+              directives.add(directive.reference);
+            });
           });
         }
         if (!directives.has(declaration.type)) {
           report(
-              `Directive '${declaration.type.name}' is not included in a module and will not be available inside a template. Consider adding it to a NgModule declaration`);
+              `Directive '${
+                            declaration.type.name
+                          }' is not included in a module and will not be available inside a template. Consider adding it to a NgModule declaration`);
         }
       }
     }
@@ -101,8 +107,9 @@ function getTemplateExpressionDiagnostics(
     expressionParser: astResult.expressionParser
   };
   const visitor = new ExpressionDiagnosticsVisitor(
-      info, (path: TemplateAstPath, includeEvent: boolean) =>
-                getExpressionScope(info, path, includeEvent));
+      info,
+      (path: TemplateAstPath, includeEvent: boolean) =>
+          getExpressionScope(info, path, includeEvent));
   templateVisitAll(visitor, astResult.templateAst);
   return visitor.diagnostics;
 }
@@ -213,9 +220,13 @@ class ExpressionDiagnosticsVisitor extends TemplateAstChildVisitor {
                })));
   }
 
-  private push(ast: TemplateAst) { this.path.push(ast); }
+  private push(ast: TemplateAst) {
+    this.path.push(ast);
+  }
 
-  private pop() { this.path.pop(); }
+  private pop() {
+    this.path.pop();
+  }
 
   private _selectors: SelectorInfo;
   private selectors(): SelectorInfo {
@@ -236,14 +247,16 @@ class ExpressionDiagnosticsVisitor extends TemplateAstChildVisitor {
   private reportError(message: string, span: Span) {
     this.diagnostics.push({
       span: offsetSpan(span, this.info.template.span.start),
-      kind: DiagnosticKind.Error, message
+      kind: DiagnosticKind.Error,
+      message
     });
   }
 
   private reportWarning(message: string, span: Span) {
     this.diagnostics.push({
       span: offsetSpan(span, this.info.template.span.start),
-      kind: DiagnosticKind.Warning, message
+      kind: DiagnosticKind.Warning,
+      message
     });
   }
 }

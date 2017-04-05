@@ -40,15 +40,18 @@ export class DirectiveNormalizer {
       private _resourceLoader: ResourceLoader, private _urlResolver: UrlResolver,
       private _htmlParser: HtmlParser, private _config: CompilerConfig) {}
 
-  clearCache(): void { this._resourceLoaderCache.clear(); }
+  clearCache(): void {
+    this._resourceLoaderCache.clear();
+  }
 
   clearCacheFor(normalizedDirective: CompileDirectiveMetadata): void {
     if (!normalizedDirective.isComponent) {
       return;
     }
     this._resourceLoaderCache.delete(normalizedDirective.template.templateUrl);
-    normalizedDirective.template.externalStylesheets.forEach(
-        (stylesheet) => { this._resourceLoaderCache.delete(stylesheet.moduleUrl); });
+    normalizedDirective.template.externalStylesheets.forEach((stylesheet) => {
+      this._resourceLoaderCache.delete(stylesheet.moduleUrl);
+    });
   }
 
   private _fetch(url: string): Promise<string> {
@@ -66,19 +69,24 @@ export class DirectiveNormalizer {
     let normalizedTemplateAsync: Promise<CompileTemplateMetadata>;
     if (prenormData.template != null) {
       if (prenormData.templateUrl != null) {
-        throw syntaxError(
-            `'${stringify(prenormData.componentType)}' component cannot define both template and templateUrl`);
+        throw syntaxError(`'${
+                              stringify(prenormData.componentType)
+                            }' component cannot define both template and templateUrl`);
       }
       if (typeof prenormData.template !== 'string') {
         throw syntaxError(
-            `The template specified for component ${stringify(prenormData.componentType)} is not a string`);
+            `The template specified for component ${
+                                                    stringify(prenormData.componentType)
+                                                  } is not a string`);
       }
       normalizedTemplateSync = this.normalizeTemplateSync(prenormData);
       normalizedTemplateAsync = Promise.resolve(normalizedTemplateSync);
     } else if (prenormData.templateUrl) {
       if (typeof prenormData.templateUrl !== 'string') {
         throw syntaxError(
-            `The templateUrl specified for component ${stringify(prenormData.componentType)} is not a string`);
+            `The templateUrl specified for component ${
+                                                       stringify(prenormData.componentType)
+                                                     } is not a string`);
       }
       normalizedTemplateAsync = this.normalizeTemplateAsync(prenormData);
     } else {
@@ -92,8 +100,9 @@ export class DirectiveNormalizer {
     } else {
       // async case
       return new SyncAsyncResult(
-          null, normalizedTemplateAsync.then(
-                    (normalizedTemplate) => this.normalizeExternalStylesheets(normalizedTemplate)));
+          null,
+          normalizedTemplateAsync.then(
+              (normalizedTemplate) => this.normalizeExternalStylesheets(normalizedTemplate)));
     }
   }
 
@@ -151,10 +160,13 @@ export class DirectiveNormalizer {
     return new CompileTemplateMetadata({
       encapsulation,
       template,
-      templateUrl: templateAbsUrl, styles, styleUrls,
+      templateUrl: templateAbsUrl,
+      styles,
+      styleUrls,
       ngContentSelectors: visitor.ngContentSelectors,
       animations: prenormData.animations,
-      interpolation: prenormData.interpolation, isInline
+      interpolation: prenormData.interpolation,
+      isInline
     });
   }
 
@@ -246,13 +258,21 @@ class TemplatePreparseVisitor implements html.Visitor {
     return null;
   }
 
-  visitExpansion(ast: html.Expansion, context: any): any { html.visitAll(this, ast.cases); }
+  visitExpansion(ast: html.Expansion, context: any): any {
+    html.visitAll(this, ast.cases);
+  }
 
   visitExpansionCase(ast: html.ExpansionCase, context: any): any {
     html.visitAll(this, ast.expression);
   }
 
-  visitComment(ast: html.Comment, context: any): any { return null; }
-  visitAttribute(ast: html.Attribute, context: any): any { return null; }
-  visitText(ast: html.Text, context: any): any { return null; }
+  visitComment(ast: html.Comment, context: any): any {
+    return null;
+  }
+  visitAttribute(ast: html.Attribute, context: any): any {
+    return null;
+  }
+  visitText(ast: html.Text, context: any): any {
+    return null;
+  }
 }

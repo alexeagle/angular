@@ -63,7 +63,9 @@ export function main() {
       const child = getDOM().firstChild(element);
       const dispatchedEvent = getDOM().createMouseEvent('click');
       let receivedEvent: any /** TODO #9100 */ = null;
-      const handler = (e: any /** TODO #9100 */) => { receivedEvent = e; };
+      const handler = (e: any /** TODO #9100 */) => {
+        receivedEvent = e;
+      };
       const manager = new EventManager([domEventPlugin], new FakeNgZone());
       manager.addEventListener(element, 'click', handler);
       getDOM().dispatchEvent(child, dispatchedEvent);
@@ -76,7 +78,9 @@ export function main() {
       getDOM().appendChild(doc.body, element);
       const dispatchedEvent = getDOM().createMouseEvent('click');
       let receivedEvent: any /** TODO #9100 */ = null;
-      const handler = (e: any /** TODO #9100 */) => { receivedEvent = e; };
+      const handler = (e: any /** TODO #9100 */) => {
+        receivedEvent = e;
+      };
       const manager = new EventManager([domEventPlugin], new FakeNgZone());
 
       const remover = manager.addGlobalEventListener('document', 'click', handler);
@@ -95,19 +99,31 @@ export function main() {
 class FakeEventManagerPlugin extends EventManagerPlugin {
   eventHandler: {[event: string]: Function} = {};
 
-  constructor(doc: any, public supportedEvents: string[]) { super(doc); }
+  constructor(doc: any, public supportedEvents: string[]) {
+    super(doc);
+  }
 
-  supports(eventName: string): boolean { return this.supportedEvents.indexOf(eventName) > -1; }
+  supports(eventName: string): boolean {
+    return this.supportedEvents.indexOf(eventName) > -1;
+  }
 
   addEventListener(element: any, eventName: string, handler: Function) {
     this.eventHandler[eventName] = handler;
-    return () => { delete (this.eventHandler[eventName]); };
+    return () => {
+      delete (this.eventHandler[eventName]);
+    };
   }
 }
 
 class FakeNgZone extends NgZone {
-  constructor() { super({enableLongStackTrace: false}); }
-  run(fn: Function) { fn(); }
+  constructor() {
+    super({enableLongStackTrace: false});
+  }
+  run(fn: Function) {
+    fn();
+  }
 
-  runOutsideAngular(fn: Function) { return fn(); }
+  runOutsideAngular(fn: Function) {
+    return fn();
+  }
 }

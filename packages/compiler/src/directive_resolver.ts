@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Component, Directive, HostBinding, HostListener, Input, Output, Query, Type, resolveForwardRef, ɵReflectorReader, ɵreflector, ɵstringify as stringify} from '@angular/core';
+import {Component, Directive, HostBinding, HostListener, Input, Output, Query, resolveForwardRef, Type, ɵreflector, ɵReflectorReader, ɵstringify as stringify} from '@angular/core';
+
 import {CompilerInjectable} from './injectable';
 import {splitAtColon} from './util';
 
@@ -100,7 +101,9 @@ export class DirectiveResolver {
     return this._merge(dm, inputs, outputs, host, queries, directiveType);
   }
 
-  private _extractPublicName(def: string) { return splitAtColon(def, [null, def])[1].trim(); }
+  private _extractPublicName(def: string) {
+    return splitAtColon(def, [null, def])[1].trim();
+  }
 
   private _dedupeBindings(bindings: string[]): string[] {
     const names = new Set<string>();

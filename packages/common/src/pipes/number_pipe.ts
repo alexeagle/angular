@@ -13,8 +13,8 @@ import {invalidPipeArgumentError} from './invalid_pipe_argument_error';
 const _NUMBER_FORMAT_REGEXP = /^(\d+)?\.((\d+)(-(\d+))?)?$/;
 
 function formatNumber(
-    pipe: Type<any>, locale: string, value: number | string, style: NumberFormatStyle,
-    digits: string, currency: string = null, currencyAsSymbol: boolean = false): string {
+    pipe: Type<any>, locale: string, value: number|string, style: NumberFormatStyle, digits: string,
+    currency: string = null, currencyAsSymbol: boolean = false): string {
   if (value == null) return null;
 
   // Convert strings to numbers

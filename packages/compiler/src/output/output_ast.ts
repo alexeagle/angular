@@ -23,7 +23,9 @@ export abstract class Type {
   }
   abstract visitType(visitor: TypeVisitor, context: any): any;
 
-  hasModifier(modifier: TypeModifier): boolean { return this.modifiers.indexOf(modifier) !== -1; }
+  hasModifier(modifier: TypeModifier): boolean {
+    return this.modifiers.indexOf(modifier) !== -1;
+  }
 }
 
 export enum BuiltinTypeName {
@@ -37,14 +39,18 @@ export enum BuiltinTypeName {
 }
 
 export class BuiltinType extends Type {
-  constructor(public name: BuiltinTypeName, modifiers: TypeModifier[] = null) { super(modifiers); }
+  constructor(public name: BuiltinTypeName, modifiers: TypeModifier[] = null) {
+    super(modifiers);
+  }
   visitType(visitor: TypeVisitor, context: any): any {
     return visitor.visitBuiltintType(this, context);
   }
 }
 
 export class ExpressionType extends Type {
-  constructor(public value: Expression, modifiers: TypeModifier[] = null) { super(modifiers); }
+  constructor(public value: Expression, modifiers: TypeModifier[] = null) {
+    super(modifiers);
+  }
   visitType(visitor: TypeVisitor, context: any): any {
     return visitor.visitExpressionType(this, context);
   }
@@ -52,7 +58,9 @@ export class ExpressionType extends Type {
 
 
 export class ArrayType extends Type {
-  constructor(public of : Type, modifiers: TypeModifier[] = null) { super(modifiers); }
+  constructor(public of : Type, modifiers: TypeModifier[] = null) {
+    super(modifiers);
+  }
   visitType(visitor: TypeVisitor, context: any): any {
     return visitor.visitArrayType(this, context);
   }
@@ -60,8 +68,12 @@ export class ArrayType extends Type {
 
 
 export class MapType extends Type {
-  constructor(public valueType: Type, modifiers: TypeModifier[] = null) { super(modifiers); }
-  visitType(visitor: TypeVisitor, context: any): any { return visitor.visitMapType(this, context); }
+  constructor(public valueType: Type, modifiers: TypeModifier[] = null) {
+    super(modifiers);
+  }
+  visitType(visitor: TypeVisitor, context: any): any {
+    return visitor.visitMapType(this, context);
+  }
 }
 
 export const DYNAMIC_TYPE = new BuiltinType(BuiltinTypeName.Dynamic);
@@ -186,7 +198,9 @@ export abstract class Expression {
     return new CastExpr(this, type, sourceSpan);
   }
 
-  toStmt(): Statement { return new ExpressionStatement(this); }
+  toStmt(): Statement {
+    return new ExpressionStatement(this);
+  }
 }
 
 export enum BuiltinVar {
@@ -519,7 +533,9 @@ export abstract class Statement {
 
   abstract visitStatement(visitor: StatementVisitor, context: any): any;
 
-  hasModifier(modifier: StmtModifier): boolean { return this.modifiers.indexOf(modifier) !== -1; }
+  hasModifier(modifier: StmtModifier): boolean {
+    return this.modifiers.indexOf(modifier) !== -1;
+  }
 }
 
 
@@ -550,7 +566,9 @@ export class DeclareFunctionStmt extends Statement {
 }
 
 export class ExpressionStatement extends Statement {
-  constructor(public expr: Expression, sourceSpan?: ParseSourceSpan) { super(null, sourceSpan); }
+  constructor(public expr: Expression, sourceSpan?: ParseSourceSpan) {
+    super(null, sourceSpan);
+  }
 
   visitStatement(visitor: StatementVisitor, context: any): any {
     return visitor.visitExpressionStmt(this, context);
@@ -559,7 +577,9 @@ export class ExpressionStatement extends Statement {
 
 
 export class ReturnStatement extends Statement {
-  constructor(public value: Expression, sourceSpan?: ParseSourceSpan) { super(null, sourceSpan); }
+  constructor(public value: Expression, sourceSpan?: ParseSourceSpan) {
+    super(null, sourceSpan);
+  }
   visitStatement(visitor: StatementVisitor, context: any): any {
     return visitor.visitReturnStmt(this, context);
   }
@@ -571,7 +591,9 @@ export class AbstractClassPart {
       this.modifiers = [];
     }
   }
-  hasModifier(modifier: StmtModifier): boolean { return this.modifiers.indexOf(modifier) !== -1; }
+  hasModifier(modifier: StmtModifier): boolean {
+    return this.modifiers.indexOf(modifier) !== -1;
+  }
 }
 
 export class ClassField extends AbstractClassPart {
@@ -626,7 +648,9 @@ export class IfStmt extends Statement {
 
 
 export class CommentStmt extends Statement {
-  constructor(public comment: string, sourceSpan?: ParseSourceSpan) { super(null, sourceSpan); }
+  constructor(public comment: string, sourceSpan?: ParseSourceSpan) {
+    super(null, sourceSpan);
+  }
   visitStatement(visitor: StatementVisitor, context: any): any {
     return visitor.visitCommentStmt(this, context);
   }
@@ -645,7 +669,9 @@ export class TryCatchStmt extends Statement {
 
 
 export class ThrowStmt extends Statement {
-  constructor(public error: Expression, sourceSpan?: ParseSourceSpan) { super(null, sourceSpan); }
+  constructor(public error: Expression, sourceSpan?: ParseSourceSpan) {
+    super(null, sourceSpan);
+  }
   visitStatement(visitor: StatementVisitor, context: any): any {
     return visitor.visitThrowStmt(this, context);
   }
@@ -664,11 +690,17 @@ export interface StatementVisitor {
 }
 
 export class AstTransformer implements StatementVisitor, ExpressionVisitor {
-  transformExpr(expr: Expression, context: any): Expression { return expr; }
+  transformExpr(expr: Expression, context: any): Expression {
+    return expr;
+  }
 
-  transformStmt(stmt: Statement, context: any): Statement { return stmt; }
+  transformStmt(stmt: Statement, context: any): Statement {
+    return stmt;
+  }
 
-  visitReadVarExpr(ast: ReadVarExpr, context: any): any { return this.transformExpr(ast, context); }
+  visitReadVarExpr(ast: ReadVarExpr, context: any): any {
+    return this.transformExpr(ast, context);
+  }
 
   visitWriteVarExpr(expr: WriteVarExpr, context: any): any {
     return this.transformExpr(
@@ -718,7 +750,9 @@ export class AstTransformer implements StatementVisitor, ExpressionVisitor {
         context);
   }
 
-  visitLiteralExpr(ast: LiteralExpr, context: any): any { return this.transformExpr(ast, context); }
+  visitLiteralExpr(ast: LiteralExpr, context: any): any {
+    return this.transformExpr(ast, context);
+  }
 
   visitExternalExpr(ast: ExternalExpr, context: any): any {
     return this.transformExpr(ast, context);
@@ -875,7 +909,9 @@ export class AstTransformer implements StatementVisitor, ExpressionVisitor {
 
 
 export class RecursiveAstVisitor implements StatementVisitor, ExpressionVisitor {
-  visitReadVarExpr(ast: ReadVarExpr, context: any): any { return ast; }
+  visitReadVarExpr(ast: ReadVarExpr, context: any): any {
+    return ast;
+  }
   visitWriteVarExpr(expr: WriteVarExpr, context: any): any {
     expr.value.visitExpression(this, context);
     return expr;
@@ -906,8 +942,12 @@ export class RecursiveAstVisitor implements StatementVisitor, ExpressionVisitor 
     this.visitAllExpressions(ast.args, context);
     return ast;
   }
-  visitLiteralExpr(ast: LiteralExpr, context: any): any { return ast; }
-  visitExternalExpr(ast: ExternalExpr, context: any): any { return ast; }
+  visitLiteralExpr(ast: LiteralExpr, context: any): any {
+    return ast;
+  }
+  visitExternalExpr(ast: ExternalExpr, context: any): any {
+    return ast;
+  }
   visitConditionalExpr(ast: ConditionalExpr, context: any): any {
     ast.condition.visitExpression(this, context);
     ast.trueCase.visitExpression(this, context);
@@ -995,7 +1035,9 @@ export class RecursiveAstVisitor implements StatementVisitor, ExpressionVisitor 
     stmt.error.visitExpression(this, context);
     return stmt;
   }
-  visitCommentStmt(stmt: CommentStmt, context: any): any { return stmt; }
+  visitCommentStmt(stmt: CommentStmt, context: any): any {
+    return stmt;
+  }
   visitAllStatements(stmts: Statement[], context: any): void {
     stmts.forEach(stmt => stmt.visitStatement(this, context));
   }
@@ -1042,7 +1084,9 @@ export function applySourceSpanToExpressionIfNeeded(
 }
 
 class _ApplySourceSpanTransformer extends AstTransformer {
-  constructor(private sourceSpan: ParseSourceSpan) { super(); }
+  constructor(private sourceSpan: ParseSourceSpan) {
+    super();
+  }
   private _clone(obj: any): any {
     const clone = Object.create(obj.constructor.prototype);
     for (let prop in obj) {

@@ -26,8 +26,9 @@ export function main() {
 
       it('should throw an error when a transition within a trigger contains an invalid expression',
          () => {
-           expect(
-               () => { makeTrigger('name', [transition('somethingThatIsWrong', animate(3333))]); })
+           expect(() => {
+             makeTrigger('name', [transition('somethingThatIsWrong', animate(3333))]);
+           })
                .toThrowError(
                    /- The provided transition expression "somethingThatIsWrong" is not supported/);
          });

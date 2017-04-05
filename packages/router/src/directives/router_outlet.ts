@@ -50,14 +50,22 @@ export class RouterOutlet implements OnDestroy {
     parentOutletMap.registerOutlet(name ? name : PRIMARY_OUTLET, this);
   }
 
-  ngOnDestroy(): void { this.parentOutletMap.removeOutlet(this.name ? this.name : PRIMARY_OUTLET); }
+  ngOnDestroy(): void {
+    this.parentOutletMap.removeOutlet(this.name ? this.name : PRIMARY_OUTLET);
+  }
 
   /** @deprecated since v4 **/
-  get locationInjector(): Injector { return this.location.injector; }
+  get locationInjector(): Injector {
+    return this.location.injector;
+  }
   /** @deprecated since v4 **/
-  get locationFactoryResolver(): ComponentFactoryResolver { return this.resolver; }
+  get locationFactoryResolver(): ComponentFactoryResolver {
+    return this.resolver;
+  }
 
-  get isActivated(): boolean { return !!this.activated; }
+  get isActivated(): boolean {
+    return !!this.activated;
+  }
   get component(): Object {
     if (!this.activated) throw new Error('Outlet is not activated');
     return this.activated.instance;

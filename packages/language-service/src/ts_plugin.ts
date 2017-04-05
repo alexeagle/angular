@@ -17,7 +17,9 @@ export function create(info: any /* ts.server.PluginCreateInfo */): ts.LanguageS
   const proxy: ts.LanguageService = Object.create(null);
   const oldLS: ts.LanguageService = info.languageService;
   for (const k in oldLS) {
-    (<any>proxy)[k] = function() { return (oldLS as any)[k].apply(oldLS, arguments); };
+    (<any>proxy)[k] = function() {
+      return (oldLS as any)[k].apply(oldLS, arguments);
+    };
   }
 
   function completionToEntry(c: Completion): ts.CompletionEntry {

@@ -24,6 +24,7 @@ export function createTimelineInstruction(
     keyframes,
     duration,
     delay,
-    totalTime: duration + delay, easing
+    totalTime: duration + delay,
+    easing
   };
 }

@@ -37,25 +37,37 @@ export class AnimationRenderer implements Renderer2 {
     this.destroyNode = this.delegate.destroyNode ? (n) => delegate.destroyNode(n) : null;
   }
 
-  get data() { return this.delegate.data; }
+  get data() {
+    return this.delegate.data;
+  }
 
-  destroy(): void { this.delegate.destroy(); }
+  destroy(): void {
+    this.delegate.destroy();
+  }
 
   createElement(name: string, namespace?: string): any {
     return this.delegate.createElement(name, namespace);
   }
 
-  createComment(value: string): any { return this.delegate.createComment(value); }
+  createComment(value: string): any {
+    return this.delegate.createComment(value);
+  }
 
-  createText(value: string): any { return this.delegate.createText(value); }
+  createText(value: string): any {
+    return this.delegate.createText(value);
+  }
 
   selectRootElement(selectorOrNode: string|any): any {
     return this.delegate.selectRootElement(selectorOrNode);
   }
 
-  parentNode(node: any): any { return this.delegate.parentNode(node); }
+  parentNode(node: any): any {
+    return this.delegate.parentNode(node);
+  }
 
-  nextSibling(node: any): any { return this.delegate.nextSibling(node); }
+  nextSibling(node: any): any {
+    return this.delegate.nextSibling(node);
+  }
 
   setAttribute(el: any, name: string, value: string, namespace?: string): void {
     this.delegate.setAttribute(el, name, value, namespace);
@@ -65,9 +77,13 @@ export class AnimationRenderer implements Renderer2 {
     this.delegate.removeAttribute(el, name, namespace);
   }
 
-  addClass(el: any, name: string): void { this.delegate.addClass(el, name); }
+  addClass(el: any, name: string): void {
+    this.delegate.addClass(el, name);
+  }
 
-  removeClass(el: any, name: string): void { this.delegate.removeClass(el, name); }
+  removeClass(el: any, name: string): void {
+    this.delegate.removeClass(el, name);
+  }
 
   setStyle(el: any, style: string, value: any, flags: RendererStyleFlags2): void {
     this.delegate.setStyle(el, style, value, flags);
@@ -77,7 +93,9 @@ export class AnimationRenderer implements Renderer2 {
     this.delegate.removeStyle(el, style, flags);
   }
 
-  setValue(node: any, value: string): void { this.delegate.setValue(node, value); }
+  setValue(node: any, value: string): void {
+    this.delegate.setValue(node, value);
+  }
 
   appendChild(parent: any, newChild: any): void {
     this._engine.onInsert(newChild, () => this.delegate.appendChild(parent, newChild));
@@ -140,7 +158,7 @@ export class AnimationRenderer implements Renderer2 {
   }
 }
 
-function resolveElementFromTarget(target: 'window' | 'document' | 'body' | any): any {
+function resolveElementFromTarget(target: 'window'|'document'|'body'|any): any {
   switch (target) {
     case 'body':
       return document.body;

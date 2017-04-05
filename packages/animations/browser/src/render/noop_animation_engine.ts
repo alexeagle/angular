@@ -50,7 +50,9 @@ export class NoopAnimationEngine extends AnimationEngine {
     this._triggerStyles[name] = stateMap;
   }
 
-  onInsert(element: any, domFn: () => any): void { domFn(); }
+  onInsert(element: any, domFn: () => any): void {
+    domFn();
+  }
 
   onRemove(element: any, domFn: () => any): void {
     domFn();
@@ -156,8 +158,12 @@ export class NoopAnimationEngine extends AnimationEngine {
     this._onDoneFns = [];
   }
 
-  get activePlayers(): AnimationPlayer[] { return []; }
-  get queuedPlayers(): AnimationPlayer[] { return []; }
+  get activePlayers(): AnimationPlayer[] {
+    return [];
+  }
+  get queuedPlayers(): AnimationPlayer[] {
+    return [];
+  }
 }
 
 function makeAnimationEvent(

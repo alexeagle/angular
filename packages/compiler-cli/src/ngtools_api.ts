@@ -75,7 +75,9 @@ class CustomLoaderModuleResolutionHostAdapter extends ModuleResolutionHostAdapte
     super(host);
   }
 
-  readResource(path: string) { return this._readResource(path); }
+  readResource(path: string) {
+    return this._readResource(path);
+  }
 }
 
 

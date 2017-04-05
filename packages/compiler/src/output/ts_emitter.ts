@@ -16,11 +16,14 @@ import {ImportResolver} from './path_util';
 
 const _debugFilePath = '/debug/lib';
 
-export function debugOutputAstAsTypeScript(ast: o.Statement | o.Expression | o.Type | any[]):
-    string {
+export function debugOutputAstAsTypeScript(ast: o.Statement|o.Expression|o.Type|any[]): string {
   const converter = new _TsEmitterVisitor(_debugFilePath, {
-    fileNameToModuleName(filePath: string, containingFilePath: string) { return filePath; },
-    getImportAs(symbol: StaticSymbol) { return null; },
+    fileNameToModuleName(filePath: string, containingFilePath: string) {
+      return filePath;
+    },
+    getImportAs(symbol: StaticSymbol) {
+      return null;
+    },
     getTypeArity: symbol => null
   });
   const ctx = EmitterVisitorContext.createRoot([]);
@@ -58,14 +61,20 @@ export class TypeScriptEmitter implements OutputEmitter {
       const reexportsCode =
           reexports.map(reexport => `${reexport.name} as ${reexport.as}`).join(',');
       preambleLines.push(
-          `export {${reexportsCode}} from '${this._importResolver.fileNameToModuleName(exportedFilePath, genFilePath)}';`);
+          `export {${reexportsCode}} from '${
+                                             this._importResolver.fileNameToModuleName(
+                                                 exportedFilePath, genFilePath)
+                                           }';`);
     });
 
     converter.importsWithPrefixes.forEach((prefix, importedFilePath) => {
       // Note: can't write the real word for import as it screws up system.js auto detection...
       preambleLines.push(
           `imp` +
-          `ort * as ${prefix} from '${this._importResolver.fileNameToModuleName(importedFilePath, genFilePath)}';`);
+          `ort * as ${prefix} from '${
+                                      this._importResolver.fileNameToModuleName(
+                                          importedFilePath, genFilePath)
+                                    }';`);
     });
 
     const sm =
@@ -381,7 +390,8 @@ class _TsEmitterVisitor extends AbstractEmitterVisitor implements o.TypeVisitor 
     return {
       name: importReference.name,
       filePath: importReference.filePath,
-      members: importReference.members, arity
+      members: importReference.members,
+      arity
     };
   }
 

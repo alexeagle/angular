@@ -71,7 +71,9 @@ function supportsNgModel(component: any) {
  */
 export function hookupNgModel(ngModel: angular.INgModelController, component: any) {
   if (ngModel && supportsNgModel(component)) {
-    ngModel.$render = () => { component.writeValue(ngModel.$viewValue); };
+    ngModel.$render = () => {
+      component.writeValue(ngModel.$viewValue);
+    };
     component.registerOnChange(ngModel.$setViewValue.bind(ngModel));
   }
 }

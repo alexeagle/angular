@@ -152,7 +152,9 @@ class Serializer extends ValueTransformer {
     return {json, exportAs};
   }
 
-  private processValue(value: any): any { return visitValue(value, this, null); }
+  private processValue(value: any): any {
+    return visitValue(value, this, null);
+  }
 
   visitOther(value: any, context: any): any {
     if (value instanceof StaticSymbol) {
@@ -172,7 +174,9 @@ class Serializer extends ValueTransformer {
 class Deserializer extends ValueTransformer {
   private symbols: StaticSymbol[];
 
-  constructor(private symbolCache: StaticSymbolCache) { super(); }
+  constructor(private symbolCache: StaticSymbolCache) {
+    super();
+  }
 
   deserialize(json: string):
       {summaries: Summary<StaticSymbol>[], importAs: {symbol: StaticSymbol, importAs: string}[]} {

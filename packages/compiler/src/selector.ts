@@ -84,9 +84,13 @@ export class CssSelector {
         this.notSelectors.length === 0;
   }
 
-  hasElementSelector(): boolean { return !!this.element; }
+  hasElementSelector(): boolean {
+    return !!this.element;
+  }
 
-  setElement(element: string = null) { this.element = element; }
+  setElement(element: string = null) {
+    this.element = element;
+  }
 
   /** Gets a template string for an element that matches the selector. */
   getMatchingElementTemplate(): string {
@@ -108,7 +112,9 @@ export class CssSelector {
     this.attrs.push(name, value && value.toLowerCase() || '');
   }
 
-  addClassName(name: string) { this.classNames.push(name.toLowerCase()); }
+  addClassName(name: string) {
+    this.classNames.push(name.toLowerCase());
+  }
 
   toString(): string {
     let res: string = this.element || '';
@@ -242,7 +248,7 @@ export class SelectorMatcher {
    * @param cssSelector A css selector
    * @param matchedCallback This callback will be called with the object handed into `addSelectable`
    * @return boolean true if a match was found
-  */
+   */
   match(cssSelector: CssSelector, matchedCallback: (c: CssSelector, a: any) => void): boolean {
     let result = false;
     const element = cssSelector.element;

@@ -21,7 +21,9 @@ export function main() {
     let symbolCache: StaticSymbolCache;
     let host: MockAotSummaryResolverHost;
 
-    beforeEach(() => { symbolCache = new StaticSymbolCache(); });
+    beforeEach(() => {
+      symbolCache = new StaticSymbolCache();
+    });
 
     function init(
         summaries: {[filePath: string]: string} = {}, metadata: {[key: string]: any} = {}) {

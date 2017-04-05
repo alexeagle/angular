@@ -7,7 +7,7 @@
  */
 
 import {Injector, NgModuleRef, RootRenderer, Sanitizer} from '@angular/core';
-import {ArgumentType, NodeCheckFn, RootData, Services, ViewData, ViewDefinition, initServicesIfNeeded} from '@angular/core/src/view/index';
+import {ArgumentType, initServicesIfNeeded, NodeCheckFn, RootData, Services, ViewData, ViewDefinition} from '@angular/core/src/view/index';
 import {TestBed} from '@angular/core/testing';
 import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
 
@@ -38,5 +38,9 @@ export function createRootView(
 }
 
 export let removeNodes: Node[];
-beforeEach(() => { removeNodes = []; });
-afterEach(() => { removeNodes.forEach((node) => getDOM().remove(node)); });
+beforeEach(() => {
+  removeNodes = [];
+});
+afterEach(() => {
+  removeNodes.forEach((node) => getDOM().remove(node));
+});

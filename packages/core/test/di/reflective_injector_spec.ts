@@ -6,17 +6,20 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Inject, Injectable, InjectionToken, Injector, Optional, Provider, ReflectiveInjector, ReflectiveKey, Self, forwardRef} from '@angular/core';
+import {forwardRef, Inject, Injectable, InjectionToken, Injector, Optional, Provider, ReflectiveInjector, ReflectiveKey, Self} from '@angular/core';
 import {ReflectiveInjector_} from '@angular/core/src/di/reflective_injector';
 import {ResolvedReflectiveProvider_} from '@angular/core/src/di/reflective_provider';
 import {getOriginalError} from '@angular/core/src/errors';
 import {expect} from '@angular/platform-browser/testing/src/matchers';
+
 import {stringify} from '../../src/util';
 
 class Engine {}
 
 class BrokenEngine {
-  constructor() { throw new Error('Broken Engine'); }
+  constructor() {
+    throw new Error('Broken Engine');
+  }
 }
 
 class DashboardSoftware {}
@@ -79,7 +82,7 @@ export function main() {
   ];
 
   function createInjector(
-      providers: Provider[], parent?: ReflectiveInjector | null): ReflectiveInjector_ {
+      providers: Provider[], parent?: ReflectiveInjector|null): ReflectiveInjector_ {
     const resolvedProviders = ReflectiveInjector.resolve(providers.concat(dynamicProviders));
     if (parent != null) {
       return <ReflectiveInjector_>parent.createChildFromResolved(resolvedProviders);
@@ -158,7 +161,9 @@ export function main() {
     });
 
     it('should provide to a factory', () => {
-      function sportsCarFactory(e: any) { return new SportsCar(e); }
+      function sportsCarFactory(e: any) {
+        return new SportsCar(e);
+      }
 
       const injector =
           createInjector([Engine, {provide: Car, useFactory: sportsCarFactory, deps: [Engine]}]);
@@ -277,16 +282,22 @@ export function main() {
     it('should show the full path when no provider', () => {
       const injector = createInjector([CarWithDashboard, Engine, Dashboard]);
       expect(() => injector.get(CarWithDashboard))
-          .toThrowError(
-              `No provider for DashboardSoftware! (${stringify(CarWithDashboard)} -> ${stringify(Dashboard)} -> DashboardSoftware)`);
+          .toThrowError(`No provider for DashboardSoftware! (${
+                                                               stringify(CarWithDashboard)
+                                                             } -> ${
+                                                                    stringify(Dashboard)
+                                                                  } -> DashboardSoftware)`);
     });
 
     it('should throw when trying to instantiate a cyclic dependency', () => {
       const injector = createInjector([Car, {provide: Engine, useClass: CyclicEngine}]);
 
       expect(() => injector.get(Car))
-          .toThrowError(
-              `Cannot instantiate cyclic dependency! (${stringify(Car)} -> ${stringify(Engine)} -> ${stringify(Car)})`);
+          .toThrowError(`Cannot instantiate cyclic dependency! (${
+                                                                  stringify(Car)
+                                                                } -> ${
+                                                                       stringify(Engine)
+                                                                     } -> ${stringify(Car)})`);
     });
 
     it('should show the full path when error happens in a constructor', () => {

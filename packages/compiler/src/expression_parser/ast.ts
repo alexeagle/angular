@@ -22,8 +22,12 @@ export class ParseSpan {
 
 export class AST {
   constructor(public span: ParseSpan) {}
-  visit(visitor: AstVisitor, context: any = null): any { return null; }
-  toString(): string { return 'AST'; }
+  visit(visitor: AstVisitor, context: any = null): any {
+    return null;
+  }
+  toString(): string {
+    return 'AST';
+  }
 }
 
 /**
@@ -45,8 +49,12 @@ export class Quote extends AST {
       public location: any) {
     super(span);
   }
-  visit(visitor: AstVisitor, context: any = null): any { return visitor.visitQuote(this, context); }
-  toString(): string { return 'Quote'; }
+  visit(visitor: AstVisitor, context: any = null): any {
+    return visitor.visitQuote(this, context);
+  }
+  toString(): string {
+    return 'Quote';
+  }
 }
 
 export class EmptyExpr extends AST {
@@ -65,8 +73,12 @@ export class ImplicitReceiver extends AST {
  * Multiple expressions separated by a semicolon.
  */
 export class Chain extends AST {
-  constructor(span: ParseSpan, public expressions: any[]) { super(span); }
-  visit(visitor: AstVisitor, context: any = null): any { return visitor.visitChain(this, context); }
+  constructor(span: ParseSpan, public expressions: any[]) {
+    super(span);
+  }
+  visit(visitor: AstVisitor, context: any = null): any {
+    return visitor.visitChain(this, context);
+  }
 }
 
 export class Conditional extends AST {
@@ -79,7 +91,9 @@ export class Conditional extends AST {
 }
 
 export class PropertyRead extends AST {
-  constructor(span: ParseSpan, public receiver: AST, public name: string) { super(span); }
+  constructor(span: ParseSpan, public receiver: AST, public name: string) {
+    super(span);
+  }
   visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitPropertyRead(this, context);
   }
@@ -95,21 +109,27 @@ export class PropertyWrite extends AST {
 }
 
 export class SafePropertyRead extends AST {
-  constructor(span: ParseSpan, public receiver: AST, public name: string) { super(span); }
+  constructor(span: ParseSpan, public receiver: AST, public name: string) {
+    super(span);
+  }
   visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitSafePropertyRead(this, context);
   }
 }
 
 export class KeyedRead extends AST {
-  constructor(span: ParseSpan, public obj: AST, public key: AST) { super(span); }
+  constructor(span: ParseSpan, public obj: AST, public key: AST) {
+    super(span);
+  }
   visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitKeyedRead(this, context);
   }
 }
 
 export class KeyedWrite extends AST {
-  constructor(span: ParseSpan, public obj: AST, public key: AST, public value: AST) { super(span); }
+  constructor(span: ParseSpan, public obj: AST, public key: AST, public value: AST) {
+    super(span);
+  }
   visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitKeyedWrite(this, context);
   }
@@ -119,32 +139,42 @@ export class BindingPipe extends AST {
   constructor(span: ParseSpan, public exp: AST, public name: string, public args: any[]) {
     super(span);
   }
-  visit(visitor: AstVisitor, context: any = null): any { return visitor.visitPipe(this, context); }
+  visit(visitor: AstVisitor, context: any = null): any {
+    return visitor.visitPipe(this, context);
+  }
 }
 
 export class LiteralPrimitive extends AST {
-  constructor(span: ParseSpan, public value: any) { super(span); }
+  constructor(span: ParseSpan, public value: any) {
+    super(span);
+  }
   visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitLiteralPrimitive(this, context);
   }
 }
 
 export class LiteralArray extends AST {
-  constructor(span: ParseSpan, public expressions: any[]) { super(span); }
+  constructor(span: ParseSpan, public expressions: any[]) {
+    super(span);
+  }
   visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitLiteralArray(this, context);
   }
 }
 
 export class LiteralMap extends AST {
-  constructor(span: ParseSpan, public keys: any[], public values: any[]) { super(span); }
+  constructor(span: ParseSpan, public keys: any[], public values: any[]) {
+    super(span);
+  }
   visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitLiteralMap(this, context);
   }
 }
 
 export class Interpolation extends AST {
-  constructor(span: ParseSpan, public strings: any[], public expressions: any[]) { super(span); }
+  constructor(span: ParseSpan, public strings: any[], public expressions: any[]) {
+    super(span);
+  }
   visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitInterpolation(this, context);
   }
@@ -160,7 +190,9 @@ export class Binary extends AST {
 }
 
 export class PrefixNot extends AST {
-  constructor(span: ParseSpan, public expression: AST) { super(span); }
+  constructor(span: ParseSpan, public expression: AST) {
+    super(span);
+  }
   visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitPrefixNot(this, context);
   }
@@ -185,7 +217,9 @@ export class SafeMethodCall extends AST {
 }
 
 export class FunctionCall extends AST {
-  constructor(span: ParseSpan, public target: AST, public args: any[]) { super(span); }
+  constructor(span: ParseSpan, public target: AST, public args: any[]) {
+    super(span);
+  }
   visit(visitor: AstVisitor, context: any = null): any {
     return visitor.visitFunctionCall(this, context);
   }
@@ -197,8 +231,12 @@ export class ASTWithSource extends AST {
       public errors: ParserError[]) {
     super(new ParseSpan(0, source == null ? 0 : source.length));
   }
-  visit(visitor: AstVisitor, context: any = null): any { return this.ast.visit(visitor, context); }
-  toString(): string { return `${this.source} in ${this.location}`; }
+  visit(visitor: AstVisitor, context: any = null): any {
+    return this.ast.visit(visitor, context);
+  }
+  toString(): string {
+    return `${this.source} in ${this.location}`;
+  }
 }
 
 export class TemplateBinding {
@@ -235,7 +273,9 @@ export class RecursiveAstVisitor implements AstVisitor {
     ast.right.visit(this);
     return null;
   }
-  visitChain(ast: Chain, context: any): any { return this.visitAll(ast.expressions, context); }
+  visitChain(ast: Chain, context: any): any {
+    return this.visitAll(ast.expressions, context);
+  }
   visitConditional(ast: Conditional, context: any): any {
     ast.condition.visit(this);
     ast.trueExp.visit(this);
@@ -252,7 +292,9 @@ export class RecursiveAstVisitor implements AstVisitor {
     this.visitAll(ast.args, context);
     return null;
   }
-  visitImplicitReceiver(ast: ImplicitReceiver, context: any): any { return null; }
+  visitImplicitReceiver(ast: ImplicitReceiver, context: any): any {
+    return null;
+  }
   visitInterpolation(ast: Interpolation, context: any): any {
     return this.visitAll(ast.expressions, context);
   }
@@ -270,8 +312,12 @@ export class RecursiveAstVisitor implements AstVisitor {
   visitLiteralArray(ast: LiteralArray, context: any): any {
     return this.visitAll(ast.expressions, context);
   }
-  visitLiteralMap(ast: LiteralMap, context: any): any { return this.visitAll(ast.values, context); }
-  visitLiteralPrimitive(ast: LiteralPrimitive, context: any): any { return null; }
+  visitLiteralMap(ast: LiteralMap, context: any): any {
+    return this.visitAll(ast.values, context);
+  }
+  visitLiteralPrimitive(ast: LiteralPrimitive, context: any): any {
+    return null;
+  }
   visitMethodCall(ast: MethodCall, context: any): any {
     ast.receiver.visit(this);
     return this.visitAll(ast.args, context);
@@ -301,11 +347,15 @@ export class RecursiveAstVisitor implements AstVisitor {
     asts.forEach(ast => ast.visit(this, context));
     return null;
   }
-  visitQuote(ast: Quote, context: any): any { return null; }
+  visitQuote(ast: Quote, context: any): any {
+    return null;
+  }
 }
 
 export class AstTransformer implements AstVisitor {
-  visitImplicitReceiver(ast: ImplicitReceiver, context: any): AST { return ast; }
+  visitImplicitReceiver(ast: ImplicitReceiver, context: any): AST {
+    return ast;
+  }
 
   visitInterpolation(ast: Interpolation, context: any): AST {
     return new Interpolation(ast.span, ast.strings, this.visitAll(ast.expressions));

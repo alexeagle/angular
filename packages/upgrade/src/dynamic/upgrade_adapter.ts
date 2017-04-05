@@ -13,7 +13,7 @@ import * as angular from '../common/angular1';
 import {$$TESTABILITY, $COMPILE, $INJECTOR, $ROOT_SCOPE, COMPILER_KEY, INJECTOR_KEY, NG_ZONE_KEY} from '../common/constants';
 import {downgradeComponent} from '../common/downgrade_component';
 import {downgradeInjectable} from '../common/downgrade_injectable';
-import {Deferred, controllerKey, onError} from '../common/util';
+import {controllerKey, Deferred, onError} from '../common/util';
 
 import {UpgradeNg1ComponentAdapterBuilder} from './upgrade_ng1_adapter';
 
@@ -323,8 +323,9 @@ export class UpgradeAdapter {
     this.declareNg1Module(modules);
     windowNgMock.module(this.ng1Module.name);
     const upgrade = new UpgradeAdapterRef();
-    this.ng2BootstrapDeferred.promise.then(
-        (ng1Injector) => { (<any>upgrade)._bootstrapDone(this.moduleRef, ng1Injector); }, onError);
+    this.ng2BootstrapDeferred.promise.then((ng1Injector) => {
+      (<any>upgrade)._bootstrapDone(this.moduleRef, ng1Injector);
+    }, onError);
     return upgrade;
   }
 
@@ -382,7 +383,9 @@ export class UpgradeAdapter {
     const windowAngular = (window as any /** TODO #???? */)['angular'];
     windowAngular.resumeBootstrap = undefined;
 
-    this.ngZone.run(() => { angular.bootstrap(element, [this.ng1Module.name], config); });
+    this.ngZone.run(() => {
+      angular.bootstrap(element, [this.ng1Module.name], config);
+    });
     const ng1BootstrapPromise = new Promise((resolve) => {
       if (windowAngular.resumeBootstrap) {
         const originalResumeBootstrap: () => void = windowAngular.resumeBootstrap;
@@ -398,8 +401,9 @@ export class UpgradeAdapter {
 
     Promise.all([this.ng2BootstrapDeferred.promise, ng1BootstrapPromise]).then(([ng1Injector]) => {
       angular.element(element).data(controllerKey(INJECTOR_KEY), this.moduleRef.injector);
-      this.moduleRef.injector.get(NgZone).run(
-          () => { (<any>upgrade)._bootstrapDone(this.moduleRef, ng1Injector); });
+      this.moduleRef.injector.get(NgZone).run(() => {
+        (<any>upgrade)._bootstrapDone(this.moduleRef, ng1Injector);
+      });
     }, onError);
     return upgrade;
   }
@@ -465,7 +469,9 @@ export class UpgradeAdapter {
    *
    * ```
    */
-  downgradeNg2Provider(token: any): Function { return downgradeInjectable(token); }
+  downgradeNg2Provider(token: any): Function {
+    return downgradeInjectable(token);
+  }
 
   /**
    * Declare the AngularJS upgrade module for this adapter without bootstrapping the whole
@@ -580,7 +586,9 @@ export class UpgradeAdapter {
                   .then(() => {
                     let subscription =
                         this.ngZone.onMicrotaskEmpty.subscribe({next: () => rootScope.$digest()});
-                    rootScope.$on('$destroy', () => { subscription.unsubscribe(); });
+                    rootScope.$on('$destroy', () => {
+                      subscription.unsubscribe();
+                    });
                   });
             })
             .catch((e) => this.ng2BootstrapDeferred.reject(e));
@@ -658,7 +666,9 @@ export class UpgradeAdapterRef {
    * The `ready` callback function is invoked inside the Angular zone, therefore it does not
    * require a call to `$apply()`.
    */
-  public ready(fn: (upgradeAdapterRef?: UpgradeAdapterRef) => void) { this._readyFn = fn; }
+  public ready(fn: (upgradeAdapterRef?: UpgradeAdapterRef) => void) {
+    this._readyFn = fn;
+  }
 
   /**
    * Dispose of running hybrid AngularJS / Angular application.

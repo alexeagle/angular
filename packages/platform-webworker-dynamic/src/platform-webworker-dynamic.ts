@@ -7,9 +7,10 @@
  */
 
 import {ɵPLATFORM_WORKER_UI_ID as PLATFORM_WORKER_UI_ID} from '@angular/common';
-import {ResourceLoader, platformCoreDynamic} from '@angular/compiler';
-import {COMPILER_OPTIONS, PLATFORM_ID, PlatformRef, Provider, createPlatformFactory} from '@angular/core';
+import {platformCoreDynamic, ResourceLoader} from '@angular/compiler';
+import {COMPILER_OPTIONS, createPlatformFactory, PLATFORM_ID, PlatformRef, Provider} from '@angular/core';
 import {ɵResourceLoaderImpl as ResourceLoaderImpl} from '@angular/platform-browser-dynamic';
+
 export {VERSION} from './version';
 
 /**

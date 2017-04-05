@@ -62,7 +62,9 @@ export class WebWorkerPlatformLocation extends PlatformLocation {
               this.initializedResolve();
               return true;
             },
-            err => { throw new Error(err); });
+            err => {
+              throw new Error(err);
+            });
   }
 
   getBaseHrefFromDOM(): string {
@@ -70,15 +72,25 @@ export class WebWorkerPlatformLocation extends PlatformLocation {
         'Attempt to get base href from DOM from WebWorker. You must either provide a value for the APP_BASE_HREF token through DI or use the hash location strategy.');
   }
 
-  onPopState(fn: LocationChangeListener): void { this._popStateListeners.push(fn); }
+  onPopState(fn: LocationChangeListener): void {
+    this._popStateListeners.push(fn);
+  }
 
-  onHashChange(fn: LocationChangeListener): void { this._hashChangeListeners.push(fn); }
+  onHashChange(fn: LocationChangeListener): void {
+    this._hashChangeListeners.push(fn);
+  }
 
-  get pathname(): string { return this._location ? this._location.pathname : null; }
+  get pathname(): string {
+    return this._location ? this._location.pathname : null;
+  }
 
-  get search(): string { return this._location ? this._location.search : null; }
+  get search(): string {
+    return this._location ? this._location.search : null;
+  }
 
-  get hash(): string { return this._location ? this._location.hash : null; }
+  get hash(): string {
+    return this._location ? this._location.hash : null;
+  }
 
   set pathname(newPath: string) {
     if (this._location === null) {

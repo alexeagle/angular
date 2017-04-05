@@ -81,8 +81,9 @@ describe('definitions', () => {
             definition.forEach(d => expect(d.fileName).toEqual(fileName));
             const match = matchingSpan(definition.map(d => d.span), definitions);
             if (!match) {
-              throw new Error(
-                  `Expected one of ${stringifySpans(definition.map(d => d.span))} to match one of ${stringifySpans(definitions)}`);
+              throw new Error(`Expected one of ${
+                                                 stringifySpans(definition.map(d => d.span))
+                                               } to match one of ${stringifySpans(definitions)}`);
             }
           } else {
             throw new Error('Expected a definition');

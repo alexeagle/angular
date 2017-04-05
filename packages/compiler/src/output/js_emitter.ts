@@ -47,7 +47,9 @@ export class JavaScriptEmitter implements OutputEmitter {
 class JsEmitterVisitor extends AbstractJsEmitterVisitor {
   importsWithPrefixes = new Map<string, string>();
 
-  constructor(private _genFilePath: string, private _importResolver: ImportResolver) { super(); }
+  constructor(private _genFilePath: string, private _importResolver: ImportResolver) {
+    super();
+  }
 
   private _resolveStaticSymbol(value: CompileIdentifierMetadata): StaticSymbol {
     const reference = value.reference;

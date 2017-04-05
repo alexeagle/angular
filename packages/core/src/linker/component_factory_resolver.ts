@@ -14,8 +14,10 @@ import {ComponentFactory, ComponentRef} from './component_factory';
 import {NgModuleRef} from './ng_module_factory';
 
 export function noComponentFactoryError(component: Function) {
-  const error = Error(
-      `No component factory found for ${stringify(component)}. Did you add it to @NgModule.entryComponents?`);
+  const error =
+      Error(`No component factory found for ${
+                                              stringify(component)
+                                            }. Did you add it to @NgModule.entryComponents?`);
   (error as any)[ERROR_COMPONENT] = component;
   return error;
 }
@@ -28,7 +30,7 @@ export function getComponent(error: Error): Type<any> {
 
 
 class _NullComponentFactoryResolver implements ComponentFactoryResolver {
-  resolveComponentFactory<T>(component: {new (...args: any[]): T}): ComponentFactory<T> {
+  resolveComponentFactory<T>(component: {new(...args: any[]): T}): ComponentFactory<T> {
     throw noComponentFactoryError(component);
   }
 }
@@ -53,7 +55,7 @@ export class CodegenComponentFactoryResolver implements ComponentFactoryResolver
     }
   }
 
-  resolveComponentFactory<T>(component: {new (...args: any[]): T}): ComponentFactory<T> {
+  resolveComponentFactory<T>(component: {new(...args: any[]): T}): ComponentFactory<T> {
     let factory = this._factories.get(component) || this._parent.resolveComponentFactory(component);
 
     return new ComponentFactoryBoundToModule(factory, this._ngModule);
@@ -61,13 +63,25 @@ export class CodegenComponentFactoryResolver implements ComponentFactoryResolver
 }
 
 export class ComponentFactoryBoundToModule<C> extends ComponentFactory<C> {
-  constructor(private factory: ComponentFactory<C>, private ngModule: NgModuleRef<any>) { super(); }
+  constructor(private factory: ComponentFactory<C>, private ngModule: NgModuleRef<any>) {
+    super();
+  }
 
-  get selector() { return this.factory.selector; }
-  get componentType() { return this.factory.componentType; }
-  get ngContentSelectors() { return this.factory.ngContentSelectors; }
-  get inputs() { return this.factory.inputs; }
-  get outputs() { return this.factory.outputs; }
+  get selector() {
+    return this.factory.selector;
+  }
+  get componentType() {
+    return this.factory.componentType;
+  }
+  get ngContentSelectors() {
+    return this.factory.ngContentSelectors;
+  }
+  get inputs() {
+    return this.factory.inputs;
+  }
+  get outputs() {
+    return this.factory.outputs;
+  }
 
   create(
       injector: Injector, projectableNodes?: any[][], rootSelectorOrNode?: string|any,

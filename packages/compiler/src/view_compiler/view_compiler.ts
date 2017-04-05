@@ -6,19 +6,19 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ChangeDetectionStrategy, ɵArgumentType as ArgumentType, ɵBindingFlags as BindingFlags, ɵDepFlags as DepFlags, ɵLifecycleHooks as LifecycleHooks, ɵNodeFlags as NodeFlags, ɵQueryBindingType as QueryBindingType, ɵQueryValueType as QueryValueType, ɵViewFlags as ViewFlags, ɵelementEventFullName as elementEventFullName} from '@angular/core';
+import {ChangeDetectionStrategy, ɵArgumentType as ArgumentType, ɵBindingFlags as BindingFlags, ɵDepFlags as DepFlags, ɵelementEventFullName as elementEventFullName, ɵLifecycleHooks as LifecycleHooks, ɵNodeFlags as NodeFlags, ɵQueryBindingType as QueryBindingType, ɵQueryValueType as QueryValueType, ɵViewFlags as ViewFlags} from '@angular/core';
 
 import {CompileDiDependencyMetadata, CompileDirectiveMetadata, CompilePipeSummary, CompileProviderMetadata, CompileTokenMetadata, CompileTypeMetadata, rendererTypeName, tokenReference, viewClassName} from '../compile_metadata';
-import {BuiltinConverter, EventHandlerVars, LocalResolver, convertActionBinding, convertPropertyBinding, convertPropertyBindingBuiltins} from '../compiler_util/expression_converter';
+import {BuiltinConverter, convertActionBinding, convertPropertyBinding, convertPropertyBindingBuiltins, EventHandlerVars, LocalResolver} from '../compiler_util/expression_converter';
 import {CompilerConfig} from '../config';
 import {AST, ASTWithSource, Interpolation} from '../expression_parser/ast';
-import {Identifiers, createIdentifier, createIdentifierToken, resolveIdentifier} from '../identifiers';
+import {createIdentifier, createIdentifierToken, Identifiers, resolveIdentifier} from '../identifiers';
 import {CompilerInjectable} from '../injectable';
 import * as o from '../output/output_ast';
 import {convertValueToOutputAst} from '../output/value_util';
 import {ParseSourceSpan} from '../parse_util';
 import {ElementSchemaRegistry} from '../schema/element_schema_registry';
-import {AttrAst, BoundDirectivePropertyAst, BoundElementPropertyAst, BoundEventAst, BoundTextAst, DirectiveAst, ElementAst, EmbeddedTemplateAst, NgContentAst, PropertyBindingType, ProviderAst, ProviderAstType, QueryMatch, ReferenceAst, TemplateAst, TemplateAstVisitor, TextAst, VariableAst, templateVisitAll} from '../template_parser/template_ast';
+import {AttrAst, BoundDirectivePropertyAst, BoundElementPropertyAst, BoundEventAst, BoundTextAst, DirectiveAst, ElementAst, EmbeddedTemplateAst, NgContentAst, PropertyBindingType, ProviderAst, ProviderAstType, QueryMatch, ReferenceAst, TemplateAst, TemplateAstVisitor, templateVisitAll, TextAst, VariableAst} from '../template_parser/template_ast';
 
 const CLASS_ATTR = 'class';
 const STYLE_ATTR = 'style';
@@ -107,7 +107,9 @@ class ViewBuilder implements TemplateAstVisitor, LocalResolver {
   private nodes: (() => {
     sourceSpan: ParseSourceSpan,
     nodeDef: o.Expression,
-    nodeFlags: NodeFlags, updateDirectives?: UpdateExpression[], updateRenderer?: UpdateExpression[]
+    nodeFlags: NodeFlags,
+    updateDirectives?: UpdateExpression[],
+    updateRenderer?: UpdateExpression[]
   })[] = [];
   private purePipeNodeIndices: {[pipeName: string]: number} = Object.create(null);
   // Need Object.create so that we don't have builtin values...
@@ -560,7 +562,8 @@ class ViewBuilder implements TemplateAstVisitor, LocalResolver {
                                                    }));
     const hostEvents = dirAst.hostEvents.map((hostEventAst) => ({
                                                context: dirContextExpr,
-                                               eventAst: hostEventAst, dirAst,
+                                               eventAst: hostEventAst,
+                                               dirAst,
                                              }));
 
 
@@ -772,12 +775,12 @@ class ViewBuilder implements TemplateAstVisitor, LocalResolver {
       context: expression.context,
       value: convertPropertyBindingBuiltins(
           {
-            createLiteralArrayConverter: (argCount: number) => this.createLiteralArrayConverter(
-                                             expression.sourceSpan, argCount),
-            createLiteralMapConverter:
-                (keys: string[]) => this.createLiteralMapConverter(expression.sourceSpan, keys),
+            createLiteralArrayConverter: (argCount: number) =>
+                this.createLiteralArrayConverter(expression.sourceSpan, argCount),
+            createLiteralMapConverter: (keys: string[]) =>
+                this.createLiteralMapConverter(expression.sourceSpan, keys),
             createPipeConverter: (name: string, argCount: number) =>
-                                     this.createPipeConverter(expression, name, argCount)
+                this.createPipeConverter(expression, name, argCount)
           },
           expression.value)
     };
@@ -1059,7 +1062,9 @@ function elementBindingDef(inputAst: BoundElementPropertyAst, dirAst: DirectiveA
 
 function fixedAttrsDef(elementAst: ElementAst): o.Expression {
   const mapResult: {[key: string]: string} = Object.create(null);
-  elementAst.attrs.forEach(attrAst => { mapResult[attrAst.name] = attrAst.value; });
+  elementAst.attrs.forEach(attrAst => {
+    mapResult[attrAst.name] = attrAst.value;
+  });
   elementAst.directives.forEach(dirAst => {
     Object.keys(dirAst.directive.hostAttributes).forEach(name => {
       const value = dirAst.directive.hostAttributes[name];

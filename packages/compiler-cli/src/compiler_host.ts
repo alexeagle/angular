@@ -67,7 +67,9 @@ export class CompilerHost implements AotCompilerHost {
   }
 
   // We use absolute paths on disk as canonical.
-  getCanonicalFileName(fileName: string): string { return fileName; }
+  getCanonicalFileName(fileName: string): string {
+    return fileName;
+  }
 
   moduleNameToFileName(m: string, containingFile: string): string|null {
     const key = m + ':' + (containingFile || '');
@@ -257,7 +259,9 @@ export class CompilerHost implements AotCompilerHost {
     return v3Metadata;
   }
 
-  loadResource(filePath: string): Promise<string> { return this.context.readResource(filePath); }
+  loadResource(filePath: string): Promise<string> {
+    return this.context.readResource(filePath);
+  }
 
   loadSummary(filePath: string): string|null {
     if (this.context.fileExists(filePath)) {
@@ -363,7 +367,9 @@ export class CompilerHost implements AotCompilerHost {
 export class CompilerHostContextAdapter {
   protected assumedExists: {[fileName: string]: boolean} = {};
 
-  assumeFileExists(fileName: string): void { this.assumedExists[fileName] = true; }
+  assumeFileExists(fileName: string): void {
+    this.assumedExists[fileName] = true;
+  }
 }
 
 export class ModuleResolutionHostAdapter extends CompilerHostContextAdapter implements
@@ -381,7 +387,9 @@ export class ModuleResolutionHostAdapter extends CompilerHostContextAdapter impl
     return this.assumedExists[fileName] || this.host.fileExists(fileName);
   }
 
-  readFile(fileName: string): string { return this.host.readFile(fileName); }
+  readFile(fileName: string): string {
+    return this.host.readFile(fileName);
+  }
 
   readResource(s: string) {
     if (!this.host.fileExists(s)) {
@@ -406,7 +414,9 @@ export class NodeCompilerHostContext extends CompilerHostContextAdapter implemen
     }
   }
 
-  readFile(fileName: string): string { return fs.readFileSync(fileName, 'utf8'); }
+  readFile(fileName: string): string {
+    return fs.readFileSync(fileName, 'utf8');
+  }
 
   readResource(s: string) {
     if (!this.fileExists(s)) {

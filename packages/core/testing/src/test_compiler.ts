@@ -20,7 +20,9 @@ function unimplemented(): any {
  * @experimental
  */
 export class TestingCompiler extends Compiler {
-  get injector(): Injector { throw unimplemented(); }
+  get injector(): Injector {
+    throw unimplemented();
+  }
   overrideModule(module: Type<any>, overrides: MetadataOverride<NgModule>): void {
     throw unimplemented();
   }

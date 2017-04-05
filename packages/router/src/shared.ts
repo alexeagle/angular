@@ -62,9 +62,13 @@ export interface ParamMap {
 class ParamsAsMap implements ParamMap {
   private params: Params;
 
-  constructor(params: Params) { this.params = params || {}; }
+  constructor(params: Params) {
+    this.params = params || {};
+  }
 
-  has(name: string): boolean { return this.params.hasOwnProperty(name); }
+  has(name: string): boolean {
+    return this.params.hasOwnProperty(name);
+  }
 
   get(name: string): string|null {
     if (this.has(name)) {
@@ -84,7 +88,9 @@ class ParamsAsMap implements ParamMap {
     return [];
   }
 
-  get keys(): string[] { return Object.keys(this.params); }
+  get keys(): string[] {
+    return Object.keys(this.params);
+  }
 }
 
 /**

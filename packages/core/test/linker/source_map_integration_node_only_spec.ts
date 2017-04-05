@@ -12,7 +12,7 @@ import {extractSourceMap, originalPositionFor} from '@angular/compiler/test/outp
 import {MockResourceLoader} from '@angular/compiler/testing/src/resource_loader_mock';
 import {Attribute, Component, Directive, ɵglobal} from '@angular/core';
 import {getErrorLogger} from '@angular/core/src/errors';
-import {ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
 export function main() {
   describe('jit source mapping', () => {
@@ -26,15 +26,15 @@ export function main() {
     });
 
     function getErrorLoggerStack(e: Error): string {
-      let logStack: string = undefined !;
-      getErrorLogger(e)(<any>{error: () => logStack = new Error().stack !}, e.message);
+      let logStack: string = undefined!;
+      getErrorLogger(e)(<any>{error: () => logStack = new Error().stack!}, e.message);
       return logStack;
     }
 
     function getSourceMap(genFile: string): SourceMap {
       const jitSources = jitSpy.calls.all().map((call) => call.args[call.args.length - 1]);
       return jitSources.map(source => extractSourceMap(source))
-          .find(map => !!(map && map.file === genFile)) !;
+          .find(map => !!(map && map.file === genFile))!;
     }
 
     function getSourcePositionForStack(stack: string):
@@ -46,9 +46,9 @@ export function main() {
               .map(line => /\((.*\.ngfactory\.js):(\d+):(\d+)/.exec(line))
               .filter(match => !!match)
               .map(match => ({
-                     file: match ![1],
-                     line: parseInt(match ![2], 10),
-                     column: parseInt(match ![3], 10)
+                     file: match![1],
+                     line: parseInt(match![2], 10),
+                     column: parseInt(match![3], 10)
                    }));
       const ngFactoryLocation = ngFactoryLocations[0];
 
@@ -75,7 +75,9 @@ export function main() {
     describe('inline templates', () => {
       const ngUrl = 'ng:///DynamicTestModule/MyComp.html';
 
-      function templateDecorator(template: string) { return {template}; }
+      function templateDecorator(template: string) {
+        return {template};
+      }
 
       declareTests({ngUrl, templateDecorator});
     });
@@ -92,9 +94,12 @@ export function main() {
       declareTests({ngUrl, templateDecorator});
     });
 
-    function declareTests(
-        {ngUrl, templateDecorator}:
-            {ngUrl: string, templateDecorator: (template: string) => { [key: string]: any }}) {
+    function declareTests({ngUrl, templateDecorator}: {
+      ngUrl: string,
+      templateDecorator: (template: string) => {
+        [key: string]: any
+      }
+    }) {
       it('should use the right source url in html parse errors', fakeAsync(() => {
            @Component({...templateDecorator('<div>\n  </error>')})
            class MyComp {
@@ -141,7 +146,9 @@ export function main() {
 
            @Directive({selector: '[someDir]'})
            class SomeDir {
-             constructor() { throw new Error('Test'); }
+             constructor() {
+               throw new Error('Test');
+             }
            }
 
            TestBed.configureTestingModule({declarations: [SomeDir]});
@@ -195,7 +202,9 @@ export function main() {
 
            @Component({...templateDecorator(template)})
            class MyComp {
-             createError() { throw new Error('Test'); }
+             createError() {
+               throw new Error('Test');
+             }
            }
 
            const comp = compileAndCreateComponent(MyComp);
@@ -225,7 +234,9 @@ export function main() {
 
            @Component({...templateDecorator(template)})
            class MyComp {
-             createError() { throw new Error('Test'); }
+             createError() {
+               throw new Error('Test');
+             }
            }
 
            const comp = compileAndCreateComponent(MyComp);

@@ -475,16 +475,16 @@ export interface Services {
  * debug mode can hook it. It is lazily filled when `isDevMode` is known.
  */
 export const Services: Services = {
-  setCurrentNode: undefined !,
-  createRootView: undefined !,
-  createEmbeddedView: undefined !,
-  checkAndUpdateView: undefined !,
-  checkNoChangesView: undefined !,
-  destroyView: undefined !,
-  resolveDep: undefined !,
-  createDebugContext: undefined !,
-  handleEvent: undefined !,
-  updateDirectives: undefined !,
-  updateRenderer: undefined !,
-  dirtyParentQueries: undefined !,
+  setCurrentNode: undefined!,
+  createRootView: undefined!,
+  createEmbeddedView: undefined!,
+  checkAndUpdateView: undefined!,
+  checkNoChangesView: undefined!,
+  destroyView: undefined!,
+  resolveDep: undefined!,
+  createDebugContext: undefined!,
+  handleEvent: undefined!,
+  updateDirectives: undefined!,
+  updateRenderer: undefined!,
+  dirtyParentQueries: undefined!,
 };

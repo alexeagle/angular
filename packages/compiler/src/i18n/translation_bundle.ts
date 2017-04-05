@@ -52,7 +52,9 @@ export class TranslationBundle {
     return html.nodes;
   }
 
-  has(srcMsg: i18n.Message): boolean { return this.digest(srcMsg) in this._i18nNodesByMsgId; }
+  has(srcMsg: i18n.Message): boolean {
+    return this.digest(srcMsg) in this._i18nNodesByMsgId;
+  }
 }
 
 class I18nToHtmlVisitor implements i18n.Visitor {
@@ -85,7 +87,9 @@ class I18nToHtmlVisitor implements i18n.Visitor {
     };
   }
 
-  visitText(text: i18n.Text, context?: any): string { return text.value; }
+  visitText(text: i18n.Text, context?: any): string {
+    return text.value;
+  }
 
   visitContainer(container: i18n.Container, context?: any): any {
     return container.children.map(n => n.visit(this)).join('');

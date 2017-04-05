@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directive, ElementRef, Host, Input, OnDestroy, Optional, Provider, Renderer, forwardRef, ɵlooseIdentical as looseIdentical} from '@angular/core';
+import {Directive, ElementRef, forwardRef, Host, Input, OnDestroy, Optional, Provider, Renderer, ɵlooseIdentical as looseIdentical} from '@angular/core';
+
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from './control_value_accessor';
 
 export const SELECT_MULTIPLE_VALUE_ACCESSOR: Provider = {
@@ -102,9 +103,13 @@ export class SelectMultipleControlValueAccessor implements ControlValueAccessor 
     if (Array.isArray(value)) {
       // convert values to ids
       const ids = value.map((v) => this._getOptionId(v));
-      optionSelectedStateSetter = (opt, o) => { opt._setSelected(ids.indexOf(o.toString()) > -1); };
+      optionSelectedStateSetter = (opt, o) => {
+        opt._setSelected(ids.indexOf(o.toString()) > -1);
+      };
     } else {
-      optionSelectedStateSetter = (opt, o) => { opt._setSelected(false); };
+      optionSelectedStateSetter = (opt, o) => {
+        opt._setSelected(false);
+      };
     }
     this._optionMap.forEach(optionSelectedStateSetter);
   }
@@ -135,7 +140,9 @@ export class SelectMultipleControlValueAccessor implements ControlValueAccessor 
       fn(selected);
     };
   }
-  registerOnTouched(fn: () => any): void { this.onTouched = fn; }
+  registerOnTouched(fn: () => any): void {
+    this.onTouched = fn;
+  }
 
   setDisabledState(isDisabled: boolean): void {
     this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);

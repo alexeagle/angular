@@ -150,7 +150,9 @@ export class IterableDiffers {
    * @deprecated v4.0.0 - Should be private
    */
   factories: IterableDifferFactory[];
-  constructor(factories: IterableDifferFactory[]) { this.factories = factories; }
+  constructor(factories: IterableDifferFactory[]) {
+    this.factories = factories;
+  }
 
   static create(factories: IterableDifferFactory[], parent?: IterableDiffers): IterableDiffers {
     if (parent != null) {
@@ -204,7 +206,10 @@ export class IterableDiffers {
       return factory;
     } else {
       throw new Error(
-          `Cannot find a differ supporting object '${iterable}' of type '${getTypeNameForDebugging(iterable)}'`);
+          `Cannot find a differ supporting object '${iterable}' of type '${
+                                                                           getTypeNameForDebugging(
+                                                                               iterable)
+                                                                         }'`);
     }
   }
 }

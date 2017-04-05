@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {AnimationEvent, NoopAnimationPlayer, animate, keyframes, state, style, transition, trigger} from '@angular/animations';
+import {animate, AnimationEvent, keyframes, NoopAnimationPlayer, state, style, transition, trigger} from '@angular/animations';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 import {buildAnimationKeyframes} from '../../src/dsl/animation_timeline_visitor';
@@ -42,7 +42,9 @@ export function main() {
       it('should ignore and not throw an error if the same trigger is registered twice', () => {
         const engine = makeEngine();
         engine.registerTrigger(trigger('trig', []));
-        expect(() => { engine.registerTrigger(trigger('trig', [])); }).not.toThrow();
+        expect(() => {
+          engine.registerTrigger(trigger('trig', []));
+        }).not.toThrow();
       });
     });
 
@@ -174,14 +176,18 @@ export function main() {
         const trig = trigger('myTrigger', []);
         engine.registerTrigger(trig);
 
-        expect(() => { engine.listen(element, 'myTrigger', 'explode', () => {}); })
+        expect(() => {
+          engine.listen(element, 'myTrigger', 'explode', () => {});
+        })
             .toThrowError(
                 /The provided animation trigger event "explode" for the animation trigger "myTrigger" is not supported!/);
       });
 
       it('should throw an error when an event is listened for a trigger that doesn\'t exist', () => {
         const engine = makeEngine();
-        expect(() => { engine.listen(element, 'myTrigger', 'explode', () => {}); })
+        expect(() => {
+          engine.listen(element, 'myTrigger', 'explode', () => {});
+        })
             .toThrowError(
                 /Unable to listen on the animation trigger event "explode" because the animation trigger "myTrigger" doesn\'t exist!/);
       });
@@ -190,7 +196,9 @@ export function main() {
         const engine = makeEngine();
         const trig = trigger('myTrigger', []);
         engine.registerTrigger(trig);
-        expect(() => { engine.listen(element, 'myTrigger', '', () => {}); })
+        expect(() => {
+          engine.listen(element, 'myTrigger', '', () => {});
+        })
             .toThrowError(
                 /Unable to listen on the animation trigger "myTrigger" because the provided event is undefined!/);
       });
@@ -421,7 +429,9 @@ export function main() {
            ]);
 
            let doneCount = 0;
-           function doneCallback() { doneCount++; }
+           function doneCallback() {
+             doneCount++;
+           }
 
            const instruction1 = trig1.matchTransition('a', 'b');
            const instruction2 = trig2.matchTransition('x', 'y');
@@ -500,7 +510,9 @@ export function main() {
         ]);
 
         let doneCount = 0;
-        function doneCallback() { doneCount++; }
+        function doneCallback() {
+          doneCount++;
+        }
 
         const instruction1 = trig.matchTransition('m', 'n');
         const instructions2 =
@@ -571,7 +583,9 @@ export function main() {
 
         const log: string[] = [];
         function capture(value: string) {
-          return () => { log.push(value); };
+          return () => {
+            log.push(value);
+          };
         }
 
         const instructions =
@@ -667,7 +681,9 @@ export function main() {
 }
 
 class SuffixNormalizer extends AnimationStyleNormalizer {
-  constructor(private _suffix: string) { super(); }
+  constructor(private _suffix: string) {
+    super();
+  }
 
   normalizePropertyName(propertyName: string, errors: string[]): string {
     return propertyName + this._suffix;
@@ -681,7 +697,9 @@ class SuffixNormalizer extends AnimationStyleNormalizer {
 }
 
 class ExactCssValueNormalizer extends AnimationStyleNormalizer {
-  constructor(private _allowedValues: {[propName: string]: any}) { super(); }
+  constructor(private _allowedValues: {[propName: string]: any}) {
+    super();
+  }
 
   normalizePropertyName(propertyName: string, errors: string[]): string {
     if (!this._allowedValues[propertyName]) {

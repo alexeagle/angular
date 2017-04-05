@@ -64,11 +64,15 @@ export class RequestOptions {
   /**
    * @deprecated from 4.0.0. Use params instead.
    */
-  get search(): URLSearchParams { return this.params; }
+  get search(): URLSearchParams {
+    return this.params;
+  }
   /**
    * @deprecated from 4.0.0. Use params instead.
    */
-  set search(params: URLSearchParams) { this.params = params; }
+  set search(params: URLSearchParams) {
+    this.params = params;
+  }
   /**
    * Enable use credentials for a {@link Request}.
    */
@@ -80,8 +84,8 @@ export class RequestOptions {
 
   // TODO(Dzmitry): remove search when this.search is removed
   constructor(
-      {method, headers, body, url, search, params, withCredentials,
-       responseType}: RequestOptionsArgs = {}) {
+      {method, headers, body, url, search, params, withCredentials, responseType}:
+          RequestOptionsArgs = {}) {
     this.method = method != null ? normalizeMethodName(method) : null;
     this.headers = headers != null ? headers : null;
     this.body = body != null ? body : null;
@@ -205,5 +209,7 @@ export class RequestOptions {
  */
 @Injectable()
 export class BaseRequestOptions extends RequestOptions {
-  constructor() { super({method: RequestMethod.Get, headers: new Headers()}); }
+  constructor() {
+    super({method: RequestMethod.Get, headers: new Headers()});
+  }
 }

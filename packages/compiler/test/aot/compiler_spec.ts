@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {AotCompiler, AotCompilerHost, AotCompilerOptions, GeneratedFile, createAotCompiler} from '@angular/compiler';
+import {AotCompiler, AotCompilerHost, AotCompilerOptions, createAotCompiler, GeneratedFile} from '@angular/compiler';
 import {RenderComponentType, ɵReflectionCapabilities as ReflectionCapabilities, ɵreflector as reflector} from '@angular/core';
 import {NodeFlags} from '@angular/core/src/view/index';
 import {async} from '@angular/core/testing';
@@ -44,7 +44,9 @@ describe('compiler (unbundled Angular)', () => {
   });
 
   // Restore reflector since AoT compiler will update it with a new static reflector
-  afterEach(() => { reflector.updateCapabilities(new ReflectionCapabilities()); });
+  afterEach(() => {
+    reflector.updateCapabilities(new ReflectionCapabilities());
+  });
 
   describe('Quickstart', () => {
     let host: MockCompilerHost;
@@ -137,7 +139,9 @@ describe('compiler (unbundled Angular)', () => {
     describe('inline templates', () => {
       const ngUrl = `${ngComponentPath}.AppComponent.html`;
 
-      function templateDecorator(template: string) { return `template: \`${template}\`,`; }
+      function templateDecorator(template: string) {
+        return `template: \`${template}\`,`;
+      }
 
       declareTests({ngUrl, templateDecorator});
     });
@@ -543,7 +547,9 @@ describe('compiler (unbundled Angular)', () => {
              parentModuleDecorator: '@NgModule({providers: [Base]})',
              childClassDecorator: '@Injectable()',
              childModuleDecorator: '@NgModule({providers: [Extends]})',
-           }).then((mainNgFactory) => { expect(mainNgFactory).toBeTruthy(); });
+           }).then((mainNgFactory) => {
+             expect(mainNgFactory).toBeTruthy();
+           });
          }));
 
       it('should error if the child class has no matching decorator', async(() => {
@@ -567,7 +573,9 @@ describe('compiler (unbundled Angular)', () => {
              parentModuleDecorator: '@NgModule({declarations: [Base]})',
              childClassDecorator: `@Component({template: ''})`,
              childModuleDecorator: '@NgModule({declarations: [Extends]})',
-           }).then((mainNgFactory) => { expect(mainNgFactory).toBeTruthy(); });
+           }).then((mainNgFactory) => {
+             expect(mainNgFactory).toBeTruthy();
+           });
          }));
 
       it('should error if the child class has no matching decorator', async(() => {
@@ -591,7 +599,9 @@ describe('compiler (unbundled Angular)', () => {
              parentModuleDecorator: '@NgModule({declarations: [Base]})',
              childClassDecorator: `@Directive({selector: '[someDir]'})`,
              childModuleDecorator: '@NgModule({declarations: [Extends]})',
-           }).then((mainNgFactory) => { expect(mainNgFactory).toBeTruthy(); });
+           }).then((mainNgFactory) => {
+             expect(mainNgFactory).toBeTruthy();
+           });
          }));
 
       it('should error if the child class has no matching decorator', async(() => {
@@ -615,7 +625,9 @@ describe('compiler (unbundled Angular)', () => {
              parentModuleDecorator: '@NgModule({declarations: [Base]})',
              childClassDecorator: `@Pipe({name: 'somePipe'})`,
              childModuleDecorator: '@NgModule({declarations: [Extends]})',
-           }).then((mainNgFactory) => { expect(mainNgFactory).toBeTruthy(); });
+           }).then((mainNgFactory) => {
+             expect(mainNgFactory).toBeTruthy();
+           });
          }));
 
       it('should error if the child class has no matching decorator', async(() => {
@@ -639,7 +651,9 @@ describe('compiler (unbundled Angular)', () => {
              parentModuleDecorator: '',
              childClassDecorator: `@NgModule()`,
              childModuleDecorator: '',
-           }).then((mainNgFactory) => { expect(mainNgFactory).toBeTruthy(); });
+           }).then((mainNgFactory) => {
+             expect(mainNgFactory).toBeTruthy();
+           });
          }));
 
       it('should error if the child class has no matching decorator', async(() => {
@@ -693,7 +707,9 @@ describe('compiler (bundled Angular)', () => {
     });
 
     // Restore reflector since AoT compiler will update it with a new static reflector
-    afterEach(() => { reflector.updateCapabilities(new ReflectionCapabilities()); });
+    afterEach(() => {
+      reflector.updateCapabilities(new ReflectionCapabilities());
+    });
 
     it('should compile',
        async(() => compile(host, aotHost, expectNoDiagnostics).then(generatedFiles => {
@@ -744,7 +760,9 @@ describe('compiler (bundled Angular)', () => {
        async(() => compile(host, aotHost, expectNoDiagnostics, expectNoDiagnostics)));
 
     // Restore reflector since AoT compiler will update it with a new static reflector
-    afterEach(() => { reflector.updateCapabilities(new ReflectionCapabilities()); });
+    afterEach(() => {
+      reflector.updateCapabilities(new ReflectionCapabilities());
+    });
   });
 });
 
@@ -756,7 +774,9 @@ function expectNoDiagnostics(program: ts.Program) {
     return '';
   }
 
-  function chars(len: number, ch: string): string { return new Array(len).fill(ch).join(''); }
+  function chars(len: number, ch: string): string {
+    return new Array(len).fill(ch).join('');
+  }
 
   function lineNoOf(offset: number, text: string): number {
     let result = 1;
@@ -958,5 +978,10 @@ const LIBRARY_USING_APP: MockData = {
 
 function expectPromiseToThrow(p: Promise<any>, msg: RegExp) {
   p.then(
-      () => { throw new Error('Expected to throw'); }, (e) => { expect(e.message).toMatch(msg); });
+      () => {
+        throw new Error('Expected to throw');
+      },
+      (e) => {
+        expect(e.message).toMatch(msg);
+      });
 }

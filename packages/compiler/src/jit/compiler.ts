@@ -8,7 +8,7 @@
 
 import {Compiler, ComponentFactory, Inject, Injector, ModuleWithComponentFactories, NgModuleFactory, Type, ɵConsole as Console, ɵgetComponentViewDefinitionFactory as getComponentViewDefinitionFactory, ɵstringify as stringify} from '@angular/core';
 
-import {CompileDirectiveMetadata, CompileIdentifierMetadata, CompileNgModuleMetadata, CompileStylesheetMetadata, ProviderMeta, ProxyClass, createHostComponentMeta, identifierName, ngModuleJitUrl, sharedStylesheetJitUrl, templateJitUrl, templateSourceUrl} from '../compile_metadata';
+import {CompileDirectiveMetadata, CompileIdentifierMetadata, CompileNgModuleMetadata, CompileStylesheetMetadata, createHostComponentMeta, identifierName, ngModuleJitUrl, ProviderMeta, ProxyClass, sharedStylesheetJitUrl, templateJitUrl, templateSourceUrl} from '../compile_metadata';
 import {CompilerConfig} from '../config';
 import {CompilerInjectable} from '../injectable';
 import {CompileMetadataResolver} from '../metadata_resolver';
@@ -46,7 +46,9 @@ export class JitCompiler implements Compiler {
       private _viewCompiler: ViewCompiler, private _ngModuleCompiler: NgModuleCompiler,
       private _compilerConfig: CompilerConfig, private _console: Console) {}
 
-  get injector(): Injector { return this._injector; }
+  get injector(): Injector {
+    return this._injector;
+  }
 
   compileModuleSync<T>(moduleType: Type<T>): NgModuleFactory<T> {
     return this._compileModuleAndComponents(moduleType, true).syncResult;
@@ -207,7 +209,9 @@ export class JitCompiler implements Compiler {
       CompiledTemplate {
     if (!ngModule) {
       throw new Error(
-          `Component ${stringify(compType)} is not part of any NgModule or the module has not been imported into your module.`);
+          `Component ${
+                       stringify(compType)
+                     } is not part of any NgModule or the module has not been imported into your module.`);
     }
     let compiledTemplate = this._compiledHostTemplateCache.get(compType);
     if (!compiledTemplate) {
@@ -244,8 +248,9 @@ export class JitCompiler implements Compiler {
     const compMeta = template.compMeta;
     const externalStylesheetsByModuleUrl = new Map<string, CompiledStylesheet>();
     const stylesCompileResult = this._styleCompiler.compileComponent(compMeta);
-    stylesCompileResult.externalStylesheets.forEach(
-        (r) => { externalStylesheetsByModuleUrl.set(r.meta.moduleUrl, r); });
+    stylesCompileResult.externalStylesheets.forEach((r) => {
+      externalStylesheetsByModuleUrl.set(r.meta.moduleUrl, r);
+    });
     this._resolveStylesCompileResult(
         stylesCompileResult.componentStylesheet, externalStylesheetsByModuleUrl);
     const directives =
@@ -331,7 +336,9 @@ function assertComponent(meta: CompileDirectiveMetadata) {
 class ModuleBoundCompiler implements Compiler {
   constructor(private _delegate: JitCompiler, private _ngModule: Type<any>) {}
 
-  get _injector(): Injector { return this._delegate.injector; }
+  get _injector(): Injector {
+    return this._delegate.injector;
+  }
 
   compileModuleSync<T>(moduleType: Type<T>): NgModuleFactory<T> {
     return this._delegate.compileModuleSync(moduleType);
@@ -357,10 +364,14 @@ class ModuleBoundCompiler implements Compiler {
   /**
    * Clears all caches
    */
-  clearCache(): void { this._delegate.clearCache(); }
+  clearCache(): void {
+    this._delegate.clearCache();
+  }
 
   /**
    * Clears the cache for the given component/ngModule.
    */
-  clearCacheFor(type: Type<any>) { this._delegate.clearCacheFor(type); }
+  clearCacheFor(type: Type<any>) {
+    this._delegate.clearCacheFor(type);
+  }
 }

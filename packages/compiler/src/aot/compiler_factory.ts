@@ -72,7 +72,7 @@ export function createAotCompiler(compilerHost: AotCompilerHost, options: AotCom
   const importResolver = {
     getImportAs: (symbol: StaticSymbol) => symbolResolver.getImportAs(symbol),
     fileNameToModuleName: (fileName: string, containingFilePath: string) =>
-                              compilerHost.fileNameToModuleName(fileName, containingFilePath),
+        compilerHost.fileNameToModuleName(fileName, containingFilePath),
     getTypeArity: (symbol: StaticSymbol) => symbolResolver.getTypeArity(symbol)
   };
   const viewCompiler = new ViewCompiler(config, elementSchemaRegistry);

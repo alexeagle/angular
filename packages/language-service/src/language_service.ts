@@ -28,9 +28,13 @@ export function createLanguageService(host: LanguageServiceHost): LanguageServic
 class LanguageServiceImpl implements LanguageService {
   constructor(private host: LanguageServiceHost) {}
 
-  private get metadataResolver(): CompileMetadataResolver { return this.host.resolver; }
+  private get metadataResolver(): CompileMetadataResolver {
+    return this.host.resolver;
+  }
 
-  getTemplateReferences(): string[] { return this.host.getTemplateReferences(); }
+  getTemplateReferences(): string[] {
+    return this.host.getTemplateReferences();
+  }
 
   getDiagnostics(fileName: string): Diagnostics {
     let results: Diagnostics = [];
@@ -131,8 +135,12 @@ class LanguageServiceImpl implements LanguageService {
           result = {
             htmlAst: htmlResult.rootNodes,
             templateAst: parseResult.templateAst,
-            directive: metadata, directives, pipes,
-            parseErrors: parseResult.errors, expressionParser, errors
+            directive: metadata,
+            directives,
+            pipes,
+            parseErrors: parseResult.errors,
+            expressionParser,
+            errors
           };
         }
       }

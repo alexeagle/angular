@@ -19,22 +19,30 @@ class DummyControlValueAccessor implements ControlValueAccessor {
   registerOnChange(fn: any) {}
   registerOnTouched(fn: any) {}
 
-  writeValue(obj: any): void { this.writtenValue = obj; }
+  writeValue(obj: any): void {
+    this.writtenValue = obj;
+  }
 }
 
 class CustomValidatorDirective implements Validator {
-  validate(c: FormControl): ValidationErrors { return {'custom': true}; }
+  validate(c: FormControl): ValidationErrors {
+    return {'custom': true};
+  }
 }
 
 function asyncValidator(expected: any, timeout = 0) {
   return (c: AbstractControl): any => {
     let resolve: (result: any) => void;
-    const promise = new Promise(res => { resolve = res; });
+    const promise = new Promise(res => {
+      resolve = res;
+    });
     const res = c.value != expected ? {'async': true} : null;
     if (timeout == 0) {
       resolve(res);
     } else {
-      setTimeout(() => { resolve(res); }, timeout);
+      setTimeout(() => {
+        resolve(res);
+      }, timeout);
     }
     return promise;
   };
@@ -44,19 +52,25 @@ export function main() {
   describe('Form Directives', () => {
     let defaultAccessor: DefaultValueAccessor;
 
-    beforeEach(() => { defaultAccessor = new DefaultValueAccessor(null, null, null); });
+    beforeEach(() => {
+      defaultAccessor = new DefaultValueAccessor(null, null, null);
+    });
 
     describe('shared', () => {
       describe('selectValueAccessor', () => {
         let dir: NgControl;
 
-        beforeEach(() => { dir = <any>new SpyNgControl(); });
+        beforeEach(() => {
+          dir = <any>new SpyNgControl();
+        });
 
-        it('should throw when given an empty array',
-           () => { expect(() => selectValueAccessor(dir, [])).toThrowError(); });
+        it('should throw when given an empty array', () => {
+          expect(() => selectValueAccessor(dir, [])).toThrowError();
+        });
 
-        it('should return the default value accessor when no other provided',
-           () => { expect(selectValueAccessor(dir, [defaultAccessor])).toEqual(defaultAccessor); });
+        it('should return the default value accessor when no other provided', () => {
+          expect(selectValueAccessor(dir, [defaultAccessor])).toEqual(defaultAccessor);
+        });
 
         it('should return checkbox accessor when provided', () => {
           const checkboxAccessor = new CheckboxControlValueAccessor(null, null);
@@ -88,16 +102,17 @@ export function main() {
         it('should return custom accessor when provided', () => {
           const customAccessor = new SpyValueAccessor();
           const checkboxAccessor = new CheckboxControlValueAccessor(null, null);
-          expect(selectValueAccessor(dir, <any>[defaultAccessor, customAccessor, checkboxAccessor]))
-              .toEqual(customAccessor);
+          expect(selectValueAccessor(dir, <any>[
+            defaultAccessor, customAccessor, checkboxAccessor
+          ])).toEqual(customAccessor);
         });
 
         it('should return custom accessor when provided with select multiple', () => {
           const customAccessor = new SpyValueAccessor();
           const selectMultipleAccessor = new SelectMultipleControlValueAccessor(null, null);
-          expect(selectValueAccessor(
-                     dir, <any>[defaultAccessor, customAccessor, selectMultipleAccessor]))
-              .toEqual(customAccessor);
+          expect(selectValueAccessor(dir, <any>[
+            defaultAccessor, customAccessor, selectMultipleAccessor
+          ])).toEqual(customAccessor);
         });
 
         it('should throw when more than one custom accessor is provided', () => {
@@ -499,7 +514,9 @@ export function main() {
         controlDir.form = control;
       });
 
-      it('should reexport control properties', () => { checkProperties(control); });
+      it('should reexport control properties', () => {
+        checkProperties(control);
+      });
 
       it('should reexport control methods', () => {
         expect(controlDir.hasError('required')).toBe(control.hasError('required'));

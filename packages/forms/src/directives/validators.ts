@@ -6,8 +6,9 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directive, Input, OnChanges, Provider, SimpleChanges, forwardRef} from '@angular/core';
+import {Directive, forwardRef, Input, OnChanges, Provider, SimpleChanges} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+
 import {AbstractControl} from '../model';
 import {NG_VALIDATORS, Validators} from '../validators';
 
@@ -80,7 +81,9 @@ export class RequiredValidator implements Validator {
   private _onChange: () => void;
 
   @Input()
-  get required(): boolean|string { return this._required; }
+  get required(): boolean|string {
+    return this._required;
+  }
 
   set required(value: boolean|string) {
     this._required = value != null && value !== false && `${value}` !== 'false';
@@ -91,7 +94,9 @@ export class RequiredValidator implements Validator {
     return this.required ? Validators.required(c) : null;
   }
 
-  registerOnValidatorChange(fn: () => void): void { this._onChange = fn; }
+  registerOnValidatorChange(fn: () => void): void {
+    this._onChange = fn;
+  }
 }
 
 /**
@@ -159,7 +164,9 @@ export class EmailValidator implements Validator {
     return this._enabled ? Validators.email(c) : null;
   }
 
-  registerOnValidatorChange(fn: () => void): void { this._onChange = fn; }
+  registerOnValidatorChange(fn: () => void): void {
+    this._onChange = fn;
+  }
 }
 
 /**
@@ -198,8 +205,7 @@ export const MIN_LENGTH_VALIDATOR: any = {
   providers: [MIN_LENGTH_VALIDATOR],
   host: {'[attr.minlength]': 'minlength ? minlength : null'}
 })
-export class MinLengthValidator implements Validator,
-    OnChanges {
+export class MinLengthValidator implements Validator, OnChanges {
   private _validator: ValidatorFn;
   private _onChange: () => void;
 
@@ -216,7 +222,9 @@ export class MinLengthValidator implements Validator,
     return this.minlength == null ? null : this._validator(c);
   }
 
-  registerOnValidatorChange(fn: () => void): void { this._onChange = fn; }
+  registerOnValidatorChange(fn: () => void): void {
+    this._onChange = fn;
+  }
 
   private _createValidator(): void {
     this._validator = Validators.minLength(parseInt(this.minlength, 10));
@@ -248,8 +256,7 @@ export const MAX_LENGTH_VALIDATOR: any = {
   providers: [MAX_LENGTH_VALIDATOR],
   host: {'[attr.maxlength]': 'maxlength ? maxlength : null'}
 })
-export class MaxLengthValidator implements Validator,
-    OnChanges {
+export class MaxLengthValidator implements Validator, OnChanges {
   private _validator: ValidatorFn;
   private _onChange: () => void;
 
@@ -266,7 +273,9 @@ export class MaxLengthValidator implements Validator,
     return this.maxlength != null ? this._validator(c) : null;
   }
 
-  registerOnValidatorChange(fn: () => void): void { this._onChange = fn; }
+  registerOnValidatorChange(fn: () => void): void {
+    this._onChange = fn;
+  }
 
   private _createValidator(): void {
     this._validator = Validators.maxLength(parseInt(this.maxlength, 10));
@@ -299,8 +308,7 @@ export const PATTERN_VALIDATOR: any = {
   providers: [PATTERN_VALIDATOR],
   host: {'[attr.pattern]': 'pattern ? pattern : null'}
 })
-export class PatternValidator implements Validator,
-    OnChanges {
+export class PatternValidator implements Validator, OnChanges {
   private _validator: ValidatorFn;
   private _onChange: () => void;
 
@@ -313,9 +321,15 @@ export class PatternValidator implements Validator,
     }
   }
 
-  validate(c: AbstractControl): ValidationErrors|null { return this._validator(c); }
+  validate(c: AbstractControl): ValidationErrors|null {
+    return this._validator(c);
+  }
 
-  registerOnValidatorChange(fn: () => void): void { this._onChange = fn; }
+  registerOnValidatorChange(fn: () => void): void {
+    this._onChange = fn;
+  }
 
-  private _createValidator(): void { this._validator = Validators.pattern(this.pattern); }
+  private _createValidator(): void {
+    this._validator = Validators.pattern(this.pattern);
+  }
 }

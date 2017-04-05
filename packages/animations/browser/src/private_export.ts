@@ -12,5 +12,5 @@ export {WebAnimationsStyleNormalizer as ɵWebAnimationsStyleNormalizer} from './
 export {NoopAnimationDriver as ɵNoopAnimationDriver} from './render/animation_driver';
 export {DomAnimationEngine as ɵDomAnimationEngine} from './render/dom_animation_engine';
 export {NoopAnimationEngine as ɵNoopAnimationEngine} from './render/noop_animation_engine';
-export {WebAnimationsDriver as ɵWebAnimationsDriver, supportsWebAnimations as ɵsupportsWebAnimations} from './render/web_animations/web_animations_driver';
+export {supportsWebAnimations as ɵsupportsWebAnimations, WebAnimationsDriver as ɵWebAnimationsDriver} from './render/web_animations/web_animations_driver';
 export {WebAnimationsPlayer as ɵWebAnimationsPlayer} from './render/web_animations/web_animations_player';

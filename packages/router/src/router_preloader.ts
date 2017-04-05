@@ -1,14 +1,13 @@
 /**
-*@license
-*Copyright Google Inc. All Rights Reserved.
-*
-*Use of this source code is governed by an MIT-style license that can be
-*found in the LICENSE file at https://angular.io/license
-*/
+ *@license
+ *Copyright Google Inc. All Rights Reserved.
+ *
+ *Use of this source code is governed by an MIT-style license that can be
+ *found in the LICENSE file at https://angular.io/license
+ */
 
 import {Compiler, Injectable, Injector, NgModuleFactoryLoader, NgModuleRef} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
 import {from} from 'rxjs/observable/from';
 import {of } from 'rxjs/observable/of';
 import {_catch} from 'rxjs/operator/catch';
@@ -16,6 +15,8 @@ import {concatMap} from 'rxjs/operator/concatMap';
 import {filter} from 'rxjs/operator/filter';
 import {mergeAll} from 'rxjs/operator/mergeAll';
 import {mergeMap} from 'rxjs/operator/mergeMap';
+import {Subscription} from 'rxjs/Subscription';
+
 import {InternalRoute, Route, Routes} from './config';
 import {NavigationEnd, RouteConfigLoadEnd, RouteConfigLoadStart} from './events';
 import {Router} from './router';
@@ -57,7 +58,9 @@ export class PreloadAllModules implements PreloadingStrategy {
  * @experimental
  */
 export class NoPreloading implements PreloadingStrategy {
-  preload(route: Route, fn: () => Observable<any>): Observable<any> { return of (null); }
+  preload(route: Route, fn: () => Observable<any>): Observable<any> {
+    return of (null);
+  }
 }
 
 /**
@@ -96,7 +99,9 @@ export class RouterPreloader {
     return this.processRoutes(ngModule, this.router.config);
   }
 
-  ngOnDestroy(): void { this.subscription.unsubscribe(); }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   private processRoutes(ngModule: NgModuleRef<any>, routes: Routes): Observable<void> {
     const res: Observable<any>[] = [];

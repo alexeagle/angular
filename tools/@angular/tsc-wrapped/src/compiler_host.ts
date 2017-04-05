@@ -11,8 +11,8 @@ import {normalize} from 'path';
 import * as tsickle from 'tsickle';
 import * as ts from 'typescript';
 
-import NgOptions from './options';
 import {MetadataCollector} from './collector';
+import NgOptions from './options';
 import {ModuleMetadata} from './schema';
 
 export function formatDiagnostics(d: ts.Diagnostic[]): string {
@@ -41,7 +41,7 @@ export abstract class DelegatingHost implements ts.CompilerHost {
   writeFile: ts.WriteFileCallback = this.delegate.writeFile;
   getCurrentDirectory = () => this.delegate.getCurrentDirectory();
   getDirectories = (path: string): string[] =>
-      (this.delegate as any).getDirectories?(this.delegate as any).getDirectories(path): [];
+      (this.delegate as any).getDirectories ? (this.delegate as any).getDirectories(path) : [];
   getCanonicalFileName = (fileName: string) => this.delegate.getCanonicalFileName(fileName);
   useCaseSensitiveFileNames = () => this.delegate.useCaseSensitiveFileNames();
   getNewLine = () => this.delegate.getNewLine();

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ChangeDetectorRef, Directive, DoCheck, EmbeddedViewRef, Input, IterableChangeRecord, IterableChanges, IterableDiffer, IterableDiffers, NgIterable, OnChanges, SimpleChanges, TemplateRef, TrackByFunction, ViewContainerRef, forwardRef, isDevMode} from '@angular/core';
+import {ChangeDetectorRef, Directive, DoCheck, EmbeddedViewRef, forwardRef, Input, isDevMode, IterableChangeRecord, IterableChanges, IterableDiffer, IterableDiffers, NgIterable, OnChanges, SimpleChanges, TemplateRef, TrackByFunction, ViewContainerRef} from '@angular/core';
 
 /**
  * @stable
@@ -16,13 +16,21 @@ export class NgForOfContext<T> {
       public $implicit: T, public ngForOf: NgIterable<T>, public index: number,
       public count: number) {}
 
-  get first(): boolean { return this.index === 0; }
+  get first(): boolean {
+    return this.index === 0;
+  }
 
-  get last(): boolean { return this.index === this.count - 1; }
+  get last(): boolean {
+    return this.index === this.count - 1;
+  }
 
-  get even(): boolean { return this.index % 2 === 0; }
+  get even(): boolean {
+    return this.index % 2 === 0;
+  }
 
-  get odd(): boolean { return !this.even; }
+  get odd(): boolean {
+    return !this.even;
+  }
 }
 
 /**
@@ -112,7 +120,9 @@ export class NgForOf<T> implements DoCheck, OnChanges {
     this._trackByFn = fn;
   }
 
-  get ngForTrackBy(): TrackByFunction<T> { return this._trackByFn; }
+  get ngForTrackBy(): TrackByFunction<T> {
+    return this._trackByFn;
+  }
 
   private _differ: IterableDiffer<T> = null;
   private _trackByFn: TrackByFunction<T>;
@@ -140,7 +150,11 @@ export class NgForOf<T> implements DoCheck, OnChanges {
           this._differ = this._differs.find(value).create(this.ngForTrackBy);
         } catch (e) {
           throw new Error(
-              `Cannot find a differ supporting object '${value}' of type '${getTypeNameForDebugging(value)}'. NgFor only supports binding to Iterables such as Arrays.`);
+              `Cannot find a differ supporting object '${
+                                                         value
+                                                       }' of type '${
+                                                                     getTypeNameForDebugging(value)
+                                                                   }'. NgFor only supports binding to Iterables such as Arrays.`);
         }
       }
     }

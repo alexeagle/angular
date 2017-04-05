@@ -12,9 +12,13 @@ import {el} from '@angular/platform-browser/testing/src/browser_util';
 export function main() {
   describe('NoopAnimationEngine', () => {
     let captures: string[] = [];
-    function capture(value: string = null) { return (v: any = null) => captures.push(value || v); }
+    function capture(value: string = null) {
+      return (v: any = null) => captures.push(value || v);
+    }
 
-    beforeEach(() => { captures = []; });
+    beforeEach(() => {
+      captures = [];
+    });
 
     it('should immediately issue DOM removals during remove animations and then fire the animation callbacks after flush',
        () => {

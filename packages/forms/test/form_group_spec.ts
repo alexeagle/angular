@@ -16,14 +16,18 @@ export function main() {
   function asyncValidator(expected: string, timeouts = {}) {
     return (c: AbstractControl) => {
       let resolve: (result: any) => void;
-      const promise = new Promise(res => { resolve = res; });
+      const promise = new Promise(res => {
+        resolve = res;
+      });
       const t = (timeouts as any)[c.value] != null ? (timeouts as any)[c.value] : 0;
       const res = c.value != expected ? {'async': true} : null;
 
       if (t == 0) {
         resolve(res);
       } else {
-        setTimeout(() => { resolve(res); }, t);
+        setTimeout(() => {
+          resolve(res);
+        }, t);
       }
 
       return promise;
@@ -32,7 +36,9 @@ export function main() {
 
   function asyncValidatorReturningObservable(c: FormControl) {
     const e = new EventEmitter();
-    Promise.resolve(null).then(() => { e.emit({'async': true}); });
+    Promise.resolve(null).then(() => {
+      e.emit({'async': true});
+    });
     return e;
   }
 
@@ -132,7 +138,9 @@ export function main() {
         g = new FormGroup({'one': c});
       });
 
-      it('should be false after creating a control', () => { expect(g.dirty).toEqual(false); });
+      it('should be false after creating a control', () => {
+        expect(g.dirty).toEqual(false);
+      });
 
       it('should be true after changing the value of the control', () => {
         c.markAsDirty();
@@ -150,7 +158,9 @@ export function main() {
         g = new FormGroup({'one': c});
       });
 
-      it('should be false after creating a control', () => { expect(g.touched).toEqual(false); });
+      it('should be false after creating a control', () => {
+        expect(g.touched).toEqual(false);
+      });
 
       it('should be true after control is marked as touched', () => {
         c.markAsTouched();
@@ -254,9 +264,15 @@ export function main() {
         });
 
         it('should not fire an event when explicitly specified', fakeAsync(() => {
-             form.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             g.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c.valueChanges.subscribe((value) => { throw 'Should not happen'; });
+             form.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             g.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
 
              g.setValue({'one': 'one', 'two': 'two'}, {emitEvent: false});
              tick();
@@ -368,9 +384,15 @@ export function main() {
         });
 
         it('should not fire an event when explicitly specified', fakeAsync(() => {
-             form.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             g.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c.valueChanges.subscribe((value) => { throw 'Should not happen'; });
+             form.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             g.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
 
              g.patchValue({'one': 'one', 'two': 'two'}, {emitEvent: false});
              tick();
@@ -577,9 +599,15 @@ export function main() {
         });
 
         it('should not fire an event when explicitly specified', fakeAsync(() => {
-             form.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             g.valueChanges.subscribe((value) => { throw 'Should not happen'; });
-             c.valueChanges.subscribe((value) => { throw 'Should not happen'; });
+             form.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             g.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
+             c.valueChanges.subscribe((value) => {
+               throw 'Should not happen';
+             });
 
              g.reset({}, {emitEvent: false});
              tick();
@@ -620,11 +648,13 @@ export function main() {
         });
       });
 
-      it('should return false when the component is disabled',
-         () => { expect(group.contains('optional')).toEqual(false); });
+      it('should return false when the component is disabled', () => {
+        expect(group.contains('optional')).toEqual(false);
+      });
 
-      it('should return false when there is no component with the given name',
-         () => { expect(group.contains('something else')).toEqual(false); });
+      it('should return false when there is no component with the given name', () => {
+        expect(group.contains('something else')).toEqual(false);
+      });
 
       it('should return true when the component is enabled', () => {
         expect(group.contains('required')).toEqual(true);

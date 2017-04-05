@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {AUTO_STYLE, AnimateTimings, AnimationAnimateMetadata, AnimationGroupMetadata, AnimationKeyframesSequenceMetadata, AnimationMetadata, AnimationMetadataType, AnimationSequenceMetadata, AnimationStateMetadata, AnimationStyleMetadata, AnimationTransitionMetadata, sequence, style, ɵStyleData} from '@angular/animations';
+import {AnimateTimings, AnimationAnimateMetadata, AnimationGroupMetadata, AnimationKeyframesSequenceMetadata, AnimationMetadata, AnimationMetadataType, AnimationSequenceMetadata, AnimationStateMetadata, AnimationStyleMetadata, AnimationTransitionMetadata, AUTO_STYLE, sequence, style, ɵStyleData} from '@angular/animations';
 
 import {copyStyles, normalizeStyles, parseTimeExpression} from '../util';
 
@@ -99,7 +99,7 @@ import {AnimationTimelineInstruction, createTimelineInstruction} from './animati
  * the `AnimationValidatorVisitor` code.
  */
 export function buildAnimationKeyframes(
-    ast: AnimationMetadata | AnimationMetadata[], startingStyles: ɵStyleData = {},
+    ast: AnimationMetadata|AnimationMetadata[], startingStyles: ɵStyleData = {},
     finalStyles: ɵStyleData = {}): AnimationTimelineInstruction[] {
   const normalizedAst =
       Array.isArray(ast) ? sequence(<AnimationMetadata[]>ast) : <AnimationMetadata>ast;
@@ -329,9 +329,13 @@ export class TimelineBuilder {
     this._loadKeyframe();
   }
 
-  hasStyling(): boolean { return this._keyframes.size > 1; }
+  hasStyling(): boolean {
+    return this._keyframes.size > 1;
+  }
 
-  get currentTime() { return this.startTime + this.duration; }
+  get currentTime() {
+    return this.startTime + this.duration;
+  }
 
   fork(currentTime = 0): TimelineBuilder {
     return new TimelineBuilder(currentTime || this.currentTime, this._globalTimelineStyles);
@@ -364,7 +368,9 @@ export class TimelineBuilder {
     this._styleSummary[prop] = {time: this.currentTime, value};
   }
 
-  allowOnlyTimelineStyles() { return this._currentEmptyStepKeyframe !== this._currentKeyframe; }
+  allowOnlyTimelineStyles() {
+    return this._currentEmptyStepKeyframe !== this._currentKeyframe;
+  }
 
   setStyles(styles: ɵStyleData, easing: string = null, treatAsEmptyStep: boolean = false) {
     if (easing) {
@@ -403,9 +409,13 @@ export class TimelineBuilder {
     }
   }
 
-  snapshotCurrentStyles() { copyStyles(this._localTimelineStyles, false, this._currentKeyframe); }
+  snapshotCurrentStyles() {
+    copyStyles(this._localTimelineStyles, false, this._currentKeyframe);
+  }
 
-  getFinalKeyframe() { return this._keyframes.get(this.duration); }
+  getFinalKeyframe() {
+    return this._keyframes.get(this.duration);
+  }
 
   get properties() {
     const properties: string[] = [];

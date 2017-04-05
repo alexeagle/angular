@@ -13,16 +13,19 @@ export enum NumberFormatStyle {
 }
 
 export class NumberFormatter {
-  static format(
-      num: number, locale: string, style: NumberFormatStyle,
-      {minimumIntegerDigits, minimumFractionDigits, maximumFractionDigits, currency,
-       currencyAsSymbol = false}: {
-        minimumIntegerDigits?: number,
-        minimumFractionDigits?: number,
-        maximumFractionDigits?: number,
-        currency?: string,
-        currencyAsSymbol?: boolean
-      } = {}): string {
+  static format(num: number, locale: string, style: NumberFormatStyle, {
+    minimumIntegerDigits,
+    minimumFractionDigits,
+    maximumFractionDigits,
+    currency,
+    currencyAsSymbol = false
+  }: {
+    minimumIntegerDigits?: number,
+    minimumFractionDigits?: number,
+    maximumFractionDigits?: number,
+    currency?: string,
+    currencyAsSymbol?: boolean
+  } = {}): string {
     const options: Intl.NumberFormatOptions = {
       minimumIntegerDigits,
       minimumFractionDigits,
@@ -128,11 +131,15 @@ function digitModifier(inner: DateFormatterFn): DateFormatterFn {
 }
 
 function hourClockExtractor(inner: DateFormatterFn): DateFormatterFn {
-  return function(date: Date, locale: string): string { return inner(date, locale).split(' ')[1]; };
+  return function(date: Date, locale: string): string {
+    return inner(date, locale).split(' ')[1];
+  };
 }
 
 function hourExtractor(inner: DateFormatterFn): DateFormatterFn {
-  return function(date: Date, locale: string): string { return inner(date, locale).split(' ')[0]; };
+  return function(date: Date, locale: string): string {
+    return inner(date, locale).split(' ')[0];
+  };
 }
 
 function intlDateFormat(date: Date, locale: string, options: Intl.DateTimeFormatOptions): string {

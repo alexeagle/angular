@@ -22,7 +22,7 @@ export function main() {
     });
 
     describe('normalizeStyleValue', () => {
-      function normalize(prop: string, val: string | number): string {
+      function normalize(prop: string, val: string|number): string {
         const errors: string[] = [];
         const result = normalizer.normalizeStyleValue(prop, prop, val, errors);
         if (errors.length) {

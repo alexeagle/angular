@@ -157,7 +157,11 @@ export class DowngradeComponentAdapter {
           });
         } else {
           throw new Error(
-              `Missing emitter '${output.prop}' on component '${getComponentName(this.componentFactory.componentType)}'!`);
+              `Missing emitter '${output.prop}' on component '${
+                                                                getComponentName(
+                                                                    this.componentFactory
+                                                                        .componentType)
+                                                              }'!`);
         }
       }
     }
@@ -170,7 +174,9 @@ export class DowngradeComponentAdapter {
     });
   }
 
-  getInjector(): Injector { return this.componentRef && this.componentRef.injector; }
+  getInjector(): Injector {
+    return this.componentRef && this.componentRef.injector;
+  }
 
   private updateInput(prop: string, prevValue: any, currValue: any) {
     if (this.inputChanges) {

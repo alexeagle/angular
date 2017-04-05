@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directive, ElementRef, Host, Input, OnDestroy, Optional, Provider, Renderer, forwardRef, ɵlooseIdentical as looseIdentical} from '@angular/core';
+import {Directive, ElementRef, forwardRef, Host, Input, OnDestroy, Optional, Provider, Renderer, ɵlooseIdentical as looseIdentical} from '@angular/core';
+
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from './control_value_accessor';
 
 export const SELECT_VALUE_ACCESSOR: Provider = {
@@ -132,14 +133,18 @@ export class SelectControlValueAccessor implements ControlValueAccessor {
       fn(this._getOptionValue(valueString));
     };
   }
-  registerOnTouched(fn: () => any): void { this.onTouched = fn; }
+  registerOnTouched(fn: () => any): void {
+    this.onTouched = fn;
+  }
 
   setDisabledState(isDisabled: boolean): void {
     this._renderer.setElementProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
   }
 
   /** @internal */
-  _registerOption(): string { return (this._idCounter++).toString(); }
+  _registerOption(): string {
+    return (this._idCounter++).toString();
+  }
 
   /** @internal */
   _getOptionId(value: any): string {

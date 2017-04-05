@@ -9,7 +9,7 @@ import * as path from 'path';
 import * as ts from 'typescript';
 
 import {MetadataCollector} from './collector';
-import {ClassMetadata, ConstructorMetadata, FunctionMetadata, MemberMetadata, MetadataArray, MetadataEntry, MetadataError, MetadataImportedSymbolReferenceExpression, MetadataMap, MetadataObject, MetadataSymbolicBinaryExpression, MetadataSymbolicCallExpression, MetadataSymbolicExpression, MetadataSymbolicIfExpression, MetadataSymbolicIndexExpression, MetadataSymbolicPrefixExpression, MetadataSymbolicReferenceExpression, MetadataSymbolicSelectExpression, MetadataSymbolicSpreadExpression, MetadataValue, MethodMetadata, ModuleMetadata, VERSION, isClassMetadata, isConstructorMetadata, isFunctionMetadata, isInterfaceMetadata, isMetadataError, isMetadataGlobalReferenceExpression, isMetadataImportedSymbolReferenceExpression, isMetadataModuleReferenceExpression, isMetadataSymbolicExpression, isMetadataSymbolicReferenceExpression, isMethodMetadata} from './schema';
+import {ClassMetadata, ConstructorMetadata, FunctionMetadata, isClassMetadata, isConstructorMetadata, isFunctionMetadata, isInterfaceMetadata, isMetadataError, isMetadataGlobalReferenceExpression, isMetadataImportedSymbolReferenceExpression, isMetadataModuleReferenceExpression, isMetadataSymbolicExpression, isMetadataSymbolicReferenceExpression, isMethodMetadata, MemberMetadata, MetadataArray, MetadataEntry, MetadataError, MetadataImportedSymbolReferenceExpression, MetadataMap, MetadataObject, MetadataSymbolicBinaryExpression, MetadataSymbolicCallExpression, MetadataSymbolicExpression, MetadataSymbolicIfExpression, MetadataSymbolicIndexExpression, MetadataSymbolicPrefixExpression, MetadataSymbolicReferenceExpression, MetadataSymbolicSelectExpression, MetadataSymbolicSpreadExpression, MetadataValue, MethodMetadata, ModuleMetadata, VERSION} from './schema';
 
 
 // The character set used to produce private names.
@@ -71,7 +71,7 @@ export interface BundledModule {
 export interface MetadataBundlerHost { getMetadataFor(moduleName: string): ModuleMetadata; }
 
 type StaticsMetadata = {
-  [name: string]: MetadataValue | FunctionMetadata;
+  [name: string]: MetadataValue|FunctionMetadata;
 };
 
 export class MetadataBundler {
@@ -360,8 +360,8 @@ export class MetadataBundler {
   }
 
   private convertExpression(
-      moduleName: string, value: MetadataSymbolicExpression|MetadataError|
-      undefined): MetadataSymbolicExpression|MetadataError|undefined {
+      moduleName: string, value: MetadataSymbolicExpression|MetadataError|undefined):
+      MetadataSymbolicExpression|MetadataError|undefined {
     if (value) {
       switch (value.__symbolic) {
         case 'error':
@@ -381,7 +381,8 @@ export class MetadataBundler {
       message: value.message,
       line: value.line,
       character: value.character,
-      context: value.context, module
+      context: value.context,
+      module
     };
   }
 

@@ -14,7 +14,9 @@ import {NoopAnimationsModule} from '../src/module';
 
 export function main() {
   describe('NoopAnimationsModule', () => {
-    beforeEach(() => { TestBed.configureTestingModule({imports: [NoopAnimationsModule]}); });
+    beforeEach(() => {
+      TestBed.configureTestingModule({imports: [NoopAnimationsModule]});
+    });
 
     it('the engine should be a Noop engine', () => {
       const engine = TestBed.get(ɵAnimationEngine);
@@ -35,8 +37,12 @@ export function main() {
         exp: any;
         startEvent: any;
         doneEvent: any;
-        onStart(event: any) { this.startEvent = event; }
-        onDone(event: any) { this.doneEvent = event; }
+        onStart(event: any) {
+          this.startEvent = event;
+        }
+        onDone(event: any) {
+          this.doneEvent = event;
+        }
       }
 
       TestBed.configureTestingModule({declarations: [Cmp]});
@@ -69,8 +75,12 @@ export function main() {
            exp: any;
            startEvent: any;
            doneEvent: any;
-           onStart(event: any) { this.startEvent = event; }
-           onDone(event: any) { this.doneEvent = event; }
+           onStart(event: any) {
+             this.startEvent = event;
+           }
+           onDone(event: any) {
+             this.doneEvent = event;
+           }
          }
 
          TestBed.configureTestingModule({declarations: [Cmp]});

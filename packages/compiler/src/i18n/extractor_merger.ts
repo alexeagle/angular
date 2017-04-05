@@ -378,12 +378,20 @@ class _Visitor implements html.Visitor {
           } else {
             this._reportError(
                 el,
-                `Unexpected translation for attribute "${attr.name}" (id="${id || this._translations.digest(message)}")`);
+                `Unexpected translation for attribute "${attr.name}" (id="${
+                                                                            id ||
+                                                                            this._translations
+                                                                                .digest(message)
+                                                                          }")`);
           }
         } else {
           this._reportError(
               el,
-              `Translation unavailable for attribute "${attr.name}" (id="${id || this._translations.digest(message)}")`);
+              `Translation unavailable for attribute "${attr.name}" (id="${
+                                                                           id ||
+                                                                           this._translations
+                                                                               .digest(message)
+                                                                         }")`);
         }
       } else {
         translatedAttributes.push(attr);

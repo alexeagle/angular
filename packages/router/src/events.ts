@@ -22,7 +22,9 @@ export class NavigationStart {
       public url: string) {}
 
   /** @docsNotRequired */
-  toString(): string { return `NavigationStart(id: ${this.id}, url: '${this.url}')`; }
+  toString(): string {
+    return `NavigationStart(id: ${this.id}, url: '${this.url}')`;
+  }
 }
 
 /**
@@ -41,7 +43,11 @@ export class NavigationEnd {
 
   /** @docsNotRequired */
   toString(): string {
-    return `NavigationEnd(id: ${this.id}, url: '${this.url}', urlAfterRedirects: '${this.urlAfterRedirects}')`;
+    return `NavigationEnd(id: ${this.id}, url: '${
+                                                  this.url
+                                                }', urlAfterRedirects: '${
+                                                                          this.urlAfterRedirects
+                                                                        }')`;
   }
 }
 
@@ -60,7 +66,9 @@ export class NavigationCancel {
       public reason: string) {}
 
   /** @docsNotRequired */
-  toString(): string { return `NavigationCancel(id: ${this.id}, url: '${this.url}')`; }
+  toString(): string {
+    return `NavigationCancel(id: ${this.id}, url: '${this.url}')`;
+  }
 }
 
 /**
@@ -101,7 +109,13 @@ export class RoutesRecognized {
 
   /** @docsNotRequired */
   toString(): string {
-    return `RoutesRecognized(id: ${this.id}, url: '${this.url}', urlAfterRedirects: '${this.urlAfterRedirects}', state: ${this.state})`;
+    return `RoutesRecognized(id: ${this.id}, url: '${
+                                                     this.url
+                                                   }', urlAfterRedirects: '${
+                                                                             this.urlAfterRedirects
+                                                                           }', state: ${
+                                                                                        this.state
+                                                                                      })`;
   }
 }
 
@@ -113,7 +127,9 @@ export class RoutesRecognized {
 export class RouteConfigLoadStart {
   constructor(public route: Route) {}
 
-  toString(): string { return `RouteConfigLoadStart(path: ${this.route.path})`; }
+  toString(): string {
+    return `RouteConfigLoadStart(path: ${this.route.path})`;
+  }
 }
 
 /**
@@ -124,7 +140,9 @@ export class RouteConfigLoadStart {
 export class RouteConfigLoadEnd {
   constructor(public route: Route) {}
 
-  toString(): string { return `RouteConfigLoadEnd(path: ${this.route.path})`; }
+  toString(): string {
+    return `RouteConfigLoadEnd(path: ${this.route.path})`;
+  }
 }
 
 /**
