@@ -5,24 +5,21 @@
 """Implementation of the ng_package rule.
 """
 
-load("@build_bazel_rules_nodejs//:internal/collect_es6_sources.bzl", "collect_es6_sources")
+load("@build_bazel_rules_nodejs//:internal/collect_es6_sources.bzl",
+     "collect_es6_sources")
+load("@build_bazel_rules_nodejs//:internal/rollup/rollup_bundle.bzl",
+     "write_rollup_config",
+     "rollup_module_mappings_aspect",
+     "ROLLUP_ATTRS")
 load(":esm5.bzl", "esm5_outputs_aspect", "ESM5Info")
 
 def _rollup(ctx, output_name, inputs, npm_package_name, externals, entry_point_name, rootdir, format = "es"):
-  rollup_config = ctx.actions.declare_file("%s.rollup.conf.js" % ctx.label.name)
   ext = ".umd.js" if format == "umd" else ".js"
 
   js_output = ctx.actions.declare_file(output_name + ext)
   map_output = ctx.actions.declare_file(output_name + ext + ".map")
 
-  ctx.actions.expand_template(
-      output = rollup_config,
-      template = ctx.file._rollup_config_tmpl,
-      substitutions = {
-          "TMPL_banner_file": ctx.file.license_banner.path,
-          "TMPL_stamp_data": ctx.file.stamp_data.path,
-      },
-  )
+  rollup_config = write_rollup_config(ctx)
 
   args = ctx.actions.args()
   args.add(["--config", rollup_config.path])
@@ -221,21 +218,23 @@ def _ng_package_impl(ctx):
 #   [ ]     <secondary-entry-point>.js
 #   [ ]     <secondary-entry-point>.js.map
 #   [ ]   <extra-files>
+
 ng_package = rule(
     implementation = _ng_package_impl,
-    attrs = {
-      "deps": attr.label_list(aspects = [esm5_outputs_aspect]),
+    attrs = dict(ROLLUP_ATTRS, **{
+      "deps": attr.label_list(aspects = [
+          rollup_module_mappings_aspect,
+          esm5_outputs_aspect,
+      ]),
       "package_json": attr.label(allow_single_file = FileType([".json"])),
       "readme_md": attr.label(allow_single_file = FileType([".md"])),
-      "license_banner": attr.label(allow_single_file = FileType([".txt"])),
       "globals": attr.string_dict(default={}),
       "secondary_entry_points": attr.string_list(),
-      "stamp_data": attr.label(mandatory=True, allow_single_file=[".txt"]),
       "_packager": attr.label(default=Label("//packages/bazel/src/packager"), executable=True, cfg="host"),
-      "_rollup": attr.label(default=Label("//packages/bazel/src/rollup"), executable=True, cfg="host"),
+      "_rollup": attr.label(default=Label("@angular//packages/bazel/src:rollup_with_build_optimizer"), executable=True, cfg="host"),
       "_rollup_config_tmpl": attr.label(default=Label("//packages/bazel/src/rollup:rollup.config.js"), allow_single_file=True),
-      "_uglify": attr.label(default=Label("//packages/bazel/src/rollup:uglify"), executable=True, cfg="host"),
-    }
+      "_uglify": attr.label(default=Label("@build_bazel_rules_nodejs//internal/rollup:uglify"), executable=True, cfg="host"),
+    }),
 )
 
 def ng_package_macro(name, **kwargs):
