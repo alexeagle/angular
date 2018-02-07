@@ -24,6 +24,7 @@ ng_package(
     package_json = "package.json",
     readme_md = "//packages:README.md",
     license_banner = "//packages:license-banner.txt",
+    stamp_data = "//tools:stamp_data",
     globals = {
         'rxjs/Observable': 'Rx',
         'rxjs/Subject': 'Rx',
@@ -31,5 +32,6 @@ ng_package(
         'rxjs/observable/merge': 'Rx.Observable',
         'rxjs/operator/share': 'Rx.Observable.prototype'
     },
+    entry_point = "packages/core/index.js",
     secondary_entry_points = ["testing"],
 )

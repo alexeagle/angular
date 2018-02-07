@@ -87,7 +87,7 @@ def _uglify(ctx, input, entry_point_name):
       map = map_output,
   )
 
-# ng_package produces package that is npm ready.
+# ng_package produces package that is npm-ready.
 def _ng_package_impl(ctx):
   npm_package_name = ctx.label.package.split("/")[-1]
   npm_package_directory = ctx.actions.declare_directory(ctx.label.name)
@@ -230,31 +230,14 @@ ng_package = rule(
       "readme_md": attr.label(allow_single_file = FileType([".md"])),
       "globals": attr.string_dict(default={}),
       "secondary_entry_points": attr.string_list(),
-      "_packager": attr.label(default=Label("//packages/bazel/src/packager"), executable=True, cfg="host"),
-      "_rollup": attr.label(default=Label("@angular//packages/bazel/src:rollup_with_build_optimizer"), executable=True, cfg="host"),
-      "_rollup_config_tmpl": attr.label(default=Label("//packages/bazel/src/rollup:rollup.config.js"), allow_single_file=True),
-      "_uglify": attr.label(default=Label("@build_bazel_rules_nodejs//internal/rollup:uglify"), executable=True, cfg="host"),
+      "_packager": attr.label(
+          default=Label("//packages/bazel/src/packager"),
+          executable=True, cfg="host"),
+      "_rollup": attr.label(
+          default=Label("@angular//packages/bazel/src:rollup_with_build_optimizer"),
+          executable=True, cfg="host"),
+      "_uglify": attr.label(
+          default=Label("@angular//packages/bazel/src:uglify"),
+          executable=True, cfg="host"),
     }),
 )
-
-def ng_package_macro(name, **kwargs):
-  """Wraps the ng_package rule to allow running a genrule before it.
-
-  We typically don't use macros because they are a leaky abstraction.
-  However this is the only way to exercise the bazel stamping feature.
-
-  Make sure the rule that gets the name=name is called "ng_package" so
-  it matches what the user expects when they have an "ng_package" in
-  their BUILD file.
-  """
-  native.genrule(
-      name = "%s_stamp_data" % name,
-      outs = ["%s_stamp_data.txt" % name],
-      stamp = True,
-      cmd = "cat bazel-out/volatile-status.txt > $@",
-  )
-  ng_package(
-      name = name,
-      stamp_data = ":%s_stamp_data.txt" % name,
-      **kwargs
-  )
