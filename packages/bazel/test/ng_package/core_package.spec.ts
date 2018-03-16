@@ -56,9 +56,9 @@ describe('@angular/core ng_package', () => {
 
       it('should contain module resolution mappings', () => {
         expect(shx.grep('"main":', packageJson)).toContain(`./bundles/core.umd.js`);
-        expect(shx.grep('"module":', packageJson)).toContain(`./esm5/core.js`);
-        expect(shx.grep('"es2015":', packageJson)).toContain(`./esm2015/core.js`);
-        expect(shx.grep('"typings":', packageJson)).toContain(`./core.d.ts`);
+        expect(shx.grep('"module":', packageJson)).toContain(`./esm5/core_public_index.js`);
+        expect(shx.grep('"es2015":', packageJson)).toContain(`./esm2015/core_public_index.js`);
+        expect(shx.grep('"typings":', packageJson)).toContain(`./core_public_index.d.ts`);
       });
 
       it('should contain metadata for ng update', () => {
@@ -72,7 +72,7 @@ describe('@angular/core ng_package', () => {
     describe('typescript support', () => {
 
       it('should have an index.d.ts file',
-         () => { expect(shx.cat('core.d.ts')).toContain(`export *`); });
+         () => { expect(shx.cat('core_public_index.d.ts')).toContain(`export *`); });
       it('should not have amd module names',
          () => { expect(shx.cat('public_api.d.ts')).not.toContain('<amd-module name'); });
     });
@@ -87,8 +87,9 @@ describe('@angular/core ng_package', () => {
 
     describe('angular metadata', () => {
 
-      it('should have metadata.json files',
-         () => { expect(shx.cat('core.metadata.json')).toContain(`"__symbolic":"module"`); });
+      it('should have metadata.json files', () => {
+        expect(shx.cat('core_public_index.metadata.json')).toContain(`"__symbolic":"module"`);
+      });
     });
 
 
@@ -160,9 +161,11 @@ describe('@angular/core ng_package', () => {
       it('should have its module resolution mappings defined in the nested package.json', () => {
         const packageJson = p `testing/package.json`;
         expect(shx.grep('"main":', packageJson)).toContain(`../bundles/core-testing.umd.js`);
-        expect(shx.grep('"module":', packageJson)).toContain(`../esm5/testing/testing.js`);
-        expect(shx.grep('"es2015":', packageJson)).toContain(`../esm2015/testing/testing.js`);
-        expect(shx.grep('"typings":', packageJson)).toContain(`./testing.d.ts`);
+        expect(shx.grep('"module":', packageJson))
+            .toContain(`../esm5/testing/testing_public_index.js`);
+        expect(shx.grep('"es2015":', packageJson))
+            .toContain(`../esm2015/testing/testing_public_index.js`);
+        expect(shx.grep('"typings":', packageJson)).toContain(`./testing_public_index.d.ts`);
       });
     });
 
@@ -189,7 +192,7 @@ describe('@angular/core ng_package', () => {
       });
 
       it('should have an \'actual\' metadata.json file', () => {
-        expect(shx.cat('testing/testing.metadata.json'))
+        expect(shx.cat('testing/testing_public_index.metadata.json'))
             .toContain(`"metadata":{"async":{"__symbolic":"function"},`);
       });
     });

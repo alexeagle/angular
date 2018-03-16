@@ -56,7 +56,8 @@ function main(args: string[]): number {
       srcsArg,
 
       // Path to the package's LICENSE.
-      licenseFile] = params;
+      licenseFile,
+  ] = params;
 
   const esm2015 = esm2015Arg.split(',').filter(s => !!s);
   const esm5 = esm5Arg.split(',').filter(s => !!s);
@@ -89,16 +90,12 @@ function main(args: string[]): number {
     const content = fs.readFileSync(f, 'utf-8')
                         // Strip the named AMD module for compatibility with non-bazel users
                         .replace(/^\/\/\/ <amd-module name=.*\/>\n/, '');
-    let outputPath: string;
-    if (f.endsWith('.bundle_index.d.ts')) {
-      outputPath = moveBundleIndex(f);
-    } else {
-      outputPath = path.join(out, path.relative(binDir, f));
-    }
+    const outputPath = path.join(out, path.relative(binDir, f));
     shx.mkdir('-p', path.dirname(outputPath));
     fs.writeFileSync(outputPath, content);
   });
-  allsrcs.filter(hasFileExtension('.bundle_index.js')).forEach((f: string) => {
+  allsrcs.filter(hasFileExtension('_public_index.js')).forEach((f: string) => {
+    // Copy the public index file to the esm folders
     const content = fs.readFileSync(f, 'utf-8');
     fs.writeFileSync(moveBundleIndex(f, 'esm5'), content);
     fs.writeFileSync(moveBundleIndex(f, 'esm2015'), content);
@@ -131,7 +128,7 @@ function main(args: string[]): number {
     fs.writeFileSync(outputPath, content);
   }
 
-  allsrcs.filter(hasFileExtension('.bundle_index.metadata.json')).forEach((f: string) => {
+  allsrcs.filter(hasFileExtension('_public_index.metadata.json')).forEach((f: string) => {
     fs.writeFileSync(moveBundleIndex(f), fs.readFileSync(f, 'utf-8'));
   });
 
@@ -207,12 +204,15 @@ function amendPackageJson(parsedPackage: object) {
   const packageName = parsedPackage['name'];
   const nameParts = getPackageNameParts(packageName);
   const relativePathToPackageRoot = getRelativePathToPackageRoot(packageName);
-  const basename = nameParts[nameParts.length - 1];
+  // the _public_index suffix points to the generated "bundle index" files
+  const basename = nameParts[nameParts.length - 1] + '_public_index';
   const indexName = [...nameParts, `${basename}.js`].splice(1).join('/');
 
   parsedPackage['main'] = `${relativePathToPackageRoot}/bundles/${nameParts.join('-')}.umd.js`;
-  parsedPackage['module'] = `${relativePathToPackageRoot}/esm5/${indexName}`;
-  parsedPackage['es2015'] = `${relativePathToPackageRoot}/esm2015/${indexName}`;
+  parsedPackage['module'] = parsedPackage['esm5'] =
+      `${relativePathToPackageRoot}/esm5/${indexName}`;
+  parsedPackage['es2015'] = parsedPackage['esm2015'] =
+      `${relativePathToPackageRoot}/esm2015/${indexName}`;
   parsedPackage['typings'] = `./${basename}.d.ts`;
   return JSON.stringify(parsedPackage, null, 2);
 }
@@ -246,9 +246,9 @@ function createMetadataReexportFile(destDir: string, entryPointName: string) {
  * e.g., `export * from './common/common'`
  */
 function createTypingsReexportFile(destDir: string, entryPointName: string, license: string) {
-  // Format carefully to match existing build.sh output:
-  // LICENSE SPACE NEWLINE SPACE EXPORT NEWLINE
-  const content = `${license} \n export * from \'./${entryPointName}/${entryPointName}\n`;
+  const content = `${license}
+export * from './${entryPointName}/${entryPointName}_public_index';
+`;
   fs.writeFileSync(path.join(destDir, `${entryPointName}.d.ts`), content);
 }
 

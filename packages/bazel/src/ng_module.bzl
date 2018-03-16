@@ -249,7 +249,11 @@ def _ts_expected_outs(ctx, label):
   return _expected_outs(ctx)
 
 def _write_bundle_index(ctx):
-  basename = "_%s.bundle_index" % ctx.label.name
+  # The _public_index suffix points to the generated "bundle index" files.
+  # This is intended to avoid collisions with the users input files.
+  # Later packaging rules will point to these generated files as the entry point
+  # into the package.
+  basename = "%s_public_index" % ctx.label.name
   tsconfig_file = ctx.actions.declare_file("%s.tsconfig.json" % basename)
   metadata_file = ctx.actions.declare_file("%s.metadata.json" % basename)
   tstyping_file = ctx.actions.declare_file("%s.d.ts" % basename)
