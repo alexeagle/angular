@@ -302,11 +302,11 @@ function MyModule_tsickle_Closure_declarations() {
  * tslint:disable
  */ 
 import * as i0 from "@angular/core";
-import * as i1 from "example/mymodule";
+import * as i1 from "angular/packages/bazel/test/ng_package/example/mymodule";
 var MyModuleNgFactory = i0.ɵcmf(i1.MyModule, [], function (_l) { return i0.ɵmod([i0.ɵmpd(512, i0.ComponentFactoryResolver, i0.ɵCodegenComponentFactoryResolver, [[8, []], [3, i0.ComponentFactoryResolver], i0.NgModuleRef]), i0.ɵmpd(1073742336, i1.MyModule, i1.MyModule, [])]); });
 export { MyModuleNgFactory as MyModuleNgFactory };
 
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibXltb2R1bGUubmdmYWN0b3J5LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vLi4vcGFja2FnZXMvYmF6ZWwvdGVzdC9uZ19wYWNrYWdlL2V4YW1wbGUvbXltb2R1bGUubmdmYWN0b3J5LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgKiBhcyBpMCBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCAqIGFzIGkxIGZyb20gJ2V4YW1wbGUvbXltb2R1bGUnO1xuZXhwb3J0IGNvbnN0IE15TW9kdWxlTmdGYWN0b3J5OmkwLk5nTW9kdWxlRmFjdG9yeTxpMS5NeU1vZHVsZT4gPSAobnVsbCBhcyBhbnkpO1xudmFyIF9kZWNsMF8wOmkwLlRlbXBsYXRlUmVmPGFueT4gPSAoPGFueT4obnVsbCBhcyBhbnkpKTtcbnZhciBfZGVjbDBfMTppMC5FbGVtZW50UmVmPGFueT4gPSAoPGFueT4obnVsbCBhcyBhbnkpKTtcbiJdfQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibXltb2R1bGUubmdmYWN0b3J5LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vLi4vcGFja2FnZXMvYmF6ZWwvdGVzdC9uZ19wYWNrYWdlL2V4YW1wbGUvbXltb2R1bGUubmdmYWN0b3J5LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgKiBhcyBpMCBmcm9tICdAYW5ndWxhci9jb3JlJztcbmltcG9ydCAqIGFzIGkxIGZyb20gJ2FuZ3VsYXIvcGFja2FnZXMvYmF6ZWwvdGVzdC9uZ19wYWNrYWdlL2V4YW1wbGUvbXltb2R1bGUnO1xuZXhwb3J0IGNvbnN0IE15TW9kdWxlTmdGYWN0b3J5OmkwLk5nTW9kdWxlRmFjdG9yeTxpMS5NeU1vZHVsZT4gPSAobnVsbCBhcyBhbnkpO1xudmFyIF9kZWNsMF8wOmkwLlRlbXBsYXRlUmVmPGFueT4gPSAoPGFueT4obnVsbCBhcyBhbnkpKTtcbnZhciBfZGVjbDBfMTppMC5FbGVtZW50UmVmPGFueT4gPSAoPGFueT4obnVsbCBhcyBhbnkpKTtcbiJdfQ==
 
 --- esm2015/mymodule.ngsummary.js ---
 
@@ -316,7 +316,7 @@ export { MyModuleNgFactory as MyModuleNgFactory };
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-import * as i0 from "example/mymodule";
+import * as i0 from "angular/packages/bazel/test/ng_package/example/mymodule";
 export function MyModuleNgSummary() { return [{ summaryKind: 2, type: { reference: i0.MyModule, diDeps: [], lifecycleHooks: [] }, entryComponents: [], providers: [], modules: [{ reference: i0.MyModule, diDeps: [], lifecycleHooks: [] }], exportedDirectives: [], exportedPipes: [] }]; }
 
 //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibXltb2R1bGUubmdzdW1tYXJ5LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vLi4vcGFja2FnZXMvYmF6ZWwvdGVzdC9uZ19wYWNrYWdlL2V4YW1wbGUvbXltb2R1bGUubmdzdW1tYXJ5LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgKiBhcyBpMCBmcm9tICdAYW5ndWxhci9jb3JlJztcbmkwLkNvbXBvbmVudEZhY3Rvcnk7XG5leHBvcnQgZnVuY3Rpb24gTXlNb2R1bGVOZ1N1bW1hcnkoKTphbnlbXSB7XG4gIHJldHVybiAobnVsbCBhcyBhbnkpO1xufVxuIl19

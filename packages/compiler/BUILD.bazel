@@ -22,9 +22,6 @@ ng_package(
     ],
     entry_point = "packages/compiler/compiler.js",
     include_devmode_srcs = True,
-    secondary_entry_points = [
-        "testing",
-    ],
     deps = [
         ":compiler",
         "//packages/compiler/testing",

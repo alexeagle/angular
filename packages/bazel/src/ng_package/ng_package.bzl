@@ -264,7 +264,13 @@ def _ng_package_impl(ctx):
     if f.path.endswith(".js"):
       esm2015.append(struct(js = f, map = None))
 
-  for entry_point in [""] + ctx.attr.secondary_entry_points:
+  entry_points = []
+  for dep in ctx.attr.deps:
+    print(dep.label.package, ctx.label.package)
+    if dep.label.package.startswith(ctx.label.package):
+      entry_points.append(dep.label.package[len(ctx.label.package) + 1:])
+  print(entry_points)
+  for entry_point in entry_points:
     es2015_entry_point = "/".join([p for p in [
         ctx.bin_dir.path,
         ctx.label.package,
@@ -384,8 +390,6 @@ NG_PACKAGE_ATTRS = dict(NPM_PACKAGE_ATTRS, **dict(ROLLUP_ATTRS, **{
     "include_devmode_srcs": attr.bool(default = False),
     "readme_md": attr.label(allow_single_file = FileType([".md"])),
     "globals": attr.string_dict(default={}),
-    # FIXME: just use deps
-    "secondary_entry_points": attr.string_list(),
     "_ng_packager": attr.label(
         default=Label("//packages/bazel/src/ng_package:packager"),
         executable=True, cfg="host"),

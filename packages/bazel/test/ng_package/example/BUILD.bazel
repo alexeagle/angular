@@ -17,7 +17,6 @@ ng_package(
         "//packages/bazel/test/ng_package/example/secondary:package.json",
     ],
     entry_point = "packages/bazel/test/ng_package/example/index.js",
-    secondary_entry_points = ["secondary"],
     deps = [
         ":example",
         "//packages/bazel/test/ng_package/example/secondary",
