@@ -34,12 +34,6 @@ function main(args: string[]): number {
       // The package segment of the ng_package rule's label (e.g. 'package/common').
       srcDir,
 
-      // Path to the JS file for the primary entry point (e.g. 'packages/common/index.js')
-      primaryEntryPoint,
-
-      // List of secondary entry-points (e.g. ['http', 'http/testing']).
-      secondaryEntryPointsArg,
-
       // The bazel-bin dir joined with the srcDir (e.g. 'bazel-bin/package.common').
       // This is the intended output location for package artifacts.
       binDir,
@@ -78,7 +72,6 @@ function main(args: string[]): number {
   const esm5 = esm5Arg.split(',').filter(s => !!s);
   const bundles = bundlesArg.split(',').filter(s => !!s);
   const srcs = srcsArg.split(',').filter(s => !!s);
-  const secondaryEntryPoints = secondaryEntryPointsArg.split(',').filter(s => !!s);
   const modulesManifest = JSON.parse(modulesManifestArg);
 
   shx.mkdir('-p', out);
@@ -171,20 +164,16 @@ function main(args: string[]): number {
   const licenseBanner = licenseFile ? fs.readFileSync(licenseFile, 'utf-8') : '';
 
   // Generate extra files for secondary entry-points.
-  for (const secondaryEntryPoint of secondaryEntryPoints) {
-    const entryPointName = secondaryEntryPoint.split('/').pop();
-    const entryPointPackageName = `${rootPackageName}/${secondaryEntryPoint}`;
+  Object.keys(modulesManifest).splice(1).forEach(entryPointPackageName => {
+    const entryPointName = entryPointPackageName.substr(rootPackageName.length + 1);
 
-    const dirName = path.join(...secondaryEntryPoint.split('/').slice(0, -1));
-    const destDir = path.join(out, dirName);
-
-    createMetadataReexportFile(destDir, entryPointName);
-    createTypingsReexportFile(destDir, entryPointName, licenseBanner);
+    createMetadataReexportFile(out, entryPointName);
+    createTypingsReexportFile(out, entryPointName, licenseBanner);
 
     if (!packagesWithExistingPackageJson.has(entryPointPackageName)) {
-      createEntryPointPackageJson(path.join(destDir, entryPointName), entryPointPackageName);
+      createEntryPointPackageJson(path.join(out, entryPointName), entryPointPackageName);
     }
-  }
+  });
 
   return 0;
 

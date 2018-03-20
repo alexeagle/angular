@@ -320,8 +320,6 @@ def _ng_package_impl(ctx):
   # The order of arguments matters here, as they are read in order in packager.ts.
   args.add(npm_package_directory.path)
   args.add(ctx.label.package)
-  args.add(primary_entry_point_name(ctx.attr.name, ctx.attr.entry_point))
-  args.add(ctx.attr.secondary_entry_points, join_with=",")
   args.add([ctx.bin_dir.path, ctx.label.package], join_with="/")
 
   if ctx.file.readme_md:
@@ -386,6 +384,7 @@ NG_PACKAGE_ATTRS = dict(NPM_PACKAGE_ATTRS, **dict(ROLLUP_ATTRS, **{
     "include_devmode_srcs": attr.bool(default = False),
     "readme_md": attr.label(allow_single_file = FileType([".md"])),
     "globals": attr.string_dict(default={}),
+    # FIXME: just use deps
     "secondary_entry_points": attr.string_list(),
     "_ng_packager": attr.label(
         default=Label("//packages/bazel/src/ng_package:packager"),
