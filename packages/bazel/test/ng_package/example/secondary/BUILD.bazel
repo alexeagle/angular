@@ -7,5 +7,6 @@ exports_files(["package.json"])
 ng_module(
     name = "secondary",
     srcs = glob(["*.ts"]),
+    module_name = "example/secondary",
     deps = ["//packages/core"],
 )

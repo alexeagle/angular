@@ -59,9 +59,9 @@ describe('@angular/common ng_package', () => {
     it('/http', () => {
       const actual = JSON.parse(fs.readFileSync('http/package.json', {encoding: 'utf-8'}));
       expect(actual['main']).toEqual('../bundles/common-http.umd.js');
-      expect(actual['es2015']).toEqual('../esm2015/http/http_public_index.js');
-      expect(actual['module']).toEqual('../esm5/http/http_public_index.js');
-      expect(actual['typings']).toEqual('./http_public_index.d.ts');
+      expect(actual['es2015']).toEqual('../esm2015/http/http.js');
+      expect(actual['module']).toEqual('../esm5/http/http.js');
+      expect(actual['typings']).toEqual('./http.d.ts');
     });
     // https://github.com/angular/common-builds/blob/master/testing/package.json
     it('/testing', () => {
@@ -72,9 +72,9 @@ describe('@angular/common ng_package', () => {
     it('/http/testing', () => {
       const actual = JSON.parse(fs.readFileSync('http/testing/package.json', {encoding: 'utf-8'}));
       expect(actual['main']).toEqual('../../bundles/common-http-testing.umd.js');
-      expect(actual['es2015']).toEqual('../../esm2015/http/testing/testing_public_index.js');
-      expect(actual['module']).toEqual('../../esm5/http/testing/testing_public_index.js');
-      expect(actual['typings']).toEqual('./testing_public_index.d.ts');
+      expect(actual['es2015']).toEqual('../../esm2015/http/testing/testing.js');
+      expect(actual['module']).toEqual('../../esm5/http/testing/testing.js');
+      expect(actual['typings']).toEqual('./testing.d.ts');
     });
   });
 });
