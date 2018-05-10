@@ -461,6 +461,8 @@ export class ExternalExpr extends Expression {
       public value: ExternalReference, type?: Type|null, public typeParams: Type[]|null = null,
       sourceSpan?: ParseSourceSpan|null) {
     super(type, sourceSpan);
+    // Hack for https://github.com/angular/angular/issues/23810
+    if (value.moduleName === '@angular/core') value.moduleName = '@angular/core/index';
   }
 
   isEquivalent(e: Expression): boolean {
