@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Injectable, PLATFORM_ID} from '@angular/core';
+import {defineInjectable, inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {DOCUMENT} from './dom_tokens';
 import {isPlatformBrowser} from './platform_id';
 
@@ -22,9 +22,14 @@ export function viewportScrollerFactory(platformId: string, document: any) {
 /**
  * @whatItDoes Manages the scroll position.
  */
-@Injectable(
-    {providedIn: 'root', useFactory: viewportScrollerFactory, deps: [PLATFORM_ID, DOCUMENT]})
 export abstract class ViewportScroller {
+  // De-sugared tree-shakable injection
+  // See #23917
+  static ngInjectableDef = defineInjectable({
+    providedIn: 'root',
+    factory: () => viewportScrollerFactory(inject<string>(PLATFORM_ID), inject(DOCUMENT)),
+  });
+
   /**
    * @whatItDoes Configures the top offset used when scrolling to an anchor.
    *
