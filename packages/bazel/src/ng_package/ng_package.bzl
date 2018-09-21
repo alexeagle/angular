@@ -17,6 +17,7 @@ load("@build_bazel_rules_nodejs//:internal/collect_es6_sources.bzl", "collect_es
 load(
     "@build_bazel_rules_nodejs//:internal/rollup/rollup_bundle.bzl",
     "ROLLUP_ATTRS",
+    "ROLLUP_DEPS_ASPECTS",
     "rollup_module_mappings_aspect",
     "run_uglify",
     "write_rollup_config",
@@ -344,13 +345,14 @@ def _ng_package_impl(ctx):
         files = depset([package_dir]),
     )]
 
+DEPS_ASPECTS = [esm5_outputs_aspect, sources_aspect]
+
+# Workaround skydoc bug which assumes ROLLUP_DEPS_ASPECTS is a str type
+[DEPS_ASPECTS.append(a) for a in ROLLUP_DEPS_ASPECTS]
+
 NG_PACKAGE_ATTRS = dict(NPM_PACKAGE_ATTRS, **dict(ROLLUP_ATTRS, **{
     "srcs": attr.label_list(allow_files = True),
-    "deps": attr.label_list(aspects = [
-        rollup_module_mappings_aspect,
-        esm5_outputs_aspect,
-        sources_aspect,
-    ]),
+    "deps": attr.label_list(aspects = DEPS_ASPECTS),
     "data": attr.label_list(
         doc = "Additional, non-Angular files to be added to the package, e.g. global CSS assets.",
         allow_files = True,

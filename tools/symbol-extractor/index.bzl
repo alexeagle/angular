@@ -10,7 +10,7 @@
 # because it introduces an extra target_bin target.
 load("@build_bazel_rules_nodejs//internal/node:node.bzl", "nodejs_binary", "nodejs_test")
 
-DEFAULT_NODE_MODULES = "@angular_deps//:node_modules"
+DEFAULT_NODE_MODULES = "@npm//:node_modules"
 
 def js_expected_symbol_test(name, src, golden, node_modules = DEFAULT_NODE_MODULES, **kwargs):
     """This test verifies that a set of top level symbols from a javascript file match a gold file.

@@ -8,7 +8,6 @@ load("//packages/bazel/src:ng_rollup_bundle.bzl", _ng_rollup_bundle = "ng_rollup
 
 DEFAULT_TSCONFIG_BUILD = "//packages:tsconfig-build.json"
 DEFAULT_TSCONFIG_TEST = "//packages:tsconfig-test.json"
-DEFAULT_NODE_MODULES = "@angular_deps//:node_modules"
 
 # Packages which are versioned together on npm
 ANGULAR_SCOPED_PACKAGES = ["@angular/%s" % p for p in [
@@ -41,15 +40,22 @@ PKG_GROUP_REPLACEMENTS = {
     ]""" % ",\n      ".join(["\"%s\"" % s for s in ANGULAR_SCOPED_PACKAGES]),
 }
 
-def ts_library(tsconfig = None, node_modules = DEFAULT_NODE_MODULES, testonly = False, **kwargs):
+def ts_library(tsconfig = None, testonly = False, deps = [], **kwargs):
+    deps = deps + ["@npm//:tslib"]
     if not tsconfig:
         if testonly:
             tsconfig = DEFAULT_TSCONFIG_TEST
+            deps.append("@npm//:@types/jasmine")
         else:
             tsconfig = DEFAULT_TSCONFIG_BUILD
-    _ts_library(tsconfig = tsconfig, node_modules = node_modules, testonly = testonly, **kwargs)
+    _ts_library(
+        tsconfig = tsconfig,
+        testonly = testonly,
+        deps = deps,
+        **kwargs
+    )
 
-def ng_module(name, tsconfig = None, entry_point = None, node_modules = DEFAULT_NODE_MODULES, testonly = False, **kwargs):
+def ng_module(name, tsconfig = None, entry_point = None, testonly = False, **kwargs):
     if not tsconfig:
         if testonly:
             tsconfig = DEFAULT_TSCONFIG_TEST
@@ -57,7 +63,7 @@ def ng_module(name, tsconfig = None, entry_point = None, node_modules = DEFAULT_
             tsconfig = DEFAULT_TSCONFIG_BUILD
     if not entry_point:
         entry_point = "public_api.ts"
-    _ng_module(name = name, flat_module_out_file = name, tsconfig = tsconfig, entry_point = entry_point, node_modules = node_modules, testonly = testonly, **kwargs)
+    _ng_module(name = name, flat_module_out_file = name, tsconfig = tsconfig, entry_point = entry_point, testonly = testonly, **kwargs)
 
 # ivy_ng_module behaves like ng_module, and under --define=compile=legacy it runs ngc with global
 # analysis but produces Ivy outputs. Under other compile modes, it behaves as ng_module.
@@ -72,18 +78,21 @@ def ivy_ng_module(name, tsconfig = None, entry_point = None, testonly = False, *
         entry_point = "public_api.ts"
     _internal_global_ng_module(name = name, flat_module_out_file = name, tsconfig = tsconfig, entry_point = entry_point, testonly = testonly, **kwargs)
 
-def ng_package(name, node_modules = DEFAULT_NODE_MODULES, readme_md = None, license_banner = None, **kwargs):
+def ng_package(name, readme_md = None, license_banner = None, deps = [], **kwargs):
     if not readme_md:
         readme_md = "//packages:README.md"
     if not license_banner:
         license_banner = "//packages:license-banner.txt"
+    deps = deps + [
+        "@npm//:tslib",
+    ]
 
     _ng_package(
         name = name,
+        deps = deps,
         readme_md = readme_md,
         license_banner = license_banner,
         replacements = PKG_GROUP_REPLACEMENTS,
-        node_modules = node_modules,
         **kwargs
     )
 
@@ -98,7 +107,7 @@ def ts_web_test_suite(bootstrap = [], deps = [], **kwargs):
     if not bootstrap:
         bootstrap = ["//:web_test_bootstrap_scripts"]
     local_deps = [
-        "@angular_deps//:node_modules/tslib/tslib.js",
+        "@npm//:node_modules/tslib/tslib.js",
         "//tools/testing:browser",
     ] + deps
 
@@ -119,11 +128,25 @@ def ts_web_test_suite(bootstrap = [], deps = [], **kwargs):
         **kwargs
     )
 
-def nodejs_binary(node_modules = DEFAULT_NODE_MODULES, **kwargs):
-    _nodejs_binary(node_modules = node_modules, **kwargs)
+def nodejs_binary(**kwargs):
+    _nodejs_binary(**kwargs)
 
-def jasmine_node_test(node_modules = DEFAULT_NODE_MODULES, **kwargs):
-    _jasmine_node_test(node_modules = node_modules, **kwargs)
+def jasmine_node_test(deps = [], **kwargs):
+    deps = deps + [
+        "@npm//:jasmine",
+        "@npm//:jasmine-core",
+        "@npm//:tslib",
+    ]
+    _jasmine_node_test(
+        deps = deps,
+        **kwargs
+    )
 
-def ng_rollup_bundle(node_modules = DEFAULT_NODE_MODULES, **kwargs):
-    _ng_rollup_bundle(node_modules = node_modules, **kwargs)
+def ng_rollup_bundle(deps = [], **kwargs):
+    deps = deps + [
+        "@npm//:tslib",
+    ]
+    _ng_rollup_bundle(
+        deps = deps,
+        **kwargs
+    )

@@ -1,16 +1,18 @@
 workspace(name = "angular")
 
+local_repository(
+    name = "build_bazel_rules_nodejs",
+    path = "../rules_nodejs",
+)
 #
 # Download Bazel toolchain dependencies as needed by build actions
 #
-http_archive(
+local_repository(path="../rules_typescript",#http_archive(
     name = "build_bazel_rules_typescript",
-    url = "https://github.com/bazelbuild/rules_typescript/archive/0.17.0.zip",
-    strip_prefix = "rules_typescript-0.17.0",
-    sha256 = "1626ee2cc9770af6950bfc77dffa027f9aedf330fe2ea2ee7e504428927bd95d",
+    # url = "https://github.com/bazelbuild/rules_typescript/archive/0.17.0.zip",
+    # strip_prefix = "rules_typescript-0.17.0",
+    # sha256 = "1626ee2cc9770af6950bfc77dffa027f9aedf330fe2ea2ee7e504428927bd95d",
 )
-load("@build_bazel_rules_typescript//:package.bzl", "rules_typescript_dependencies")
-rules_typescript_dependencies()
 
 http_archive(
   name = "bazel_toolchains",
@@ -96,8 +98,10 @@ local_repository(
 #
 # Load and install our dependencies downloaded above.
 #
+load("@build_bazel_rules_typescript//:package.bzl", "rules_typescript_dependencies")
+rules_typescript_dependencies()
 
-load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories")
+load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
 
 check_bazel_version("0.17.0", """
 If you are on a Mac and using Homebrew, there is a breaking change to the installation in Bazel 0.16
@@ -109,6 +113,13 @@ node_repositories(
     preserve_symlinks = True,
     node_version = "10.9.0",
     yarn_version = "1.9.2",
+)
+
+yarn_install(
+    name = "npm",
+    package_json = "@angular//:package.json",
+    yarn_lock = "@angular//:yarn.lock",
+    data = ["@angular//:tools/yarn/check-yarn.js", "@angular//:tools/postinstall-patches.js"],
 )
 
 load("@io_bazel_rules_go//go:def.bzl", "go_rules_dependencies", "go_register_toolchains")

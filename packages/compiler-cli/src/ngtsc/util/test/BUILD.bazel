@@ -12,6 +12,8 @@ ts_library(
         "//packages:types",
         "//packages/compiler-cli/src/ngtsc/testing",
         "//packages/compiler-cli/src/ngtsc/util",
+        "@npm//:@types/node",
+        "@npm//:typescript",
     ],
 )
 

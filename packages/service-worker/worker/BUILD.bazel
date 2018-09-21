@@ -13,6 +13,7 @@ ts_library(
         exclude = ["main.ts"],
     ),
     tsconfig = ":tsconfig.json",
+    deps = ["@npm//:@types/node"],
 )
 
 ts_library(

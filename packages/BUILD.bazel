@@ -11,6 +11,10 @@ load("//tools:defaults.bzl", "ts_library")
 ts_library(
     name = "types",
     srcs = glob(["*.ts"]),
+    deps = [
+        "@npm//:@types/hammerjs",
+        "@npm//:zone.js",
+    ],
 )
 
 exports_files([

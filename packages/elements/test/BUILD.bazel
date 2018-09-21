@@ -23,10 +23,10 @@ filegroup(
     name = "elements_test_bootstrap_scripts",
     # do not sort
     srcs = [
-        "@angular_deps//:node_modules/@webcomponents/custom-elements/src/native-shim.js",
-        "@angular_deps//:node_modules/reflect-metadata/Reflect.js",
-        "@angular_deps//:node_modules/zone.js/dist/zone.js",
-        "@angular_deps//:node_modules/zone.js/dist/zone-testing.js",
+        "@npm//:node_modules/@webcomponents/custom-elements/src/native-shim.js",
+        "@npm//:node_modules/reflect-metadata/Reflect.js",
+        "@npm//:node_modules/zone.js/dist/zone.js",
+        "@npm//:node_modules/zone.js/dist/zone-testing.js",
     ],
 )
 
@@ -37,7 +37,7 @@ ts_web_test_suite(
     ],
     # do not sort
     deps = [
-        "@angular_deps//:node_modules/tslib/tslib.js",
+        "@npm//:node_modules/tslib/tslib.js",
         "//tools/testing:browser",
         ":test_lib",
     ],

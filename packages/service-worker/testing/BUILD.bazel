@@ -9,6 +9,7 @@ ng_module(
     module_name = "@angular/service-worker/testing",
     deps = [
         "//packages/core",
+        "@npm//:@types/node",
         "@rxjs",
     ],
 )

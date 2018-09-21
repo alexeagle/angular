@@ -17,6 +17,8 @@ ts_library(
         "//packages:types",
         "//packages/compiler",
         "//packages/compiler-cli",
+        "@npm//:@types/node",
+        "@npm//:typescript",
     ],
 )
 
@@ -31,6 +33,8 @@ ts_library(
         ":test_utils",
         "//packages/compiler",
         "//packages/compiler-cli",
+        "@npm//:@types/node",
+        "@npm//:typescript",
     ],
 )
 
@@ -59,6 +63,8 @@ ts_library(
         ":test_utils",
         "//packages/compiler",
         "//packages/compiler-cli",
+        "@npm//:@types/node",
+        "@npm//:typescript",
     ],
 )
 
@@ -90,6 +96,8 @@ ts_library(
         ":test_utils",
         "//packages/compiler",
         "//packages/compiler-cli",
+        "@npm//:@types/node",
+        "@npm//:typescript",
     ],
 )
 
@@ -118,6 +126,8 @@ ts_library(
         ":test_utils",
         "//packages/compiler",
         "//packages/compiler-cli",
+        "@npm//:@types/node",
+        "@npm//:typescript",
     ],
 )
 

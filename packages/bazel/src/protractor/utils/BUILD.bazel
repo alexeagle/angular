@@ -13,4 +13,5 @@ ts_library(
     srcs = ["index.ts"],
     module_name = "@angular/bazel/protractor-utils",
     tsconfig = ":tsconfig.json",
+    deps = ["@npm//:@types/node"],
 )

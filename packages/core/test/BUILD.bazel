@@ -67,6 +67,12 @@ jasmine_node_test(
         "//packages/platform-server",
         "//packages/platform-server/testing",
         "//tools/testing:node",
+        "@npm//:base64-js",
+        "@npm//:domino",
+        "@npm//:reflect-metadata",
+        "@npm//:source-map",
+        "@npm//:xhr2",
+        "@npm//:zone.js",
     ],
 )
 
