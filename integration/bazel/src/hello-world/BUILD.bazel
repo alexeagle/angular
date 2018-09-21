@@ -30,7 +30,7 @@ ng_package(
 
 ts_library(
     name = "test_lib",
-    testonly = 1,
+    testonly = True,
     srcs = glob(["*.spec.ts"]),
     deps = [
         ":hello-world",

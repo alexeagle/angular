@@ -1,9 +1,12 @@
 workspace(name = "angular")
 
-local_repository(
+http_archive(
     name = "build_bazel_rules_nodejs",
-    path = "../rules_nodejs",
+    url = "https://github.com/bazelbuild/rules_nodejs/archive/0.14.0.zip",
+    strip_prefix = "rules_nodejs-0.14.0",
+    sha256 = "0e39999df9bf8c6fce46629457edb8c0073ad68244483339af578d83bf4fb794",
 )
+
 #
 # Download Bazel toolchain dependencies as needed by build actions
 #

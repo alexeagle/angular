@@ -4,7 +4,7 @@ load("//tools:defaults.bzl", "jasmine_node_test", "ts_library", "ts_web_test_sui
 
 ts_library(
     name = "render3_lib",
-    testonly = 1,
+    testonly = True,
     srcs = glob(
         ["**/*.ts"],
         exclude = [
@@ -32,7 +32,7 @@ ts_library(
 
 ts_library(
     name = "domino",
-    testonly = 1,
+    testonly = True,
     srcs = [
         "domino.d.ts",
         "load_domino.ts",
@@ -47,7 +47,7 @@ ts_library(
 
 ts_library(
     name = "render3_node_lib",
-    testonly = 1,
+    testonly = True,
     srcs = [],
     deps = [
         ":domino",

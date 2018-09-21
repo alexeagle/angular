@@ -4,7 +4,7 @@ load("//tools:defaults.bzl", "jasmine_node_test", "ts_library", "ts_web_test_sui
 
 ts_library(
     name = "test_lib",
-    testonly = 1,
+    testonly = True,
     srcs = glob(
         ["**/*.ts"],
         exclude = [
@@ -29,6 +29,7 @@ ts_library(
         "//packages/private/testing",
         "//packages/router",
         "//packages/router/testing",
+        "@npm//:zone.js",
         "@rxjs",
         "@rxjs//operators",
     ],
@@ -36,7 +37,7 @@ ts_library(
 
 ts_library(
     name = "ivy_local_empty_lib",
-    testonly = 1,
+    testonly = True,
     srcs = ["ivy_local_empty_spec.ts"],
     deps = [
         "//packages:types",
@@ -45,7 +46,7 @@ ts_library(
 
 ts_library(
     name = "test_node_only_lib",
-    testonly = 1,
+    testonly = True,
     srcs = glob(["**/*_node_only_spec.ts"]),
     deps = [
         ":test_lib",
@@ -69,8 +70,8 @@ jasmine_node_test(
         "//tools/testing:node",
         "@npm//:base64-js",
         "@npm//:domino",
-        "@npm//:reflect-metadata",
         "@npm//:source-map",
+        "@npm//:reflect-metadata",
         "@npm//:xhr2",
         "@npm//:zone.js",
     ],

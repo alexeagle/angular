@@ -7,10 +7,12 @@ ts_library(
         "test_support.ts",
         "tsconfig_template.ts",
     ],
+    testonly = True,
     tsconfig = ":tsconfig.json",
     deps = [
         "//packages/bazel/src/ngc-wrapped:ngc_lib",
         "//packages/compiler-cli",
+        "@npm//:typescript",
     ],
 )
 

@@ -42,10 +42,13 @@ PKG_GROUP_REPLACEMENTS = {
 
 def ts_library(tsconfig = None, testonly = False, deps = [], **kwargs):
     deps = deps + ["@npm//:tslib"]
+    if testonly:
+        # Match the types[] in //packages:tsconfig-test.json
+        deps.append("@npm//:@types/jasmine")
+        deps.append("@npm//:@types/node")
     if not tsconfig:
         if testonly:
             tsconfig = DEFAULT_TSCONFIG_TEST
-            deps.append("@npm//:@types/jasmine")
         else:
             tsconfig = DEFAULT_TSCONFIG_BUILD
     _ts_library(
@@ -129,7 +132,10 @@ def ts_web_test_suite(bootstrap = [], deps = [], **kwargs):
     )
 
 def nodejs_binary(**kwargs):
-    _nodejs_binary(**kwargs)
+    _nodejs_binary(
+        # Pass-thru --define=compile=foo as an environment variable
+        configuration_env_vars = ["compile"],
+        **kwargs)
 
 def jasmine_node_test(deps = [], **kwargs):
     deps = deps + [
@@ -139,6 +145,8 @@ def jasmine_node_test(deps = [], **kwargs):
     ]
     _jasmine_node_test(
         deps = deps,
+        # Pass-thru --define=compile=foo as an environment variable
+        configuration_env_vars = ["compile"],
         **kwargs
     )
 

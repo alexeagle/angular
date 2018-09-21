@@ -3,14 +3,14 @@ load("@angular//:index.bzl", "protractor_web_test_suite")
 
 ts_library(
     name = "e2e",
-    testonly = 1,
+    testonly = True,
     srcs = ["app.spec.ts"],
     tsconfig = ":tsconfig.json",
 )
 
 ts_library(
     name = "ts_on_prepare",
-    testonly = 1,
+    testonly = True,
     srcs = ["on-prepare.ts"],
     tsconfig = ":tsconfig.json",
     deps = ["@angular//packages/bazel/src/protractor/utils"],

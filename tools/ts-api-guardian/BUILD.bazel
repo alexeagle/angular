@@ -48,7 +48,9 @@ ts_library(
     testonly = True,
     srcs = glob(["test/*.ts"]),
     tsconfig = "//tools:tsconfig.json",
-    deps = [":lib"],
+    deps = [
+        ":lib",
+    ],
 )
 
 jasmine_node_test(

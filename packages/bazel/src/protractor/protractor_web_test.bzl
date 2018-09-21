@@ -203,7 +203,7 @@ def protractor_web_test(
         entry_point = "protractor/bin/protractor",
         data = srcs + deps + data,
         node_modules = "@//:node_modules",
-        testonly = 1,
+        testonly = True,
         visibility = ["//visibility:private"],
     )
 
@@ -304,7 +304,7 @@ def protractor_web_test_suite(
         entry_point = "protractor/bin/protractor",
         data = srcs + deps + data,
         node_modules = "@//:node_modules",
-        testonly = 1,
+        testonly = True,
         visibility = ["//visibility:private"],
     )
 

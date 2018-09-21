@@ -2,7 +2,7 @@ load("//tools:defaults.bzl", "jasmine_node_test", "ts_library")
 
 ts_library(
     name = "ngtsc_lib",
-    testonly = 1,
+    testonly = True,
     srcs = [
         "ngtsc_spec.ts",
     ],
@@ -10,6 +10,7 @@ ts_library(
         "//packages/compiler",
         "//packages/compiler-cli",
         "//packages/compiler-cli/test:test_utils",
+        "@npm//:typescript",
     ],
 )
 

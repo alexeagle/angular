@@ -14,12 +14,13 @@ ts_library(
     ),
     deps = [
         "//packages:types",
+        "@npm//:typescript",
     ],
 )
 
 ts_library(
     name = "test_lib",
-    testonly = 1,
+    testonly = True,
     srcs = glob(
         ["**/*_spec.ts"],
         exclude = ["symbol_extractor_spec/**"],
@@ -27,6 +28,7 @@ ts_library(
     deps = [
         ":lib",
         "//packages:types",
+        "@npm//:typescript",
     ],
 )
 

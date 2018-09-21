@@ -16,7 +16,7 @@ ts_library(
 
 ts_library(
     name = "perf_lib",
-    testonly = 1,
+    testonly = True,
     srcs = [
         "largetable_perf.spec.ts",
     ],
