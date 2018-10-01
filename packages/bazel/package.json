@@ -4,6 +4,12 @@
   "description": "Angular - bazel build rules",
   "author": "angular",
   "license": "MIT",
+  "bin": {
+    "ngc-wrapped": "./src/ngc-wrapped/index.js",
+    "packager": "./src/ng_package/packager.js",
+    "xi18n": "./src/ngc-wrapped/extract_i18n.js",
+    "modify_tsconfig": "./src/modify_tsconfig.js"
+  },
   "dependencies": {
     "@bazel/typescript": "^0.15.0",
     "@types/node": "6.0.84",
