@@ -22,10 +22,11 @@ genrule(
     rollup_bundle(
         name = b[0].replace("-", "_") + "_rollup",
         entry_point = b[1] + ".ts",
-        globals = {
-            "electron": "electron",
-        },
-        license_banner = "//packages:license-banner.txt",
+        config_file = "//packages/zone.js:rollup.config.js",
+        # globals = {
+        #     "electron": "electron",
+        # },
+        # license_banner = "//packages:license-banner.txt",
         deps = [
             "//packages/zone.js/lib",
         ],
@@ -37,8 +38,8 @@ genrule(
     rollup_bundle(
         name = b[0].replace("-", "_") + "_rollup",
         entry_point = b[1] + ".ts",
-        global_name = "Zone",
-        license_banner = "//packages:license-banner.txt",
+        # global_name = "Zone",
+        # license_banner = "//packages:license-banner.txt",
         deps = [
             "//packages/zone.js/lib",
         ],

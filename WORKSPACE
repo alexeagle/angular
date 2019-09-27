@@ -19,14 +19,13 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 http_archive(
     name = "build_bazel_rules_nodejs",
     patch_args = ["-p1"],
-    # Patch https://github.com/bazelbuild/rules_nodejs/pull/903
-    patches = ["//tools:rollup_bundle_commonjs_ignoreGlobal.patch"],
-    sha256 = "da217044d24abd16667324626a33581f3eaccabf80985b2688d6a08ed2f864be",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.37.1/rules_nodejs-0.37.1.tar.gz"],
+    patches = ["//tools:rules_nodejs_pr1207.patch"],
+    sha256 = "1249a60f88e4c0a46d78de06be04d3d41e7421dcfa0c956de65309a7b7ecf6f4",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.0/rules_nodejs-0.38.0.tar.gz"],
 )
 
 # Check the bazel version and download npm dependencies
-load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "check_rules_nodejs_version", "node_repositories", "yarn_install")
+load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
 
 # Bazel version must be at least the following version because:
 #   - 0.26.0 managed_directories feature added which is required for nodejs rules 0.30.0
@@ -41,21 +40,6 @@ Try running `yarn bazel` instead.
 """,
     minimum_bazel_version = "0.27.0",
 )
-
-# The NodeJS rules version must be at least the following version because:
-#   - 0.15.2 Re-introduced the prod_only attribute on yarn_install
-#   - 0.15.3 Includes a fix for the `jasmine_node_test` rule ignoring target tags
-#   - 0.16.8 Supports npm installed bazel workspaces
-#   - 0.26.0 Fix for data files in yarn_install and npm_install
-#   - 0.27.12 Adds NodeModuleSources provider for transtive npm deps support
-#   - 0.30.0 yarn_install now uses symlinked node_modules with new managed directories Bazel 0.26.0 feature
-#   - 0.31.1 entry_point attribute of nodejs_binary & rollup_bundle is now a label
-#   - 0.32.0 yarn_install and npm_install no longer puts build files under symlinked node_modules
-#   - 0.32.1 remove override of @bazel/tsetse & exclude typescript lib declarations in node_module_library transitive_declarations
-#   - 0.32.2 resolves bug in @bazel/hide-bazel-files postinstall step
-#   - 0.34.0 introduces protractor rule
-#   - 0.37.1 windows fixes
-check_rules_nodejs_version(minimum_version_string = "0.37.1")
 
 # Setup the Node.js toolchain
 node_repositories(
@@ -102,9 +86,9 @@ load("@npm_bazel_protractor//:package.bzl", "npm_bazel_protractor_dependencies")
 npm_bazel_protractor_dependencies()
 
 # Load karma dependencies
-load("@npm_bazel_karma//:package.bzl", "rules_karma_dependencies")
+load("@npm_bazel_karma//:package.bzl", "npm_bazel_karma_dependencies")
 
-rules_karma_dependencies()
+npm_bazel_karma_dependencies()
 
 # Setup the rules_webtesting toolchain
 load("@io_bazel_rules_webtesting//web:repositories.bzl", "web_test_repositories")

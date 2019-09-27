@@ -45,9 +45,7 @@ def karma_test_prepare(name, env_srcs, env_deps, env_entry_point, test_srcs, tes
         name = name + "_rollup",
         testonly = True,
         entry_point = test_entry_point,
-        globals = {
-            "electron": "electron",
-        },
+        config_file = "//packages/zone.js:rollup.config.js",
         deps = [
             ":" + name + "_test",
         ],

@@ -1,0 +1,48 @@
+diff --git a/internal/npm_install/generate_build_file.js b/internal/npm_install/generate_build_file.js
+index cd0a7286..82886cc7 100644
+--- a/internal/npm_install/generate_build_file.js
++++ b/internal/npm_install/generate_build_file.js
+@@ -431,7 +431,8 @@ def _maybe(repo_rule, name, **kwargs):
+             return false;
+         }
+         pkgs.forEach(p => {
+-            p._dynamicDependencies = pkgs.filter(x => !!x._moduleName && match(x._moduleName, p))
++            p._dynamicDependencies = pkgs.filter(x => !x._dir.includes('/node_modules/') && !!x._moduleName &&
++                match(x._moduleName, p))
+                 .map(dyn => `//${dyn._dir}:${dyn._name}`);
+         });
+     }
+diff --git a/internal/linker/link_node_modules.bzl b/internal/linker/link_node_modules.bzl
+index ef49e999..bacf2940 100644
+--- a/internal/linker/link_node_modules.bzl
++++ b/internal/linker/link_node_modules.bzl
+@@ -121,20 +121,21 @@ def get_module_mappings(label, attrs, vars, rule_kind, srcs = [], workspace_name
+         mr = "%s/%s" % (workspace_name, mr)
+     elif label.workspace_root:
+         mr = "%s/%s" % (label.workspace_root, mr)
+-
+-    if mn in mappings and mappings[mn] != mr:
+-        fail(("duplicate module mapping at %s: %s maps to both %s and %s" %
+-              (label, mn, mappings[mn], mr)), "deps")
+-    _debug(vars, "target %s adding module mapping %s: %s" % (label, mn, mr))
+-
+     # since our module mapping is currently based on attribute names,
+     # allow a special one to instruct the linker that the package has no output
+     # directory and is therefore meant to be used as sources.
+     # TODO: This belongs in a different mechanism like a package.json field.
+     if getattr(attrs, "module_from_src", False):
+-        mappings[mn] = ["src", mr]
++        mr = ["src", mr]
+     else:
+-        mappings[mn] = ["bin", mr]
++        mr = ["bin", mr]
++
++    if mn in mappings and mappings[mn] != mr:
++        fail(("duplicate module mapping at %s: %s maps to both %s and %s" %
++              (label, mn, mappings[mn], mr)), "deps")
++    _debug(vars, "target %s adding module mapping %s: %s" % (label, mn, mr))
++
++    mappings[mn] = mr
+     return mappings
+ 
+ # When building a mapping for use at runtime, we need paths to be relative to

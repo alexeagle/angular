@@ -1,11 +1,12 @@
 """Re-export of some bazel rules with repository-wide defaults."""
 
-load("@build_bazel_rules_nodejs//:defs.bzl", _nodejs_binary = "nodejs_binary", _npm_package = "npm_package", _rollup_bundle = "rollup_bundle")
+load("@build_bazel_rules_nodejs//:defs.bzl", "npm_package_bin", _nodejs_binary = "nodejs_binary", _npm_package = "npm_package")
 load("@npm_bazel_jasmine//:index.bzl", _jasmine_node_test = "jasmine_node_test")
 load("@npm_bazel_karma//:index.bzl", _karma_web_test = "karma_web_test", _karma_web_test_suite = "karma_web_test_suite", _ts_web_test = "ts_web_test", _ts_web_test_suite = "ts_web_test_suite")
 load("@npm_bazel_typescript//:index.bzl", _ts_library = "ts_library")
 load("//packages/bazel:index.bzl", _ng_module = "ng_module", _ng_package = "ng_package")
-load("//packages/bazel/src:ng_rollup_bundle.bzl", _ng_rollup_bundle = "ng_rollup_bundle")
+load("@npm_bazel_rollup//:index.bzl", _rollup_bundle = "rollup_bundle")
+load("@npm_bazel_terser//:index.bzl", "terser_minified")
 
 _DEFAULT_TSCONFIG_TEST = "//packages:tsconfig-test"
 _INTERNAL_NG_MODULE_API_EXTRACTOR = "//packages/bazel/src/api-extractor:api_extractor"
@@ -299,22 +300,31 @@ def jasmine_node_test(deps = [], **kwargs):
         **kwargs
     )
 
-def ng_rollup_bundle(deps = [], **kwargs):
+def ng_rollup_bundle(name, deps = [], **kwargs):
     """Default values for ng_rollup_bundle"""
     deps = deps + [
         "@npm//tslib",
         "@npm//reflect-metadata",
     ]
-    _ng_rollup_bundle(
-        deps = deps,
-        **kwargs
+
+    _rollup_bundle(name = name, deps = deps, **kwargs)
+    terser_minified(name = name + ".min", src = name, sourcemap = False)
+    native.filegroup(name = name + ".min.js", srcs = [name + ".min"])
+    terser_minified(name = name + ".min_debug", src = name, sourcemap = False, debug = True)
+    native.filegroup(name = name + ".min_debug.js", srcs = [name + ".min"])
+    npm_package_bin(
+        name = "_%s_brotli" % name,
+        tool = "//tools/brotli-cli",
+        data = [name + ".min.js"],
+        outs = [name + ".min.js.br"],
+        args = [
+            "--output=$(location %s.min.js.br)" % name,
+            "$(location %s.min.js)" % name,
+        ],
     )
 
 def rollup_bundle(**kwargs):
     """Default values for rollup_bundle"""
     _rollup_bundle(
-        # code-splitting is turned on by default in nodejs rules 0.35.0
-        # we want to default to remain off
-        enable_code_splitting = False,
         **kwargs
     )
